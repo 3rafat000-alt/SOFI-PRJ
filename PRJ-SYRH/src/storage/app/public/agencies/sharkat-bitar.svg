@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1e3a5f"/>
+      <stop offset="100%" stop-color="#0f2440"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d4a843"/>
+      <stop offset="100%" stop-color="#b8862d"/>
+    </linearGradient>
+  </defs>
+  <!-- Background circle -->
+  <rect width="200" height="200" rx="40" fill="url(#bg)"/>
+  <!-- House icon -->
+  <g transform="translate(100,42)">
+    <path d="M0-20L-35-5L-35,25L35,25L35-5Z" fill="url(#gold)" opacity="0.95"/>
+    <rect x="-15" y="5" width="30" height="20" rx="2" fill="#0f2440"/>
+    <rect x="-8" y="8" width="6" height="8" rx="1" fill="url(#gold)"/>
+    <rect x="2" y="8" width="6" height="8" rx="1" fill="url(#gold)"/>
+  </g>
+  <!-- Arabic text -->
+  <text x="100" y="105" text-anchor="middle" font-family="'Noto Kufi Arabic', 'Noto Sans Arabic', 'Traditional Arabic', sans-serif" font-size="16" font-weight="700" fill="#d4a843">بيطار</text>
+  <text x="100" y="128" text-anchor="middle" font-family="'Noto Kufi Arabic', 'Noto Sans Arabic', 'Traditional Arabic', sans-serif" font-size="13" font-weight="600" fill="#a0b4c8">العقارية</text>
+  <!-- Small diamond separators -->
+  <rect x="87" y="137" width="26" height="2" rx="1" fill="#d4a843" opacity="0.5"/>
+  <!-- Bottom dots -->
+  <circle cx="95" cy="148" r="3" fill="#d4a843" opacity="0.6"/>
+  <circle cx="105" cy="148" r="3" fill="#d4a843" opacity="0.6"/>
+</svg>

@@ -1,0 +1,13 @@
+# CONTEXT — SAAS-066 (durable facts; append-only)
+- title: PharmaChain
+- sector: 02-health
+- description: سلسلة توريد الأدوية: تتبع مخزون، تواريخ صلاحية، توزيع
+- target_customers: موزعو أدوية، صيدليات
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: نظام إدارة سلسلة توريد الأدوية — تتبع المخزون، تواريخ الصلاحية، التوزيع على الصيدليات، وإدارة الطلبات. يربط الموزعين بالصيدليات بمنصة واحدة.
+- target_market: سوق توريد الأدوية ~$1.5T عالمياً، الشرق الأوسط ~$40B. نمو 8% CAGR.
+- competitive_landscape: Cerner/Epic (أنظمة مستشفيات، غير مناسبة للتوزيع)، McKesson (أمريكي، لا يخدم المنطقة)، Rx30 (تجزئة بدون توريد)، Tamer Group (حل خاص بشركة واحدة).
+- differentiation: مصمم لسلسلة التوزيع بأكملها، تنبيهات صلاحية ذكية (FEFO)، تتبع شحنات بالباركود، منصة طلبات للصيدليات، تكامل SFDA.
+- pricing_tiers: Starter ($149/mo — 500 products, 50 pharmacies), Pro ($299/mo — 5000 products, unlimited), Enterprise (custom)
+- prd_completed_at: gate-0-inception
+- next_gate: 1-discovery → sofi-journey-architect

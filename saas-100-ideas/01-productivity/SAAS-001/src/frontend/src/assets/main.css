@@ -1,0 +1,284 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  html[dir='rtl'] {
+    text-align: right;
+  }
+
+  html[dir='ltr'] {
+    text-align: left;
+  }
+
+  body {
+    @apply bg-neutral-50 text-neutral-800;
+    font-family: 'Inter', 'Noto Sans Arabic', system-ui, sans-serif;
+  }
+
+  /* Focus visible ring */
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-600;
+    outline-style: solid;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-neutral-300 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-neutral-400;
+  }
+}
+
+@layer components {
+  /* RTL-aware utility classes */
+  .rtl-flip {
+    @apply rtl:[direction:initial];
+  }
+
+  .rtl-mirror {
+    @apply rtl:scale-x-[-1];
+  }
+
+  /* Button base styles */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-8 px-5 py-2.5 text-sm font-medium transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800;
+  }
+
+  .btn-secondary {
+    @apply btn border border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-50 active:bg-neutral-100;
+  }
+
+  .btn-danger {
+    @apply btn bg-error-600 text-white hover:bg-error-700 active:bg-error-800;
+  }
+
+  .btn-ghost {
+    @apply btn text-neutral-600 hover:bg-neutral-100 active:bg-neutral-200;
+  }
+
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs;
+  }
+
+  .btn-lg {
+    @apply px-6 py-3 text-base;
+  }
+
+  .btn-icon {
+    @apply p-2 rounded-8;
+  }
+
+  /* Input styles */
+  .input {
+    @apply block w-full rounded-8 border border-neutral-300 bg-white px-3 py-2.5 text-sm text-neutral-800 placeholder-neutral-400 transition-colors duration-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 focus:outline-none disabled:bg-neutral-100 disabled:cursor-not-allowed;
+  }
+
+  .input-error {
+    @apply border-error-500 focus:border-error-500 focus:ring-error-500/20;
+  }
+
+  .input-label {
+    @apply block text-sm font-medium text-neutral-700 mb-1.5;
+  }
+
+  .input-help {
+    @apply text-xs text-neutral-500 mt-1;
+  }
+
+  .input-error-text {
+    @apply text-xs text-error-600 mt-1;
+  }
+
+  /* Card styles */
+  .card {
+    @apply bg-white rounded-8 shadow-card p-5;
+  }
+
+  .card-hover {
+    @apply card hover:shadow-elevated transition-shadow duration-200;
+  }
+
+  /* Badge styles */
+  .badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+
+  .badge-primary {
+    @apply badge bg-primary-100 text-primary-700;
+  }
+
+  .badge-success {
+    @apply badge bg-success-100 text-success-700;
+  }
+
+  .badge-warning {
+    @apply badge bg-warning-100 text-warning-700;
+  }
+
+  .badge-error {
+    @apply badge bg-error-100 text-error-700;
+  }
+
+  .badge-neutral {
+    @apply badge bg-neutral-100 text-neutral-700;
+  }
+
+  /* Table styles */
+  .table-container {
+    @apply overflow-x-auto rounded-8 border border-neutral-200;
+  }
+
+  .table {
+    @apply min-w-full divide-y divide-neutral-200;
+  }
+
+  .table th {
+    @apply bg-neutral-50 px-4 py-3 text-right text-xs font-medium text-neutral-500 uppercase tracking-wider;
+  }
+
+  .table td {
+    @apply px-4 py-3 text-sm text-neutral-700 whitespace-nowrap;
+  }
+
+  .table tr {
+    @apply border-b border-neutral-100 last:border-0 hover:bg-neutral-50 transition-colors;
+  }
+
+  /* Skeleton loader */
+  .skeleton {
+    @apply animate-pulse bg-neutral-200 rounded-4;
+  }
+
+  /* Modal backdrop */
+  .modal-backdrop {
+    @apply fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4;
+  }
+
+  .modal-content {
+    @apply bg-white rounded-12 shadow-modal w-full max-w-lg max-h-[90vh] overflow-y-auto animate-slide-up;
+  }
+
+  /* Dropdown */
+  .dropdown-content {
+    @apply absolute z-50 mt-1 w-56 rounded-8 bg-white shadow-elevated border border-neutral-200 py-1 animate-fade-in;
+  }
+
+  .dropdown-item {
+    @apply flex items-center gap-2 px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100 cursor-pointer transition-colors;
+  }
+
+  /* Kanban column */
+  .kanban-column {
+    @apply bg-neutral-100 rounded-8 p-3 min-h-[400px] flex flex-col gap-2;
+  }
+
+  .kanban-column-header {
+    @apply flex items-center justify-between mb-3 px-1;
+  }
+
+  /* Timer pulse */
+  .timer-pulse {
+    @apply relative;
+  }
+
+  .timer-pulse::before {
+    content: '';
+    @apply absolute inset-0 rounded-full border-2 border-primary-500 animate-ping opacity-75;
+  }
+
+  /* Empty state */
+  .empty-state {
+    @apply flex flex-col items-center justify-center py-16 px-4 text-center;
+  }
+
+  .empty-state-icon {
+    @apply w-20 h-20 mb-4 text-neutral-300;
+  }
+
+  .empty-state-title {
+    @apply text-lg font-semibold text-neutral-700 mb-2;
+  }
+
+  .empty-state-text {
+    @apply text-sm text-neutral-500 max-w-sm;
+  }
+
+  /* Page header */
+  .page-header {
+    @apply flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6;
+  }
+
+  .page-title {
+    @apply text-2xl font-bold text-neutral-900;
+  }
+
+  /* Stats card */
+  .stat-card {
+    @apply card flex items-start gap-4;
+  }
+
+  .stat-icon {
+    @apply w-12 h-12 rounded-8 flex items-center justify-center flex-shrink-0;
+  }
+
+  .stat-value {
+    @apply text-2xl font-bold text-neutral-900;
+  }
+
+  .stat-label {
+    @apply text-sm text-neutral-500 mt-0.5;
+  }
+
+  .stat-trend {
+    @apply text-xs font-medium mt-1;
+  }
+
+  /* Toast */
+  .toast {
+    @apply fixed bottom-4 left-1/2 -translate-x-1/2 z-50 rounded-8 px-4 py-3 text-sm font-medium shadow-elevated animate-slide-up;
+  }
+
+  .toast-success {
+    @apply toast bg-success-600 text-white;
+  }
+
+  .toast-error {
+    @apply toast bg-error-600 text-white;
+  }
+
+  .toast-info {
+    @apply toast bg-primary-600 text-white;
+  }
+}
+
+/* Dark mode overrides */
+.dark body,
+.dark .bg-neutral-50 {
+  @apply bg-neutral-950 text-neutral-100;
+}
+
+.dark .card {
+  @apply bg-neutral-900 border-neutral-800;
+}

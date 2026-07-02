@@ -1,0 +1,126 @@
+/* ============================================================
+   SAKK ADMIN — DESIGN TOKENS
+   Spec: warm porcelain · deep burgundy · amber accent
+   RTL-first · IBM Plex Sans Arabic
+   ============================================================ */
+:root {
+    --font-family: 'IBM Plex Sans Arabic', system-ui, sans-serif;
+
+    /* ---- Brand ---- */
+    --sukk-primary:       #6E1B2D;
+    --sukk-primary-dark:  #4A1320;
+    --sukk-primary-soft:  rgba(110, 27, 45, 0.08);
+    --sukk-primary-rgb:   110, 27, 45;
+    --sukk-primary-hover: #5C1625;
+    --sukk-mid:           #8A2A3C;
+    --sukk-light:         #A03548;
+    --primary:            var(--sukk-primary);
+    --primary-dark:       var(--sukk-primary-dark);
+
+    /* ---- Accent ---- */
+    --accent:             #C9953C;
+    --accent-dark:        #A6782A;
+    --gold:               #C9953C;
+    --gold-deep:          #A6782A;
+    --gold-bright:        #DEAD4F;
+
+    /* ---- Surfaces ---- */
+    --bg:       #F7F3EE;
+    --surface:  #FFFFFF;
+    --input-bg: #F2ECE5;
+
+    /* ---- Text ---- */
+    --text-primary:   #1C1917;
+    --text-secondary: #44403C;
+    --text-muted:     #78716C;
+
+    /* ---- Semantic ---- */
+    --success:      #10B981;
+    --success-soft: #ECFDF5;
+    --success-light: #ECFDF5;
+    --success-dark: #065F46;
+    --warning:      #D97706;
+    --warning-soft: #FEF3C7;
+    --warning-light: #FEF3C7;
+    --warning-dark: #92400E;
+    --danger:       #EF4444;
+    --danger-soft:  #FEF2F2;
+    --danger-light: #FEF2F2;
+    --danger-dark:  #991B1B;
+
+    /* ---- Radius ---- */
+    --radius-main: 8px;
+    --radius-sm:   8px;
+    --radius-md:   8px;
+    --radius-lg:   8px;
+    --radius-xl:   8px;
+    --radius-2xl:  8px;
+    --radius-full: 9999px;
+
+    /* ---- Shadows (all none — clean, flat design) ---- */
+    --shadow-card:    none;
+    --shadow-input:   inset 0 1px 2px rgba(0, 0, 0, 0.02);
+    --shadow-focus:   0 0 0 2px rgba(107, 15, 36, 0.15);
+    --shadow-navbar:  none;
+    --shadow-sidebar: none;
+    --shadow-btn:     none;
+    --shadow-btn-hover: none;
+    --shadow-overlay: none;
+
+    /* ---- Spacing ---- */
+    --space-xs:  0.25rem;
+    --space-sm:  0.5rem;
+    --space-md:  1rem;
+    --space-lg:  1.5rem;
+    --space-xl:  2rem;
+    --space-2xl: 3rem;
+
+    /* ---- Type scale ---- */
+    --font-size-xs:  0.75rem;
+    --font-size-sm:  0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg:  1.125rem;
+    --font-size-xl:  1.25rem;
+    --font-size-2xl: 1.5rem;
+
+    /* ---- Transitions ---- */
+    --transition-fast:   140ms cubic-bezier(.4,0,.2,1);
+    --transition-normal: 240ms cubic-bezier(.4,0,.2,1);
+    --transition-slow:   420ms cubic-bezier(.4,0,.2,1);
+
+    /* ---- Layout ---- */
+    --input-height: 42px;
+    --row-action-size: 36px;
+    --sidebar-width: 280px;
+    --sidebar-collapsed-width: 72px;
+    --navbar-height: 60px;
+
+    /* ---- Borders (were undefined → rendered as dark currentColor) ---- */
+    --border:        #EAE3DD;
+    --border-light:  #F2ECE5;
+    --border-strong: #D4C4B8;
+
+    /* ---- Interactive surfaces / soft states ---- */
+    --surface-hover:  #F5F0EB;
+    --accent-soft:    rgba(201, 149, 60, 0.12);
+    --sidebar-active: var(--sukk-primary-soft);
+    --shadow-sm:      none;
+
+    /* ---- Sidebar ---- */
+    --sidebar-bg:          #FFFFFF;
+    --sidebar-bg-soft:     #FAF8F6;
+    --sidebar-hover:       #F5F0EB;
+    --sidebar-text:        #7E7175;
+    --sidebar-text-strong: #2A1A1F;
+}
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

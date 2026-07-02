@@ -1,0 +1,37 @@
+{
+  "title": "TaskSync Pro (SAAS-001) — System Architecture",
+  "nodes": [
+    {"id": "user",          "label": "User (Browser/App)",         "type": "user",      "description": "Admin, Team lead, Member — persona سارة, أحمد, ليلى"},
+    {"id": "cloudflare",    "label": "Cloudflare CDN",             "type": "service",   "description": "DNS, DDoS protection, SSL, static asset cache"},
+    {"id": "vue-dash",      "label": "Vue 3 Dashboard",           "type": "client",    "description": "SPA — Kanban, Reports, Settings, Timer UI"},
+    {"id": "flutter-app",   "label": "Flutter Mobile App",        "type": "client",    "description": "Task list, Timer, Push notifications, Offline queue"},
+    {"id": "laravel-api",   "label": "Laravel 11 API",            "type": "api",       "description": "RESTful JSON API — Sanctum auth, Services, Events"},
+    {"id": "reverb",        "label": "Laravel Reverb WS",         "type": "service",   "description": "WebSocket server — real-time board updates, notifications"},
+    {"id": "redis",         "label": "Redis",                      "type": "cache",     "description": "Cache, session, queue driver, Reverb pub/sub"},
+    {"id": "postgres",      "label": "PostgreSQL",                 "type": "database",  "description": "Primary data store — Users, Teams, Projects, Tasks, TimeEntries"},
+    {"id": "horizon",       "label": "Laravel Horizon",            "type": "queue",     "description": "Queue worker — email, push, report generation"},
+    {"id": "s3-storage",    "label": "S3-Compatible Storage",      "type": "external",  "description": "Avatars, attachments, exported reports (DigitalOcean Spaces)"},
+    {"id": "mail",          "label": "Email (SMTP/Mailgun)",       "type": "external",  "description": "Transactional email — invites, notifications, reports"},
+    {"id": "push-notif",    "label": "Push Notifications",         "type": "external",  "description": "FCM (Firebase) — mobile push via Laravel notifications"},
+    {"id": "whatsapp",      "label": "WhatsApp Cloud API",         "type": "external",  "description": "Invite & notification channel for Arabic users"},
+    {"id": "slack",         "label": "Slack Webhook",              "type": "external",  "description": "Optional integration — task updates to Slack channel"}
+  ],
+  "connectors": [
+    {"from": "user",        "to": "cloudflare",     "label": "HTTPS"},
+    {"from": "cloudflare",  "to": "vue-dash",       "label": "Static assets (JS/CSS)"},
+    {"from": "cloudflare",  "to": "laravel-api",    "label": "API proxy /api/*"},
+    {"from": "vue-dash",    "to": "laravel-api",    "label": "REST + JSON (Axios)"},
+    {"from": "vue-dash",    "to": "reverb",         "label": "WSS (Laravel Echo)"},
+    {"from": "flutter-app", "to": "laravel-api",    "label": "REST + JSON (Dio)"},
+    {"from": "flutter-app", "to": "reverb",         "label": "WSS (Laravel Echo)"},
+    {"from": "laravel-api", "to": "postgres",       "label": "Eloquent ORM"},
+    {"from": "laravel-api", "to": "redis",          "label": "Cache + session"},
+    {"from": "laravel-api", "to": "horizon",        "label": "Dispatch jobs"},
+    {"from": "reverb",      "to": "redis",          "label": "Pub/sub channel"},
+    {"from": "laravel-api", "to": "s3-storage",     "label": "File uploads (League Flysystem)"},
+    {"from": "horizon",     "to": "mail",           "label": "Mail queue"},
+    {"from": "horizon",     "to": "push-notif",     "label": "FCM queue"},
+    {"from": "horizon",     "to": "whatsapp",       "label": "WhatsApp queue"},
+    {"from": "horizon",     "to": "slack",          "label": "Webhook queue"}
+  ]
+}

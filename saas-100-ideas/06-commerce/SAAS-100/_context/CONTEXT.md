@@ -1,0 +1,14 @@
+# CONTEXT — SAAS-100 (durable facts; append-only)
+- title: AutoMarket
+- sector: 06-commerce
+- description: سوق السيارات المستعملة: إعلانات، معاينة، توثيق عقود
+- target_customers: تجار سيارات، أفراد
+- stack: Laravel API + React Dashboard + Flutter Mobile App
+- target_market_detail: 10M+ سيارة مستعملة تباع سنوياً في الشرق الأوسط، 50,000+ تاجر ومعرض
+- product_description: سوق إلكتروني متكامل للسيارات المستعملة يتجاوز الإعلانات التقليدية. يشمل فحصاً فنياً معتمداً، معاينة افتراضية، توثيق عقود إلكتروني، دفع آمن عبر الضمان (escrow)، عروض تمويل، وضمان ما بعد البيع.
+- competitive_landscape: حراج (إعلانات فقط)، Dubizzle (إعلانات عامة)، CarSwitch (ناشئ إماراتي)
+- differentiation: منصة متكاملة (إعلانات+فحص+توثيق+تمويل+ضمان)، فحص فني معتمد، توثيق إلكتروني لنقل الملكية، دفع آمن عبر escrow
+- target_mrr_per_client: $49-$199/شهر
+- pricing_tiers: Basic ($49), Professional ($99), Unlimited ($199)
+- personas: تاجر سيارات (عبدالعزيز)، مشتري فرد (فيصل)
+- gate_status: Gate 0 (Inception) completed. docs/PRD.md written.

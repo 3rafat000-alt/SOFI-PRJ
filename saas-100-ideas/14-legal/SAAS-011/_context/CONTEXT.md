@@ -1,0 +1,14 @@
+# CONTEXT — SAAS-011 (durable facts; append-only)
+- title: LawDesk
+- sector: 14-legal
+- description: إدارة مكاتب المحاماة: قضايا، موكلون، جلسات، ومستندات قانونية
+- target_customers: محامون، مكاتب محاماة
+- stack: Laravel API + React Dashboard + Flutter Mobile App
+- target_market_detail: 50,000+ مكتب محاماة في الشرق الأوسط وشمال أفريقيا
+- product_description: منصة متكاملة لإدارة مكاتب المحاماة تشمل إدارة القضايا، الموكلين، الجلسات القضائية، المستندات القانونية، والفواتير. توفر تتبعاً كاملاً لدورة حياة القضية من التسجيل حتى الحكم.
+- competitive_landscape: Clio (أجنبي، مكلف)، MyCase (أجنبي)، محامي السعودية (محدود)
+- differentiation: دعم كامل للعربية، توافق مع أنظمة قضائية محلية (مصر، السعودية، الإمارات)، أسعار تنافسية
+- target_mrr_per_client: $49-$199/شهر
+- pricing_tiers: Basic ($49), Professional ($99), Enterprise ($199)
+- personas: محامٍ مستقل (أحمد)، مدير مكتب محاماة (ليلى)
+- gate_status: Gate 0 (Inception) completed. docs/PRD.md written.

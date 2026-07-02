@@ -1,0 +1,136 @@
+name: sakk_wallet
+description: صكّ | SAKK Wallet - محفظتك الرقمية الآمنة
+publish_to: 'none'
+version: 1.0.2+3
+
+environment:
+  sdk: '>=3.7.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # State Management
+  flutter_riverpod: ^2.6.1
+  riverpod_annotation: ^2.6.1
+
+  # Navigation
+  go_router: ^14.8.1
+
+  # Deep links / App Links (referral invite + pay links open the app directly)
+  app_links: ^6.3.2
+
+  # Network
+  dio: ^5.4.0
+  json_annotation: ^4.8.0
+
+  # Storage
+  flutter_secure_storage: ^9.2.4
+  shared_preferences: ^2.3.5
+  hive_flutter: ^1.1.0
+
+  # UI Components
+  flutter_svg: ^2.0.17
+  cached_network_image: ^3.4.1
+
+  flutter_animate: ^4.5.2
+  lottie: ^3.3.1
+
+  # Forms & Validation
+  flutter_form_builder: ^10.3.0
+  form_builder_validators: ^11.0.0
+  pin_code_fields: ^8.0.1
+
+  # Utils
+  intl: ^0.20.2
+  equatable: ^2.0.7
+  dartz: ^0.10.1
+  uuid: ^4.5.1
+
+  # Icons
+  iconsax: ^0.0.8
+
+  # Biometrics & Security
+  local_auth: ^2.3.0
+  crypto: ^3.0.3
+  # screen_protector removed - using custom MethodChannel instead
+
+  # Image Picker
+  image_picker: ^1.1.2
+
+  # Notifications
+  flutter_local_notifications: ^18.0.1
+  firebase_core: ^3.1.0
+  firebase_messaging: ^15.0.0
+
+  # Location & Maps (Google Maps — needs GOOGLE_MAPS key, see android/ios setup)
+  geolocator: ^13.0.0
+  google_maps_flutter: ^2.9.0
+
+  # QR Code
+  qr_flutter: ^4.1.0
+  mobile_scanner: ^7.0.0
+
+  # NFC (tap-to-pay between SAKK users)
+  nfc_manager: ^3.5.0
+
+  # Permissions
+  permission_handler: ^11.3.1
+
+  # Sharing
+  share_plus: ^10.1.4
+
+  # Charts
+  fl_chart: ^0.70.2
+
+  # PDF receipts / invoices
+  pdf: ^3.11.1
+  printing: ^5.13.3
+  path_provider: ^2.1.5
+
+  # Contacts (transfer via phone contacts)
+  flutter_contacts: ^1.1.9+2
+
+  # Launch WhatsApp / external links
+  url_launcher: ^6.3.1
+
+  # Read installed app version/build for the force-update gate
+  package_info_plus: ^8.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  build_runner: ^2.4.15
+  riverpod_generator: ^2.6.5
+  json_serializable: ^6.7.0
+  mocktail: ^1.0.4
+  golden_toolkit: ^0.15.0
+  # patrol: ^3.15.0  # Uncomment when needed for native features
+  # patrol_finders: ^2.8.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/animations/
+
+  fonts:
+    - family: IBM Plex Sans Arabic
+      fonts:
+        - asset: assets/fonts/IBMPlexSansArabic-Light.ttf
+          weight: 300
+        - asset: assets/fonts/IBMPlexSansArabic-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/IBMPlexSansArabic-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/IBMPlexSansArabic-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/IBMPlexSansArabic-Bold.ttf
+          weight: 700

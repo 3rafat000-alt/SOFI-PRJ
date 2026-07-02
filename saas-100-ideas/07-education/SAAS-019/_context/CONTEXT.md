@@ -1,0 +1,14 @@
+# CONTEXT — SAAS-019 (durable facts; append-only)
+- title: TutorSpace
+- sector: 07-education
+- description: ربط المعلمين بالطلاب: جدولة الدروس، فصول افتراضية، دفع إلكتروني
+- target_customers: معلمون خصوصيون، طلاب
+- stack: Laravel API + React Dashboard + Flutter Mobile App
+- target_market_detail: 5 ملايين+ طالب و 500,000+ معلم خصوصي في الشرق الأوسط وشمال أفريقيا
+- product_description: منصة ربط المعلمين بالطلاب تشمل البحث عن معلمين بالموضوع والمستوى، جدولة الدروس مع تكرار تلقائي، فصول افتراضية مدمجة (Jitsi Meet)، محفظة إلكترونية ودفع، تقييم مزدوج، ورسائل داخلية.
+- competitive_landscape: Preply (عمولة 100% أول درس)، iTalki (لغات فقط)، VIPKid (أطفال)، نخبة (عربية محدودة)
+- differentiation: تركيز على المنهج الدراسي العربي، أدوات تفاعلية، دفع محلي، فصول افتراضية مجانية
+- target_mrr_per_client: $9.99-$49 اشتراك + 10-15% عمولة جلسات
+- pricing_tiers: Free (15% commission), Tutor Pro ($9.99), Center ($49)
+- personas: معلم خصوصي (نورة)، ولي أمر/طالب (خالد)
+- gate_status: Gate 0 (Inception) completed. docs/PRD.md written.

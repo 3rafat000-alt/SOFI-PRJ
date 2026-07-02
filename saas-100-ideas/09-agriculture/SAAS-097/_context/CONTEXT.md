@@ -1,0 +1,14 @@
+# CONTEXT — SAAS-097 (durable facts; append-only)
+- title: FishFarm
+- sector: 09-agriculture
+- description: إدارة مزارع الأسماك: تغذية، إنتاج، مبيعات
+- target_customers: مزارع أسماك، مربون
+- stack: Laravel API + React Dashboard + Flutter Mobile App
+- target_market_detail: 3,000+ مزرعة سمكية تجارية في الشرق الأوسط وأفريقيا، 50,000+ مربٍ فردي
+- product_description: منصة متكاملة لإدارة مزارع الأسماك تشمل إدارة الأحواض، تتبع دورة الإنتاج، جدولة التغذية وحساب FCR، مراقبة جودة المياه، تسجيل النفوق، والتخطيط للحصاد والمبيعات.
+- competitive_landscape: AKVA Group (عالمي، مكلف جداً)، XpertSea (أمريكي)، Umitron (ياباني)، منصة الثروة السمكية (حكومي سعودي)
+- differentiation: حل ميسور التكلفة للمزارع المتوسطة والصغيرة، دعم عربي كامل، إدارة متكاملة تغذية-إنتاج-مبيعات، تحليلات ذكاء اصطناعي
+- target_mrr_per_client: $29-$129/شهر
+- pricing_tiers: Small ($29), Medium ($59), Enterprise ($129)
+- personas: مالك مزرعة (يوسف)، مشرف إنتاج (حسن)
+- gate_status: Gate 0 (Inception) completed. docs/PRD.md written.

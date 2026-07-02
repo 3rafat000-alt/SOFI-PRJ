@@ -1,0 +1,14 @@
+# CONTEXT — SAAS-099 (durable facts; append-only)
+- title: PowerBackup
+- sector: 10-energy
+- description: إدارة مولدات الكهرباء: صيانة، وقود، توزيع
+- target_customers: منازل، شركات، أبراج
+- stack: Laravel API + React Dashboard + Flutter Mobile App
+- target_market_detail: 1M+ مولد كهرباء احتياطي في الشرق الأوسط، 1,000+ شركة صيانة
+- product_description: منصة متكاملة لإدارة مولدات الطاقة الاحتياطية تشمل جدولة الصيانة الدورية، إدارة الوقود ومستوى الخزان، مراقبة IoT لحظية، طلبات الخدمة الطارئة، ونظام تنبيهات ذكي.
+- competitive_landscape: Generac MobileLink (علامة واحدة)، Cummins PowerCommand (علامة واحدة)، Fleetio (عام)
+- differentiation: منصة متعددة الماركات، تركيز على السوق العربي، دعم IoT اختياري، إدارة وقود متكاملة مع تنبيهات
+- target_mrr_per_client: $9-$79/شهر
+- pricing_tiers: Individual ($9), Business ($29), Enterprise ($79)
+- personas: مسئول صيانة (سلطان)، صاحب منزل (وليد)
+- gate_status: Gate 0 (Inception) completed. docs/PRD.md written.

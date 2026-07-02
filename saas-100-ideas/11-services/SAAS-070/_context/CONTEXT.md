@@ -1,0 +1,13 @@
+# CONTEXT — SAAS-070 (durable facts; append-only)
+- title: RepairPro
+- sector: 11-services
+- description: إدارة ورش الصيانة المنزلية: أجهزة، قطع غيار، فنيون متنقلون
+- target_customers: فنيون، شركات صيانة
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: منصة إدارة ورش الصيانة المنزلية — إدارة الطلبات، تتبع الأجهزة بالباركود (استلام → تشخيص → إصلاح → تسليم)، قطع غيار، فنيون متنقلون، وفواتير للعملاء.
+- target_market: سوق الصيانة المنزلية ~$50B عالمياً، الشرق الأوسط ~$3B. نمو 8% (زيادة الملكية السكنية).
+- competitive_landscape: Urban Company (خدمات منزلية فقط، بدون إدارة ورش)، TaskRabbit (مهام عامة)، Fixpro (أمريكي)، منزلي (حجز خدمات بدون إدارة).
+- differentiation: عربي كامل، نظام ورشة متكامل مع كانبان، تتبع أجهزة بالباركود، إدارة مخزون قطع غيار، تطبيق فني متنقل.
+- pricing_tiers: Starter ($49/mo — 3 techs, 50 devices), Pro ($99/mo — 10 techs, unlimited), Enterprise (custom)
+- prd_completed_at: gate-0-inception
+- next_gate: 1-discovery → sofi-journey-architect

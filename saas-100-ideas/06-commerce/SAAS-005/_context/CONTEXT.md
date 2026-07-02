@@ -1,0 +1,13 @@
+# CONTEXT — SAAS-005 (durable facts; append-only)
+- title: ShopPulse
+- sector: 06-commerce
+- description: لوحة تحليلات للمتاجر: ربط بـ WooCommerce/Shopify، تحليل مبيعات، متابعة مخزون
+- target_customers: أصحاب المتاجر الإلكترونية
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: لوحة تحليلات ذكية لأصحاب المتاجر الإلكترونية — تربط بـ WooCommerce و Shopify، تحلل المبيعات والمخزون وسلوك العملاء بتقارير عربية بصرية مع تنبيهات ذكية.
+- target_market: سوق تحليلات التجارة الإلكترونية ~$8B عالمياً، ~$500M في الشرق الأوسط. نمو 20% CAGR.
+- competitive_landscape: Google Analytics (مجاني لكن معقد)، Triple Whale (Shopify فقط $79+)، Lifetimely (Shopify فقط)، Metorik (WooCommerce معقد)، Polar Analytics ($99+).
+- differentiation: دعم WooCommerce + Shopify، واجهة عربية بسيطة، تنبيهات واتساب، سعر مخفض.
+- pricing_tiers: Starter ($9/mo — 1 store), Pro ($19/mo — 3 stores), Business ($39/mo — 10 stores)
+- prd_completed_at: gate-0-inception
+- next_gate: 1-discovery → sofi-journey-architect

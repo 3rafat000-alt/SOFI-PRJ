@@ -1,0 +1,13 @@
+# CONTEXT — SAAS-004 (durable facts; append-only)
+- title: RentTrack
+- sector: 13-real-estate
+- description: إدارة العقارات والإيجارات: عقود، دفعات، صيانة، وتواصل مع المستأجرين
+- target_customers: وسطاء عقاريون، ملاك
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: نظام إدارة العقارات والإيجارات — عقود إيجار، تحصيل دفعات إلكتروني، تتبع طلبات الصيانة، وتواصل مباشر مع المستأجرين. يشمل تطبيق مالك وتطبيق مستأجر.
+- target_market: سوق PropTech ~$20B عالمياً، ~$1.2B في الشرق الأوسط. نمو 16% CAGR.
+- competitive_landscape: Property Finder/Bayut (إعلانات فقط)، Buildium (أمريكي مكلف)، AppFolio (سعري عالي)، Stessa (محدود)، بيوت (بوابة عقارات فقط).
+- differentiation: دعم عربي كامل، تسعير منخفض، تكامل مع أنظمة الدفع المحلية (STC Pay، مدى)، عقود إلكترونية.
+- pricing_tiers: Basic ($19/mo — 10 units), Pro ($39/mo — 50 units), Enterprise ($79/mo — unlimited)
+- prd_completed_at: gate-0-inception
+- next_gate: 1-discovery → sofi-journey-architect

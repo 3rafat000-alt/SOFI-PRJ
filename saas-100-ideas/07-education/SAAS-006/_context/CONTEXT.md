@@ -1,0 +1,13 @@
+# CONTEXT — SAAS-006 (durable facts; append-only)
+- title: EduCloud LMS
+- sector: 07-education
+- description: منصة تعليمية للمدربين: رفع دورات، اختبارات، شهادات إتمام، متابعة طلاب
+- target_customers: مدربون، مراكز تدريب
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: منصة تعليمية سحابية للمدربين ومراكز التدريب — رفع دورات، إدارة طلاب، اختبارات تفاعلية، شهادات إتمام، وتقارير تقدم. مستوى مجاني سخي.
+- target_market: سوق LMS ~$20B عالمياً، ~$900M في الشرق الأوسط. نمو 22% CAGR.
+- competitive_landscape: Moodle (مجاني لكن معقد، دعم عربي ضعيف)، Teachable ($39/mo إنجليزي)، Thinkific (إنجليزي فقط)، Udemy (سوق وليس LMS)، منصة سهل (حكومي).
+- differentiation: عربي بالكامل، مجاني (دورتين، 50 طالب)، شهادات رقمية، واجهة بسيطة.
+- pricing_tiers: Free (2 courses, 50 students), Pro ($29/mo — 10 courses, 500), Academy ($79/mo — unlimited)
+- prd_completed_at: gate-0-inception
+- next_gate: 1-discovery → sofi-journey-architect

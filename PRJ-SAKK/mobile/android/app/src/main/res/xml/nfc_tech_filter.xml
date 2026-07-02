@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- NFC tech filter for SAKK Wallet tap-to-pay reception.
+     When another phone broadcasts an HCE payment, Android detects an IsoDep
+     tag (NfcA/IsoDep). This filter ensures our Activity is launched so the
+     app can read the payment data and show the confirm screen. -->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <tech-list>
+        <tech>android.nfc.tech.IsoDep</tech>
+    </tech-list>
+    <tech-list>
+        <tech>android.nfc.tech.NfcA</tech>
+    </tech-list>
+    <tech-list>
+        <tech>android.nfc.tech.NfcB</tech>
+    </tech-list>
+    <tech-list>
+        <tech>android.nfc.tech.NfcF</tech>
+    </tech-list>
+    <tech-list>
+        <tech>android.nfc.tech.NfcV</tech>
+    </tech-list>
+</resources>

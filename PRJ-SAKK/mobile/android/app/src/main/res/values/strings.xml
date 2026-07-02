@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SAKK Wallet</string>
+    <string name="hce_description">SAKK Wallet tap-to-pay</string>
+    <string name="aid_group_description">SAKK Wallet tap-to-pay</string>
+</resources>

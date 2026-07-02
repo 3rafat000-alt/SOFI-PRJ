@@ -1,0 +1,11 @@
+# CONTEXT — SAAS-053 (durable facts; append-only)
+- title: MicroFund
+- sector: 08-finance
+- description: إدارة التمويلات الصغيرة والقروض متناهية الصغر للأعمال الناشئة
+- target_customers: مؤسسات تمويل، جمعيات
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: MicroFund منصة متكاملة لإدارة التمويلات الصغيرة والقروض متناهية الصغر — تتبع العملاء، جدولة السداد، إدارة المدفوعات، تقارير الأداء. موجهة لمؤسسات التمويل الصغير والجمعيات الخيرية والتعاونيات المالية في العالم العربي. تدعم القروض الفردية والجماعية ومتوافقة مع مبادئ الشريعة.
+- target_market_detail: أكثر من 500 منظمة تمويل صغير في المنطقة العربية. الفئة المستهدفة: مؤسسات تمويل صغير (MFIs)، جمعيات إقراض، صناديق تنمية، بنوك متناهية الصغر. معظم هذه المؤسسات تدير قروضها يدوياً أو عبر أنظمة قديمة.
+- competitive_landscape: المنافسون Mifos X (مفتوح المصدر عالمي)، Octopus (نظام مدفوع)، Temenos (بنكي مكلف)، حلول محلية مثل أكسيرا وحلا SYSTEMS. التمايز في اللغة العربية، تسعير ميسور، دعم التمويل الإسلامي، واجهة جوال للموظفين الميدانيين.
+- stack: Laravel API + React Dashboard + Flutter App (confirmed at PRD)
+- prd_completed: 2026-06-25 — Full PRD written with market analysis, personas, data model, API endpoints, UI screens, business model, implementation plan, risk matrix.

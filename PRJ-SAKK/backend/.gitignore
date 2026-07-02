@@ -1,0 +1,54 @@
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pulse
+/vendor
+# SEC L1: ignore ALL env files (any suffix), keep only the template. The previous
+# list missed .env.bak/.env.premailfix/.env.prenoreply/.env.vault — one slip and a
+# live-secrets file would have been committed.
+.env
+.env.*
+!.env.example
+.phpactor.json
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+auth.json
+npm-debug.log
+yarn-error.log
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
+
+# Laravel runtime
+/storage/app/*
+!/storage/app/.gitignore
+!/storage/app/public/.gitignore
+/storage/framework/cache/*
+!/storage/framework/cache/.gitignore
+/storage/framework/sessions/*
+!/storage/framework/sessions/.gitignore
+/storage/framework/testing/*
+!/storage/framework/testing/.gitignore
+/storage/framework/views/*
+!/storage/framework/views/.gitignore
+/storage/logs/*
+!/storage/logs/.gitignore
+/bootstrap/cache/*
+!/bootstrap/cache/.gitignore
+
+# App download artifacts (served by Caddy, never committed)
+/public/download/*.apk
+
+# SEC H6: never commit the working SQLite DB — it carries real users, bcrypt
+# hashes, tokens and KYC/bank rows. Ship schema + seeders, not data.
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+/database/*.sqlite
+.env.testing

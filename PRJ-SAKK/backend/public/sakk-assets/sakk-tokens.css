@@ -1,0 +1,119 @@
+/* ════════════════════════════════════════════════════════════════════
+   SAKK — Canonical Design Tokens (Single Source of Truth, Web)
+   هوية "العنابي الدمشقي" 2026 · Damascene Burgundy · LIGHT-ONLY
+   Mirrors mobile/lib/core/theme/app_colors.dart EXACTLY.
+   Import this in EVERY surface (landing + admin). Do not redefine tokens locally.
+   ════════════════════════════════════════════════════════════════════ */
+
+/* ─── IBM Plex Sans Arabic — self-hosted, woff2, the ONE project font ─── */
+@font-face { font-family:'IBM Plex Sans Arabic'; src:url('/sakk-assets/fonts/IBMPlexSansArabic-Light.woff2')   format('woff2'); font-weight:300; font-style:normal; font-display:swap; }
+@font-face { font-family:'IBM Plex Sans Arabic'; src:url('/sakk-assets/fonts/IBMPlexSansArabic-Regular.woff2')  format('woff2'); font-weight:400; font-style:normal; font-display:swap; }
+@font-face { font-family:'IBM Plex Sans Arabic'; src:url('/sakk-assets/fonts/IBMPlexSansArabic-Medium.woff2')   format('woff2'); font-weight:500; font-style:normal; font-display:swap; }
+@font-face { font-family:'IBM Plex Sans Arabic'; src:url('/sakk-assets/fonts/IBMPlexSansArabic-SemiBold.woff2') format('woff2'); font-weight:600; font-style:normal; font-display:swap; }
+@font-face { font-family:'IBM Plex Sans Arabic'; src:url('/sakk-assets/fonts/IBMPlexSansArabic-Bold.woff2')     format('woff2'); font-weight:700; font-style:normal; font-display:swap; }
+
+:root {
+  /* ─── Damascene Burgundy (primary) ─── */
+  --wine:           #6E1B2D;   /* primary */
+  --wine-mid:       #8A2A3C;   /* gradient mid */
+  --wine-light:     #A03548;   /* gradient light */
+  --wine-dark:      #4A1320;   /* primaryDark */
+  --wine-soft:      #F7E9EC;   /* primaryLight */
+  --secondary:      #8E2A3D;
+  --secondary-soft: #F0DDE1;
+
+  /* ─── Antique / brushed gold (accent) ─── */
+  --gold:           #C9953C;   /* accent */
+  --gold-bright:    #DEAD4F;   /* card gradient start */
+  --gold-deep:      #A6782A;   /* card gradient end */
+
+  /* ─── Marble white surfaces ─── */
+  --marble:         #F7F3EE;   /* background (app canvas) */
+  --surface:        #FFFFFF;   /* cards / sheets */
+  --input-bg:       #F2ECE5;
+
+  /* ─── Warm near-black text ─── */
+  --ink:            #2A1A1F;   /* textPrimary */
+  --ink-2:          #6E5F63;   /* textSecondary */
+  --ink-hint:       #A99FA2;   /* textHint */
+
+  /* ─── Semantic ─── */
+  --success:#1F9D55; --success-soft:#E4F6EC;
+  --warning:#D97706; --warning-soft:#FEF3C7;
+  --error:  #C0392B; --error-soft:  #FBEAE8;
+  --info:   #6E1B2D; --info-soft:   #F7E9EC;
+
+  /* ─── Wallet accents ─── */
+  --wallet-usd:#1F9D55;
+  --wallet-syp:#D97706;
+
+  /* ─── Card gradients (velvet) ─── */
+  --grad-visa:      linear-gradient(145deg,#7A2236 0%,#4A1320 100%);
+  --grad-master:    linear-gradient(145deg,#9B3A4D 0%,#6E1B2D 100%);
+  --grad-gold:      linear-gradient(145deg,var(--gold-bright) 0%,var(--gold-deep) 100%);
+  --grad-platinum:  linear-gradient(145deg,#8A7E74 0%,#5C534C 100%);
+  --grad-accent:    linear-gradient(135deg,var(--wine) 0%,var(--gold) 100%);
+  --grad-hero:      radial-gradient(1200px 600px at 80% -10%, #F7E9EC 0%, transparent 60%),
+                    radial-gradient(900px 500px at -10% 10%, #F7EEDA 0%, transparent 55%),
+                    var(--marble);
+
+  /* ─── Glassmorphism on LIGHT (frosted marble, not dark) ─── */
+  --glass-bg:     rgba(255,255,255,0.62);
+  --glass-border: rgba(110,27,45,0.10);
+  --glass-blur:   16px;
+
+  /* ─── Typography ─── */
+  --font: 'IBM Plex Sans Arabic', system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif;
+  --fs-xs:.75rem; --fs-sm:.875rem; --fs-base:1rem; --fs-lg:1.125rem; --fs-xl:1.25rem;
+  --fs-2xl:1.5rem; --fs-3xl:2rem; --fs-4xl:2.5rem; --fs-5xl:3.5rem; --fs-6xl:4.5rem;
+
+  /* ─── Spacing ─── */
+  --s-xs:.25rem; --s-sm:.5rem; --s-md:1rem; --s-lg:1.5rem; --s-xl:2rem; --s-2xl:3rem; --s-3xl:4rem; --s-4xl:6rem;
+
+  /* ─── Radius (unified 8px — flat, clean identity) ─── */
+  --r-sm:8px; --r-md:8px; --r-lg:8px; --r-xl:8px; --r-full:9999px;
+
+  /* ─── Elevation (none — flat design, no shadows) ─── */
+  --sh-sm: none;
+  --sh-md: none;
+  --sh-lg: none;
+  --sh-wine: none;
+  --sh-gold: none;
+
+  /* ─── Motion ─── */
+  --t-fast:140ms cubic-bezier(.4,0,.2,1);
+  --t-base:240ms cubic-bezier(.4,0,.2,1);
+  --t-slow:420ms cubic-bezier(.4,0,.2,1);
+  --ease-out-back: cubic-bezier(.34,1.56,.64,1);
+
+  /* ─── Z-index ─── */
+  --z-dropdown:100; --z-sticky:200; --z-navbar:300; --z-overlay:400; --z-modal:500;
+}
+
+/* ─── Tabular numerals for all money/figures (identity rule) ─── */
+.tnum, .money, [data-money]{ font-variant-numeric: tabular-nums; font-feature-settings:"tnum" 1; }
+
+/* ─── Glass card on light marble ─── */
+.glass{
+  background:var(--surface);
+  border-radius:var(--r-md);
+}
+
+/* ─── Gradient text (wine→gold) ─── */
+.text-gradient{
+  background:var(--grad-accent);
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent; color:transparent;
+}
+
+/* ─── Scroll-reveal primitives (vanilla, IntersectionObserver-driven) ─── */
+[data-reveal]{ opacity:0; transform:translateY(24px); transition:opacity var(--t-slow), transform var(--t-slow); }
+[data-reveal].in{ opacity:1; transform:none; }
+[data-reveal][data-reveal="left"]{ transform:translateX(-24px); }
+[data-reveal][data-reveal="right"]{ transform:translateX(24px); }
+
+/* ─── Respect reduced motion (a11y) ─── */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ animation-duration:.001ms!important; transition-duration:.001ms!important; scroll-behavior:auto!important; }
+  [data-reveal]{ opacity:1!important; transform:none!important; }
+}

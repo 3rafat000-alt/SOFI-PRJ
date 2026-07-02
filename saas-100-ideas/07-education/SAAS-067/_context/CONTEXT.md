@@ -1,0 +1,13 @@
+# CONTEXT — SAAS-067 (durable facts; append-only)
+- title: SchoolEase
+- sector: 07-education
+- description: إدارة المدارس الخاصة: طلاب، جدول حصص، درجات، رسوم
+- target_customers: مدارس خاصة، معاهد
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: نظام إدارة المدارس الخاصة — طلاب، جدول حصص، درجات، رسوم دراسية، تواصل مع أولياء الأمور، وكشوف درجات. مصمم للمدارس الخاصة في المنطقة العربية.
+- target_market: سوق إدارة المدارس ~$8B عالمياً، الشرق الأوسط ~$600M. نمو 12% CAGR (زيادة المدارس الخاصة في الخليج).
+- competitive_landscape: PowerSchool ($2000+/سنوياً، دعم عربي محدود)، Schoology (تعلم فقط بدون إدارة)، Classera (تعليم إلكتروني وليس إدارة)، Edumate (أسترالي بدون عربي).
+- differentiation: عربي كامل، دعم مناهج محلية، تطبيق ولي أمر، دفعات إلكترونية، جدول حصص ذكي، كشوف درجات PDF.
+- pricing_tiers: Starter ($99/mo — 200 students, 10 teachers), Pro ($199/mo — 1000 students, parents app), Enterprise (custom)
+- prd_completed_at: gate-0-inception
+- next_gate: 1-discovery → sofi-journey-architect

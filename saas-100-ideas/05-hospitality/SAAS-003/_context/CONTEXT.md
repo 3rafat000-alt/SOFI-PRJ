@@ -1,0 +1,13 @@
+# CONTEXT — SAAS-003 (durable facts; append-only)
+- title: MenuByte
+- sector: 05-hospitality
+- description: منصة رقمية للمطاعم: QR menu، استقبال الطلبات، وتتبع المطبخ
+- target_customers: مطاعم، مقاهي
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: منصة رقمية للمطاعم والمقاهي — قوائم طعام عبر QR، استقبال طلبات مباشر، تتبع المطبخ (KDS)، وإدارة الطلبات. تمكّن العميل من الطلب والدفع من جواله.
+- target_market: سوق تكنولوجيا المطاعم ~$25B عالمياً، ~$1.5B في الشرق الأوسط. نمو 18% CAGR.
+- competitive_landscape: Zomato/HungerStation (توصيل فقط)، Toast (أمريكي فقط)، Lightspeed (سعري ومعقد)، Eat App (حجوزات فقط)، MenuHub (قوائم رقمية فقط).
+- differentiation: QR menu كامل مع طلب ودفع، KDS مدمجة، إشعارات واتساب للعميل، دعم عربي كامل.
+- pricing_tiers: Lite ($19/mo — 1 branch), Pro ($39/mo — 3 branches), Premium ($79/mo — unlimited)
+- prd_completed_at: gate-0-inception
+- next_gate: 1-discovery → sofi-journey-architect

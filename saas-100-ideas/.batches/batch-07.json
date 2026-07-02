@@ -1,0 +1,12 @@
+[
+  {"num":61,"id":"SAAS-061","name":"LabMgt","sector":"02-health","desc":"إدارة المختبرات الطبية: تحاليل، نتائج، تذكير المرضى","target":"مختبرات طبية"},
+  {"num":62,"id":"SAAS-062","name":"DentistPro","sector":"02-health","desc":"إدارة عيادات الأسنان: حجوزات، ملفات مرضى، تذكير مواعيد","target":"أطباء أسنان، عيادات"},
+  {"num":63,"id":"SAAS-063","name":"TruckNet","sector":"12-logistics","desc":"إدارة شركات الشحن البري: تتبع شاحنات، بضائع، جدولة رحلات","target":"شركات نقل، سائقو شاحنات"},
+  {"num":64,"id":"SAAS-064","name":"FreelanceHub","sector":"01-productivity","desc":"إدارة أعمال الفريلانسر: مشاريع، فواتير، عملاء، مدفوعات","target":"مستقلون، فريلانسر"},
+  {"num":65,"id":"SAAS-065","name":"GoldPrice","sector":"08-finance","desc":"متابعة أسعار الذهب والعملات: تنبيهات، تحليلات، حاسبة استثمار","target":"تجار ذهب، مستثمرون"},
+  {"num":66,"id":"SAAS-066","name":"PharmaChain","sector":"02-health","desc":"سلسلة توريد الأدوية: تتبع مخزون، تواريخ صلاحية، توزيع","target":"موزعو أدوية، صيدليات"},
+  {"num":67,"id":"SAAS-067","name":"SchoolEase","sector":"07-education","desc":"إدارة المدارس الخاصة: طلاب، جدول حصص، درجات، رسوم","target":"مدارس خاصة، معاهد"},
+  {"num":68,"id":"SAAS-068","name":"CoachingPro","sector":"01-productivity","desc":"منصة تدريب مهني: دورات، متابعة، شهادات معتمدة","target":"مدربون محترفون"},
+  {"num":69,"id":"SAAS-069","name":"WeddingOrg","sector":"11-services","desc":"تنظيم حفلات الزفاف: قوائم ضيوف، ميزانية، موردون","target":"منظمو حفلات، عرائس"},
+  {"num":70,"id":"SAAS-070","name":"RepairPro","sector":"11-services","desc":"إدارة ورش الصيانة المنزلية: أجهزة، قطع غيار، فنيون متنقلون","target":"فنيون، شركات صيانة"}
+]

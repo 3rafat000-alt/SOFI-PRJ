@@ -1,0 +1,1705 @@
+openapi: 3.0.3
+
+# =============================================================================
+# SAKK Wallet — REST API
+# =============================================================================
+# Derived from routes/api.php + the controllers it references (read, not
+# invented). All endpoints live under the /api/v1 prefix unless noted.
+#
+# COVERAGE NOTE
+# ------------
+# routes/api.php declares ~301 routes (admin CRUD included). This document
+# covers the PRINCIPAL customer-facing + webhook surface thoroughly:
+#   auth (register/login/2fa/pin) · wallets + balance + deposit/withdraw/convert
+#   · transfer (P2P) · transactions · payment-requests · cards · KYC · savings
+#   · gold savings · webhooks (Stripe Issuing, CCPayment).
+# The /api/v1/admin/* group (is_admin gated, ~70 routes) is summarized by tag
+# only, not enumerated per endpoint — admin is an internal back-office surface.
+#
+# RESPONSE ENVELOPE
+# ------------
+# Most JSON endpoints return { success, message?, data? }. A subset of newer
+# controllers (Savings) return { message, data } WITHOUT the `success` key —
+# this is faithfully reflected below rather than normalized. Laravel Resource
+# *collections* (e.g. GET /wallets, GET /cards) return a bare JSON:API-style
+# { data: [...] } envelope produced by AnonymousResourceCollection, again
+# without `success`. Schemas reflect the real per-controller shape.
+#
+# AUTH
+# ------------
+# Laravel Sanctum personal-access tokens. Send `Authorization: Bearer <token>`.
+# Money-moving routes additionally enforce EnsureDeviceCanTransact (X-Device-Id
+# header) and a per-request second factor (pin OR biometric_token).
+
+info:
+  title: SAKK Wallet API
+  version: "1.0.0"
+  description: >
+    Syrian multi-currency (USD/SYP) digital wallet: P2P transfer, virtual cards
+    (Stripe Issuing), crypto deposit/withdraw (CCPayment), gold + cash savings,
+    3-level KYC. User-facing copy is Arabic; this contract is documented in
+    English. Generated/served live at GET /api/docs.
+  contact:
+    name: SAKK Engineering
+
+servers:
+  - url: https://{host}/api/v1
+    description: Production / staging (versioned base)
+    variables:
+      host:
+        default: api.example.test
+  - url: https://{host}/api
+    description: Unversioned root (health, docs, webhooks only)
+    variables:
+      host:
+        default: api.example.test
+
+tags:
+  - name: Auth
+    description: Registration, login, 2FA, PIN, biometric, QR login
+  - name: Devices
+    description: Connected-device approval + 48h transaction hold
+  - name: Wallets
+    description: Multi-currency wallets, balance, deposit/withdraw/convert
+  - name: Transfer
+    description: Instant same-currency P2P (free, no fee)
+  - name: PaymentRequests
+    description: Request money via link/tag; pay/accept/reject
+  - name: Transactions
+    description: History, stats, export, lookup by reference
+  - name: Cards
+    description: Virtual cards (load/unload/freeze) + Stripe Issuing
+  - name: KYC
+    description: 3-level identity verification (email/phone/documents)
+  - name: Savings
+    description: Cash-savings goals (separate from gold)
+  - name: Gold
+    description: Buy/sell gold grams at live price
+  - name: Exchange
+    description: USD/SYP rate + conversion
+  - name: Notifications
+  - name: Health
+  - name: Webhooks
+    description: Stripe Issuing + CCPayment (no end-user auth; signature-gated)
+  - name: Admin
+    description: Back-office (is_admin gated). Summarized, not enumerated.
+
+security:
+  - bearerAuth: []
+
+paths:
+
+  # ------------------------------------------------------------------ Health
+  /health:
+    servers:
+      - url: https://{host}/api
+        variables: { host: { default: api.example.test } }
+    get:
+      tags: [Health]
+      summary: Liveness probe
+      security: []
+      responses:
+        "200":
+          description: Service up
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: ok }
+                  version: { type: string, example: "1.0.0" }
+                  timestamp: { type: string, format: date-time }
+
+  /docs:
+    servers:
+      - url: https://{host}/api
+        variables: { host: { default: api.example.test } }
+    get:
+      tags: [Health]
+      summary: This OpenAPI document (served from docs/openapi.yaml)
+      security: []
+      responses:
+        "200":
+          description: OpenAPI YAML
+          content:
+            application/yaml: {}
+
+  # -------------------------------------------------------------------- Auth
+  /auth/register:
+    post:
+      tags: [Auth]
+      summary: Register a new user (returns Sanctum token + default USD wallet)
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [first_name, last_name, email, password, password_confirmation]
+              properties:
+                first_name: { type: string, maxLength: 50 }
+                last_name: { type: string, maxLength: 50 }
+                email: { type: string, format: email, maxLength: 255 }
+                phone: { type: string, maxLength: 20, nullable: true }
+                password: { type: string, minLength: 8, format: password }
+                password_confirmation: { type: string, format: password }
+                language: { type: string, enum: [ar, en], nullable: true }
+                timezone: { type: string, maxLength: 50, nullable: true }
+                referral_code: { type: string, maxLength: 20, nullable: true }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AuthTokenResponse" }
+        "422": { $ref: "#/components/responses/ValidationError" }
+
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Login (email + password, optional 2FA)
+      description: >
+        If two_factor_enabled and no two_factor_code supplied, responds 200 with
+        data.requires_2fa=true (NOT an error) — resend the request with the code.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string, format: email }
+                password: { type: string, format: password }
+                two_factor_code: { type: string, nullable: true }
+                fcm_token: { type: string, nullable: true }
+                device_id: { type: string, nullable: true }
+      responses:
+        "200":
+          description: Logged in, OR 2FA challenge required
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/AuthTokenResponse"
+                  - $ref: "#/components/schemas/TwoFactorChallenge"
+        "401":
+          description: Bad credentials
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Envelope" }
+        "403":
+          description: Account disabled (is_active=false)
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Envelope" }
+        "422":
+          description: Wrong 2FA code
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Envelope" }
+
+  /auth/forgot-password:
+    post:
+      tags: [Auth]
+      summary: Request a password reset email
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties: { email: { type: string, format: email } }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  /auth/reset-password:
+    post:
+      tags: [Auth]
+      summary: Reset password using the emailed token
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token, email, password, password_confirmation]
+              properties:
+                token: { type: string }
+                email: { type: string, format: email }
+                password: { type: string, minLength: 8, format: password }
+                password_confirmation: { type: string, format: password }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+        "422": { $ref: "#/components/responses/ValidationError" }
+
+  /auth/logout:
+    post:
+      tags: [Auth]
+      summary: Revoke the current access token
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  /auth/me:
+    get:
+      tags: [Auth]
+      summary: Current user (with wallets + cards)
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Envelope"
+                  - type: object
+                    properties:
+                      data: { $ref: "#/components/schemas/User" }
+
+  /auth/refresh:
+    post:
+      tags: [Auth]
+      summary: Rotate the access token (revokes current, issues new)
+      responses:
+        "200":
+          description: New token
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Envelope"
+                  - type: object
+                    properties:
+                      data: { $ref: "#/components/schemas/Token" }
+
+  /auth/password:
+    put:
+      tags: [Auth]
+      summary: Change password (revokes other tokens)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [current_password, password, password_confirmation]
+              properties:
+                current_password: { type: string, format: password }
+                password: { type: string, minLength: 8, format: password }
+                password_confirmation: { type: string, format: password }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+        "422": { $ref: "#/components/responses/ValidationError" }
+
+  /auth/pin:
+    post:
+      tags: [Auth]
+      summary: Set a 6-digit transaction PIN (requires password)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [pin, password]
+              properties:
+                pin: { type: string, pattern: '^[0-9]{6}$' }
+                password: { type: string, format: password }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+        "422": { $ref: "#/components/responses/ValidationError" }
+
+  /auth/pin/verify:
+    post:
+      tags: [Auth]
+      summary: Verify the 6-digit PIN
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [pin]
+              properties: { pin: { type: string, pattern: '^[0-9]{6}$' } }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+        "422": { $ref: "#/components/responses/ValidationError" }
+
+  /auth/2fa/setup:
+    post:
+      tags: [Auth]
+      summary: Begin TOTP 2FA enrollment (returns secret + otpauth URI)
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  /auth/2fa/confirm:
+    post:
+      tags: [Auth]
+      summary: Confirm 2FA with a TOTP code, enabling it
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [code]
+              properties: { code: { type: string } }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+        "422": { $ref: "#/components/responses/ValidationError" }
+
+  /auth/2fa/status:
+    get:
+      tags: [Auth]
+      summary: 2FA enabled state
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  # ------------------------------------------------------------- Biometric
+  /auth/biometric/devices:
+    post:
+      tags: [Auth]
+      summary: Register a device public key for biometric authorization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [device_id, public_key]
+              properties:
+                device_id: { type: string }
+                public_key:
+                  type: string
+                  description: PEM (RSA/EC) or raw Ed25519 public key (base64/hex)
+                device_name: { type: string, nullable: true }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+    get:
+      tags: [Auth]
+      summary: List registered biometric devices
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  /auth/biometric/challenge:
+    post:
+      tags: [Auth]
+      summary: Issue a single-use 5-min challenge to sign for the next money move
+      responses:
+        "200":
+          description: Challenge string (sign it with the device private key)
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Envelope" }
+
+  # --------------------------------------------------------------- QR login
+  /auth/qr/generate:
+    post:
+      tags: [Auth]
+      summary: Generate a QR login token (desktop initiates, mobile approves)
+      security: []
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  /auth/qr/poll/{token}:
+    get:
+      tags: [Auth]
+      summary: Poll QR login status until approved
+      security: []
+      parameters:
+        - { name: token, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  /auth/qr/approve:
+    post:
+      tags: [Auth]
+      summary: Approve a pending QR login (from the authenticated mobile app)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token]
+              properties: { token: { type: string } }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  # --------------------------------------------------------------- Devices
+  /devices:
+    get:
+      tags: [Devices]
+      summary: List the user's connected devices
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  /devices/register:
+    post:
+      tags: [Devices]
+      summary: Register the current device (enters pending + 48h hold)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [device_id]
+              properties:
+                device_id: { type: string }
+                device_name: { type: string, nullable: true }
+                platform: { type: string, nullable: true }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  /devices/{id}/approve:
+    post:
+      tags: [Devices]
+      summary: Approve a pending device (from a trusted device)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  # --------------------------------------------------------------- Wallets
+  /wallets:
+    get:
+      tags: [Wallets]
+      summary: List the user's wallets (auto-provisions defaults)
+      responses:
+        "200":
+          description: Resource collection (bare data array, no success key)
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/WalletCollection" }
+    post:
+      tags: [Wallets]
+      summary: Create a wallet for a currency
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [currency]
+              properties:
+                currency: { type: string, enum: [USD, SYP] }
+      responses:
+        "200":
+          description: Created
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Envelope"
+                  - type: object
+                    properties: { data: { $ref: "#/components/schemas/Wallet" } }
+        "422": { $ref: "#/components/responses/ValidationError" }
+
+  /wallets/{wallet}:
+    get:
+      tags: [Wallets]
+      summary: Wallet details (owner only)
+      parameters: [ { $ref: "#/components/parameters/WalletId" } ]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Envelope"
+                  - type: object
+                    properties: { data: { $ref: "#/components/schemas/Wallet" } }
+        "404": { $ref: "#/components/responses/NotFound" }
+    delete:
+      tags: [Wallets]
+      summary: Delete a wallet (owner only; non-default, zero balance)
+      parameters: [ { $ref: "#/components/parameters/WalletId" } ]
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /wallets/{wallet}/balance:
+    get:
+      tags: [Wallets]
+      summary: Wallet balance + available balance
+      parameters: [ { $ref: "#/components/parameters/WalletId" } ]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Envelope"
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          balance: { type: number, format: float }
+                          available_balance: { type: number, format: float }
+                          currency: { type: string }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /wallets/{wallet}/transactions:
+    get:
+      tags: [Wallets]
+      summary: Paginated transactions for a wallet
+      parameters: [ { $ref: "#/components/parameters/WalletId" } ]
+      responses:
+        "200":
+          description: Transaction resource collection
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/TransactionCollection" }
+
+  /wallets/{wallet}/deposit:
+    post:
+      tags: [Wallets]
+      summary: Deposit into a wallet (owner only)
+      parameters: [ { $ref: "#/components/parameters/WalletId" } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [amount]
+              properties:
+                amount: { type: number, format: float, minimum: 1, maximum: 100000 }
+      responses:
+        "200":
+          description: Deposited
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Envelope"
+                  - type: object
+                    properties:
+                      data: { $ref: "#/components/schemas/Transaction" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "422": { $ref: "#/components/responses/ValidationError" }
+
+  /wallets/{wallet}/withdraw:
+    post:
+      tags: [Wallets]
+      summary: Withdraw from a wallet (PIN required; device-gated)
+      description: >
+        Requires EnsureDeviceCanTransact (X-Device-Id) + a valid 6-digit PIN.
+      parameters:
+        - { $ref: "#/components/parameters/WalletId" }
+        - { $ref: "#/components/parameters/DeviceId" }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [amount, pin]
+              properties:
+                amount: { type: number, format: float, minimum: 1 }
+                pin: { type: string, pattern: '^[0-9]{6}$' }
+      responses:
+        "200":
+          description: Withdrawn
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Envelope"
+                  - type: object
+                    properties:
+                      data: { $ref: "#/components/schemas/Transaction" }
+        "403": { $ref: "#/components/responses/DeviceBlocked" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "422":
+          description: Wrong PIN or insufficient balance
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Envelope" }
+
+  /wallets/convert:
+    post:
+      tags: [Wallets]
+      summary: Convert between USD and SYP at the configured rate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [from_currency, to_currency, amount]
+              properties:
+                from_currency: { type: string, enum: [USD, SYP] }
+                to_currency: { type: string, enum: [USD, SYP] }
+                amount: { type: number, format: float, minimum: 1 }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "422": { $ref: "#/components/responses/ValidationError" }
+
+  /wallets/exchange-rates:
+    get:
+      tags: [Wallets]
+      summary: Current USD/SYP exchange rate
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  # -------------------------------------------------------------- Transfer
+  /transfer/lookup:
+    get:
+      tags: [Transfer]
+      summary: Resolve a recipient by tag/email/phone/account (privacy card)
+      parameters:
+        - name: identifier
+          in: query
+          required: true
+          schema: { type: string, maxLength: 64 }
+          description: SAKK tag, email, phone, or account number
+      responses:
+        "200":
+          description: Recipient privacy card (no contact details exposed)
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Envelope" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "422":
+          description: Cannot transfer to self / invalid identifier
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Envelope" }
+
+  /transfer:
+    post:
+      tags: [Transfer]
+      summary: Send money to another SAKK user (instant, same-currency, FREE)
+      description: >
+        Device-gated (X-Device-Id). Atomic + race-safe (lockForUpdate). Currency
+        must match across both wallets; no FX in a transfer. Amount capped 100000.
+      parameters: [ { $ref: "#/components/parameters/DeviceId" } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [identifier, amount, currency]
+              properties:
+                identifier: { type: string, maxLength: 64, description: recipient tag/email/phone/account }
+                amount: { type: number, format: float, minimum: 0.01, maximum: 100000 }
+                currency: { type: string, enum: [USD, SYP] }
+                note: { type: string, maxLength: 140, nullable: true }
+      responses:
+        "200":
+          description: Transfer completed
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Envelope"
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          transaction: { $ref: "#/components/schemas/Transaction" }
+                          amount: { type: number, format: float }
+                          currency: { type: string }
+                          note: { type: string, nullable: true }
+                          recipient: { type: object, additionalProperties: true }
+                          wallet: { $ref: "#/components/schemas/Wallet" }
+        "403": { $ref: "#/components/responses/DeviceBlocked" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "422":
+          description: Insufficient balance / business rule violation
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Envelope" }
+
+  # ------------------------------------------------------- PaymentRequests
+  /payment-requests:
+    get:
+      tags: [PaymentRequests]
+      summary: Payment requests the user created
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+    post:
+      tags: [PaymentRequests]
+      summary: Create a payment request (optionally directed at a user)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [amount, currency]
+              properties:
+                amount: { type: number, format: float, minimum: 0.01 }
+                currency: { type: string, enum: [USD, SYP] }
+                note: { type: string, maxLength: 140, nullable: true }
+                requestee_account: { type: string, maxLength: 40, nullable: true }
+                expires_in_hours: { type: integer, minimum: 1, maximum: 720, nullable: true }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+        "422": { $ref: "#/components/responses/ValidationError" }
+
+  /payment-requests/received:
+    get:
+      tags: [PaymentRequests]
+      summary: Payment requests directed at the user
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  /payment-requests/{paymentRequest}:
+    get:
+      tags: [PaymentRequests]
+      summary: Show a payment request
+      parameters: [ { $ref: "#/components/parameters/PaymentRequestId" } ]
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /payment-requests/{paymentRequest}/pay:
+    post:
+      tags: [PaymentRequests]
+      summary: Pay a pending request (device-gated; reuses transfer engine)
+      description: >
+        Device-gated (X-Device-Id). Cannot pay your own request; request must be
+        pending (not paid/cancelled/expired). Settles via the same atomic,
+        lock-protected transfer path.
+      parameters:
+        - { $ref: "#/components/parameters/PaymentRequestId" }
+        - { $ref: "#/components/parameters/DeviceId" }
+      responses:
+        "200":
+          description: Paid
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Envelope"
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          transaction: { $ref: "#/components/schemas/Transaction" }
+                          payment_request: { type: object, additionalProperties: true }
+        "403": { $ref: "#/components/responses/DeviceBlocked" }
+        "422":
+          description: Not payable / paying own request / insufficient funds
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Envelope" }
+
+  /payment-requests/{paymentRequest}/cancel:
+    post:
+      tags: [PaymentRequests]
+      summary: Cancel a pending payment request (owner only)
+      parameters: [ { $ref: "#/components/parameters/PaymentRequestId" } ]
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+        "422": { description: Not cancellable, content: { application/json: { schema: { $ref: "#/components/schemas/Envelope" } } } }
+
+  # ----------------------------------------------------------- Transactions
+  /transactions:
+    get:
+      tags: [Transactions]
+      summary: List transactions (filterable, paginated)
+      parameters:
+        - { name: wallet_id, in: query, schema: { type: integer } }
+        - { name: type, in: query, schema: { type: string } }
+        - { name: status, in: query, schema: { type: string } }
+        - { name: per_page, in: query, schema: { type: integer } }
+      responses:
+        "200":
+          description: Transaction resource collection
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/TransactionCollection" }
+
+  /transactions/stats:
+    get:
+      tags: [Transactions]
+      summary: Aggregate transaction statistics
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  /transactions/export:
+    get:
+      tags: [Transactions]
+      summary: Export transactions (CSV)
+      parameters:
+        - { name: format, in: query, schema: { type: string, enum: [csv] } }
+      responses:
+        "200":
+          description: CSV stream
+          content:
+            text/csv: {}
+
+  /transactions/reference/{reference}:
+    get:
+      tags: [Transactions]
+      summary: Look up a transaction by its public reference
+      parameters:
+        - { name: reference, in: path, required: true, schema: { type: string } }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Envelope"
+                  - type: object
+                    properties: { data: { $ref: "#/components/schemas/Transaction" } }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /transactions/{transaction}:
+    get:
+      tags: [Transactions]
+      summary: Show a transaction (owner only)
+      parameters:
+        - { name: transaction, in: path, required: true, schema: { type: integer } }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Envelope"
+                  - type: object
+                    properties: { data: { $ref: "#/components/schemas/Transaction" } }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /transactions/types:
+    get:
+      tags: [Transactions]
+      summary: Reference list of transaction types
+      security: []
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  /transactions/categories:
+    get:
+      tags: [Transactions]
+      summary: Reference list of transaction categories
+      security: []
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  # ----------------------------------------------------------------- Cards
+  /cards:
+    get:
+      tags: [Cards]
+      summary: List the user's virtual cards
+      responses:
+        "200":
+          description: Card resource collection
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CardCollection" }
+    post:
+      tags: [Cards]
+      summary: Create a virtual card against a wallet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [wallet_id, brand]
+              properties:
+                wallet_id: { type: integer }
+                brand: { type: string, enum: [visa, mastercard] }
+                nickname: { type: string, maxLength: 50, nullable: true }
+                color: { type: string, pattern: '^#[0-9A-Fa-f]{6}$', nullable: true }
+                spending_limit: { type: number, format: float, minimum: 100, maximum: 50000, nullable: true }
+      responses:
+        "200":
+          description: Created
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Envelope"
+                  - type: object
+                    properties: { data: { $ref: "#/components/schemas/Card" } }
+        "422": { $ref: "#/components/responses/ValidationError" }
+
+  /cards/{card}:
+    get:
+      tags: [Cards]
+      summary: Show a card (masked PAN; owner only)
+      parameters: [ { $ref: "#/components/parameters/CardId" } ]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Envelope"
+                  - type: object
+                    properties: { data: { $ref: "#/components/schemas/Card" } }
+        "404": { $ref: "#/components/responses/NotFound" }
+    put:
+      tags: [Cards]
+      summary: Update card settings (nickname, color, limits)
+      parameters: [ { $ref: "#/components/parameters/CardId" } ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nickname: { type: string, maxLength: 50, nullable: true }
+                color: { type: string, pattern: '^#[0-9A-Fa-f]{6}$', nullable: true }
+                spending_limit: { type: number, format: float, nullable: true }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /cards/{card}/details:
+    post:
+      tags: [Cards]
+      summary: Reveal full card details (sensitive — requires PIN)
+      parameters: [ { $ref: "#/components/parameters/CardId" } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [pin]
+              properties: { pin: { type: string, pattern: '^[0-9]{6}$' } }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+        "422":
+          description: Wrong PIN
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Envelope" }
+
+  /cards/{card}/load:
+    post:
+      tags: [Cards]
+      summary: Load funds onto a card from its wallet (device-gated)
+      parameters:
+        - { $ref: "#/components/parameters/CardId" }
+        - { $ref: "#/components/parameters/DeviceId" }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [amount]
+              properties:
+                amount: { type: number, format: float, minimum: 1, maximum: 10000 }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+        "403": { $ref: "#/components/responses/DeviceBlocked" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "422":
+          description: Card inactive / insufficient funds
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Envelope" }
+
+  /cards/{card}/unload:
+    post:
+      tags: [Cards]
+      summary: Return card balance to the wallet (device-gated)
+      parameters:
+        - { $ref: "#/components/parameters/CardId" }
+        - { $ref: "#/components/parameters/DeviceId" }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [amount]
+              properties:
+                amount: { type: number, format: float, minimum: 1 }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+        "403": { $ref: "#/components/responses/DeviceBlocked" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /cards/{card}/freeze:
+    post:
+      tags: [Cards]
+      summary: Freeze a card
+      parameters: [ { $ref: "#/components/parameters/CardId" } ]
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  /cards/{card}/unfreeze:
+    post:
+      tags: [Cards]
+      summary: Unfreeze a card
+      parameters: [ { $ref: "#/components/parameters/CardId" } ]
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  /cards/stripe/issue:
+    post:
+      tags: [Cards]
+      summary: Issue a real card via Stripe Issuing
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [wallet_id]
+              properties:
+                wallet_id: { type: integer }
+                currency: { type: string, nullable: true }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+        "422": { $ref: "#/components/responses/ValidationError" }
+
+  # ------------------------------------------------------------------- KYC
+  /kyc/levels:
+    get:
+      tags: [KYC]
+      summary: KYC level definitions + limits
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  /kyc/status:
+    get:
+      tags: [KYC]
+      summary: Current user's KYC status + level
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  /kyc/email/send:
+    post:
+      tags: [KYC]
+      summary: Send a Level-1 email verification code
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  /kyc/email/verify:
+    post:
+      tags: [KYC]
+      summary: Verify the email code (6 digits)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [code]
+              properties: { code: { type: string, minLength: 6, maxLength: 6 } }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+        "422": { $ref: "#/components/responses/ValidationError" }
+
+  /kyc/phone/verify:
+    post:
+      tags: [KYC]
+      summary: Verify the phone code (Level 2)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [code]
+              properties: { code: { type: string, minLength: 6, maxLength: 6 } }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+        "422": { $ref: "#/components/responses/ValidationError" }
+
+  /kyc/id-document:
+    post:
+      tags: [KYC]
+      summary: Submit ID document images (Level 3) — stored on PRIVATE disk
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [document_type, front_image]
+              properties:
+                document_type: { type: string, description: "one of the configured ID types" }
+                front_image: { type: string, format: binary, description: "image, max 5 MB" }
+                back_image: { type: string, format: binary, nullable: true, description: "image, max 5 MB" }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+        "422": { $ref: "#/components/responses/ValidationError" }
+
+  /kyc/selfie:
+    post:
+      tags: [KYC]
+      summary: Submit a selfie (Level 3) — PRIVATE disk
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [selfie]
+              properties:
+                selfie: { type: string, format: binary, description: "image, max 5 MB" }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+        "422": { $ref: "#/components/responses/ValidationError" }
+
+  /kyc/address-proof:
+    post:
+      tags: [KYC]
+      summary: Submit proof of address (Level 3) — PRIVATE disk
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [document_type, document]
+              properties:
+                document_type: { type: string, enum: [utility_bill, bank_statement, government_letter, rental_agreement] }
+                document: { type: string, format: binary, description: "pdf/jpg/jpeg/png, max 5 MB" }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+        "422": { $ref: "#/components/responses/ValidationError" }
+
+  # --------------------------------------------------------------- Savings
+  # NOTE: Savings endpoints return { message, data } WITHOUT a `success` key.
+  /savings:
+    get:
+      tags: [Savings]
+      summary: List savings goals
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+    post:
+      tags: [Savings]
+      summary: Create a savings goal (optional opening deposit)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name: { type: string, maxLength: 100 }
+                target_amount: { type: number, format: float, minimum: 1, nullable: true }
+                target_date: { type: string, format: date, nullable: true, description: "must be after today" }
+                icon: { type: string, maxLength: 40, nullable: true }
+                color: { type: string, maxLength: 20, nullable: true }
+                initial_amount: { type: number, format: float, minimum: 0, nullable: true }
+      responses:
+        "201":
+          description: Created (envelope without `success`)
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MessageData" }
+        "422":
+          description: Validation error OR insufficient USD balance for opening deposit
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MessageData" }
+
+  /savings/summary:
+    get:
+      tags: [Savings]
+      summary: Aggregate savings totals
+      responses:
+        "200": { $ref: "#/components/responses/MessageDataOk" }
+
+  /savings/{savings}:
+    get:
+      tags: [Savings]
+      summary: Show a savings goal (owner only — 403 otherwise)
+      parameters: [ { $ref: "#/components/parameters/SavingsId" } ]
+      responses:
+        "200": { $ref: "#/components/responses/MessageDataOk" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+  /savings/{savings}/deposit:
+    post:
+      tags: [Savings]
+      summary: Deposit USD into a goal (device-gated; PIN or biometric)
+      description: >
+        Owner-only (403 otherwise). Device-gated (X-Device-Id). Second factor
+        required: send `pin` OR `biometric_token`. Wallet row is locked
+        (lockForUpdate) inside a DB transaction.
+      parameters:
+        - { $ref: "#/components/parameters/SavingsId" }
+        - { $ref: "#/components/parameters/DeviceId" }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [amount]
+              properties:
+                amount: { type: number, format: float, minimum: 0.01 }
+                pin: { type: string, description: "required unless biometric_token present" }
+                biometric_token: { type: string, description: "signature over the issued challenge" }
+      responses:
+        "200": { $ref: "#/components/responses/MessageDataOk" }
+        "403":
+          description: Not owner OR device blocked
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MessageData" }
+        "422":
+          description: Wrong PIN / insufficient USD balance
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MessageData" }
+
+  /savings/{savings}/withdraw:
+    post:
+      tags: [Savings]
+      summary: Withdraw from a goal back to the USD wallet (device-gated)
+      parameters:
+        - { $ref: "#/components/parameters/SavingsId" }
+        - { $ref: "#/components/parameters/DeviceId" }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [amount]
+              properties:
+                amount: { type: number, format: float, minimum: 0.01 }
+                pin: { type: string, description: "required unless biometric_token present" }
+                biometric_token: { type: string }
+      responses:
+        "200": { $ref: "#/components/responses/MessageDataOk" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "422":
+          description: Wrong PIN / amount exceeds saved balance
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MessageData" }
+
+  /savings/{savings}/close:
+    post:
+      tags: [Savings]
+      summary: Close a goal (returns remaining balance to USD wallet, archives)
+      parameters: [ { $ref: "#/components/parameters/SavingsId" } ]
+      responses:
+        "200": { $ref: "#/components/responses/MessageDataOk" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+  # ------------------------------------------------------------------ Gold
+  /gold/prices:
+    get:
+      tags: [Gold]
+      summary: Current gold buy/sell prices per gram
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  /gold/wallet:
+    get:
+      tags: [Gold]
+      summary: User's gold holdings (grams)
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  /gold/buy:
+    post:
+      tags: [Gold]
+      summary: Buy gold grams (debits a cash wallet)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                grams: { type: number, format: float, nullable: true }
+                amount: { type: number, format: float, nullable: true }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+        "422": { $ref: "#/components/responses/ValidationError" }
+
+  /gold/sell:
+    post:
+      tags: [Gold]
+      summary: Sell gold grams (credits a cash wallet)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                grams: { type: number, format: float }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+        "422": { $ref: "#/components/responses/ValidationError" }
+
+  # -------------------------------------------------------------- Exchange
+  /exchange-rates:
+    get:
+      tags: [Exchange]
+      summary: All configured rates (simplified single USD/SYP row)
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  /exchange-rates/convert:
+    post:
+      tags: [Exchange]
+      summary: Quote a conversion (no money moves)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [from, to, amount]
+              properties:
+                from: { type: string, enum: [USD, SYP] }
+                to: { type: string, enum: [USD, SYP] }
+                amount: { type: number, format: float }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  # ---------------------------------------------------------- Notifications
+  /notifications:
+    get:
+      tags: [Notifications]
+      summary: List notifications
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  /notifications/{id}/read:
+    put:
+      tags: [Notifications]
+      summary: Mark a notification read
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  /notifications/unread-count:
+    get:
+      tags: [Notifications]
+      summary: Unread notification count
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+
+  # -------------------------------------------------------------- Webhooks
+  # Unversioned: /api/webhooks/* (no end-user bearer auth; signature-gated).
+  /webhooks/stripe/issuing:
+    servers:
+      - url: https://{host}/api
+        variables: { host: { default: api.example.test } }
+    post:
+      tags: [Webhooks]
+      summary: Stripe Issuing events (real-time authorization has a 2s budget)
+      description: >
+        FAIL-CLOSED. Verifies the Stripe-Signature header against the configured
+        signing secret via Stripe\Webhook::constructEvent; a missing/invalid
+        signature or unconfigured secret returns 401 and the event is ignored.
+        issuing_authorization.request must approve/decline within 2 seconds or
+        Stripe auto-declines.
+      security: []
+      parameters:
+        - name: Stripe-Signature
+          in: header
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        description: Raw Stripe event JSON (read verbatim from the request body)
+        content:
+          application/json:
+            schema: { type: object, additionalProperties: true }
+      responses:
+        "200":
+          description: Handled (shape varies by event; authorization.request returns {approved})
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  approved: { type: boolean }
+                  decline_reason: { type: string, nullable: true }
+                  received: { type: boolean, nullable: true }
+        "401":
+          description: Invalid / missing signature (fail-closed)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: { error: { type: string, example: "Invalid signature" } }
+
+  /webhooks/ccpayment/info:
+    servers:
+      - url: https://{host}/api
+        variables: { host: { default: api.example.test } }
+    get:
+      tags: [Webhooks]
+      summary: CCPayment webhook config (DEV ONLY — 403 in production)
+      description: >
+        Returns configured webhook URLs. Guarded by app environment: responds
+        403 outside local/development/testing. NOTE the live production deposit
+        and withdraw webhook handlers (POST /api/webhooks/ccpayment/deposit and
+        /withdraw) are registered in a separate route file; both fail-close on
+        IP-whitelist + HMAC signature (Sign + Timestamp headers) before
+        processing.
+      security: []
+      responses:
+        "200":
+          description: Config (dev only)
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Envelope" }
+        "403":
+          description: Not available in production
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Envelope" }
+
+  # ----------------------------------------------------------------- Admin
+  # The /api/v1/admin/* group (~70 routes: users, KYC review, transactions,
+  # wallets, cards, settings, fees, limits, exchange-rates, reports, exports)
+  # is gated by middleware `admin` (is_admin=true) + throttle:admin and returns
+  # the standard { success, message, data } envelope. Not enumerated here.
+  /admin/dashboard:
+    get:
+      tags: [Admin]
+      summary: "Admin dashboard (representative; full admin surface not enumerated)"
+      responses:
+        "200": { $ref: "#/components/responses/OkEnvelope" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+# =============================================================================
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Sanctum personal-access token
+
+  parameters:
+    WalletId:
+      name: wallet
+      in: path
+      required: true
+      schema: { type: integer }
+    CardId:
+      name: card
+      in: path
+      required: true
+      schema: { type: integer }
+    PaymentRequestId:
+      name: paymentRequest
+      in: path
+      required: true
+      schema: { type: integer }
+    SavingsId:
+      name: savings
+      in: path
+      required: true
+      schema: { type: integer }
+    DeviceId:
+      name: X-Device-Id
+      in: header
+      required: false
+      description: >
+        Device identifier. When present and matching a known device, the
+        EnsureDeviceCanTransact middleware enforces approval status + the 48h
+        post-approval hold. When ABSENT, the middleware passes (documented
+        fail-open for legacy/web clients) — see SECURITY.md.
+      schema: { type: string }
+
+  responses:
+    OkEnvelope:
+      description: Success envelope
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Envelope" }
+    MessageDataOk:
+      description: Success ({ message, data } — no `success` key)
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/MessageData" }
+    ValidationError:
+      description: Unprocessable entity (Laravel validation)
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ValidationError" }
+    NotFound:
+      description: Resource not found / not owned
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Envelope" }
+    Forbidden:
+      description: Forbidden (not owner / not admin / device blocked)
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Envelope" }
+    DeviceBlocked:
+      description: >
+        Money move blocked by EnsureDeviceCanTransact — device pending, rejected,
+        or within its 48h hold.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/Envelope"
+              - type: object
+                properties:
+                  code:
+                    type: string
+                    enum: [device_pending, device_rejected, device_locked]
+
+  schemas:
+    Envelope:
+      type: object
+      properties:
+        success: { type: boolean, example: true }
+        message: { type: string, nullable: true, description: "Arabic user-facing copy" }
+        data: { nullable: true }
+
+    MessageData:
+      type: object
+      description: "Savings-style envelope (no `success` key)"
+      properties:
+        message: { type: string, description: "Arabic user-facing copy" }
+        data: { nullable: true }
+
+    ValidationError:
+      type: object
+      properties:
+        message: { type: string }
+        errors:
+          type: object
+          additionalProperties:
+            type: array
+            items: { type: string }
+
+    Token:
+      type: object
+      properties:
+        token: { type: string }
+        token_type: { type: string, example: Bearer }
+
+    AuthTokenResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+        data:
+          type: object
+          properties:
+            user: { $ref: "#/components/schemas/User" }
+            token: { type: string }
+            token_type: { type: string, example: Bearer }
+
+    TwoFactorChallenge:
+      type: object
+      properties:
+        success: { type: boolean, example: true }
+        message: { type: string, example: "2FA required" }
+        data:
+          type: object
+          properties:
+            requires_2fa: { type: boolean, example: true }
+            user_id: { type: integer }
+            email: { type: string, format: email }
+
+    User:
+      type: object
+      description: "From UserResource. Sensitive fields (password, pin_code, 2FA secret) never serialized."
+      properties:
+        id: { type: integer }
+        first_name: { type: string }
+        last_name: { type: string }
+        email: { type: string, format: email }
+        phone: { type: string, nullable: true }
+        kyc_level: { type: integer, nullable: true }
+        kyc_status: { type: string, nullable: true }
+        is_active: { type: boolean }
+        two_factor_enabled: { type: boolean }
+        wallets:
+          type: array
+          items: { $ref: "#/components/schemas/Wallet" }
+        cards:
+          type: array
+          items: { $ref: "#/components/schemas/Card" }
+
+    Wallet:
+      type: object
+      description: From WalletResource.
+      properties:
+        id: { type: integer }
+        currency: { type: string, enum: [USD, SYP] }
+        balance: { type: number, format: float }
+        available_balance: { type: number, format: float }
+        is_default: { type: boolean }
+
+    WalletCollection:
+      type: object
+      properties:
+        data:
+          type: array
+          items: { $ref: "#/components/schemas/Wallet" }
+
+    Transaction:
+      type: object
+      description: From TransactionResource.
+      properties:
+        id: { type: integer }
+        reference: { type: string }
+        type: { type: string }
+        status: { type: string }
+        amount: { type: number, format: float }
+        currency: { type: string }
+        balance_after: { type: number, format: float, nullable: true }
+        note: { type: string, nullable: true }
+        created_at: { type: string, format: date-time }
+
+    TransactionCollection:
+      type: object
+      properties:
+        data:
+          type: array
+          items: { $ref: "#/components/schemas/Transaction" }
+        links: { type: object, additionalProperties: true }
+        meta: { type: object, additionalProperties: true }
+
+    Card:
+      type: object
+      description: From CardResource. PAN masked unless POST /cards/{id}/details with PIN.
+      properties:
+        id: { type: integer }
+        brand: { type: string, enum: [visa, mastercard] }
+        last4: { type: string }
+        nickname: { type: string, nullable: true }
+        color: { type: string, nullable: true }
+        status: { type: string }
+        balance: { type: number, format: float }
+        spending_limit: { type: number, format: float, nullable: true }
+
+    CardCollection:
+      type: object
+      properties:
+        data:
+          type: array
+          items: { $ref: "#/components/schemas/Card" }

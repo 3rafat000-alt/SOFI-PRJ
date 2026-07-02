@@ -1,0 +1,14 @@
+# CONTEXT — SAAS-015 (durable facts; append-only)
+- title: LaundryHub
+- sector: 04-operations
+- description: إدارة مغاسل الملابس: استقبال طلبات، تتبع الحالة، توصيل، فوترة
+- target_customers: مغاسل، خدمات غسيل
+- stack: Laravel API + React Dashboard + Flutter Mobile App
+- target_market_detail: 15,000+ مغسلة وخدمة غسيل في الشرق الأوسط
+- product_description: منصة رقمية لإدارة مغاسل الملابس تشمل استقبال الطلبات مع الباركود، تتبع دورة حياة الغسيل (استلام -> غسيل -> تجفيف -> كي -> جاهز -> توصيل)، إدارة العملاء والعناوين، توصيل مع تتبع السائقين، والفوترة.
+- competitive_landscape: LaundryCare (أجنبي)، CleanCloud (سحابي مكلف)، محلّي (محلي محدود)
+- differentiation: دعم عربي، واجهة مبسطة، تطبيق عميل لتتبع الطلبات
+- target_mrr_per_client: $29-$119/شهر
+- pricing_tiers: Basic ($29), Professional ($59), Enterprise ($119)
+- personas: صاحب مغسلة (عمر)، عميل (هدى)
+- gate_status: Gate 0 (Inception) completed. docs/PRD.md written.

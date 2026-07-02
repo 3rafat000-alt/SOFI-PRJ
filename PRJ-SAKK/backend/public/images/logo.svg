@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7A2236"/>
+      <stop offset="100%" stop-color="#4A1320"/>
+    </linearGradient>
+    <linearGradient id="gld" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E1B45C"/>
+      <stop offset="100%" stop-color="#9A6E28"/>
+    </linearGradient>
+  </defs>
+  <!-- Background rounded square -->
+  <rect x="10" y="10" width="180" height="180" rx="40" fill="url(#bg)"/>
+  <!-- Gold border -->
+  <rect x="10" y="10" width="180" height="180" rx="40" fill="none" stroke="url(#gld)" stroke-width="3" opacity="0.6"/>
+  <!-- Stylized ص (Saad) letter -->
+  <g transform="translate(100,105)">
+    <!-- ص letterform as wallet/circle motif -->
+    <circle cx="0" cy="0" r="45" fill="none" stroke="url(#gld)" stroke-width="5"/>
+    <circle cx="0" cy="0" r="30" fill="url(#gld)" opacity="0.15"/>
+    <!-- ص shape inside circle -->
+    <path d="M-22,-12 C-22,-12 -10,-25 5,-22 C18,-19 22,-10 22,0 C22,12 15,22 5,25 C-8,28 -22,15 -22,0" fill="none" stroke="white" stroke-width="4.5" stroke-linecap="round"/>
+    <!-- Inner curve of ص -->
+    <path d="M-8,-4 C-8,-4 0,-14 10,-12" fill="none" stroke="white" stroke-width="4" stroke-linecap="round"/>
+    <!-- Dot of ص -->
+    <circle cx="-18" cy="2" r="4" fill="white"/>
+  </g>
+</svg>

@@ -1,0 +1,85 @@
+# =============================================================================
+# Prometheus Configuration — TaskSync Pro (SAAS-001)
+# Scrape config for monitoring stack: node_exporter, redis_exporter,
+# postgres_exporter, Laravel custom metrics, Reverb WebSocket metrics
+# =============================================================================
+
+global:
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  evaluation_interval: 15s
+
+  external_labels:
+    monitor: "tasksyncpro"
+    environment: "production"
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - alertmanager:9093
+
+# Alert rules
+rule_files:
+  - "alert-rules.yml"
+
+scrape_configs:
+  # ── Node Exporter (host-level metrics) ────────────────────────────
+  - job_name: "node"
+    static_configs:
+      - targets: ["node_exporter:9100"]
+    scrape_interval: 30s  # Lower frequency for host metrics
+    metrics_path: /metrics
+
+  # ── Redis Exporter ───────────────────────────────────────────────────
+  - job_name: "redis"
+    static_configs:
+      - targets: ["redis_exporter:9121"]
+    params:
+      # Password passed via REDIS_PASSWORD env var in docker-compose
+      auth: ["${REDIS_PASSWORD}"]
+    metrics_path: /metrics
+
+  # ── PostgreSQL Exporter ──────────────────────────────────────────────
+  - job_name: "postgres"
+    static_configs:
+      - targets: ["postgres_exporter:9187"]
+    metrics_path: /metrics
+
+  # ── Laravel Application (custom Prometheus middleware) ───────────────
+  - job_name: "laravel"
+    static_configs:
+      - targets: ["php-fpm-blue:9000"]
+    metrics_path: /metrics
+    scheme: http
+    # Fallback: also try to scrape from green target
+    # (Only one PHP-FPM instance has the /metrics endpoint active at a time)
+
+  # ── Nginx Exporter ────────────────────────────────────────────────────
+  - job_name: "nginx"
+    static_configs:
+      - targets: ["nginx-exporter:9113"]
+    metrics_path: /metrics
+
+  # ── Reverb WebSocket Server ───────────────────────────────────────────
+  - job_name: "reverb"
+    static_configs:
+      - targets: ["reverb:6001"]
+    metrics_path: /health
+    # If Reverb exposes /metrics endpoint, scrape that too
+    # Or use a separate exporter if Reverb doesn't natively expose metrics
+
+  # ── Docker Engine (optional: cAdvisor for container metrics) ─────────
+  - job_name: "docker"
+    static_configs:
+      - targets: ["cadvisor:8080"]
+    scrape_interval: 30s
+
+# Storage configuration
+storage:
+  tsdb:
+    path: /prometheus
+    retention:
+      time: 30d
+      size: 10GB

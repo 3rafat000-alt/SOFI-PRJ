@@ -1,0 +1,333 @@
+# =============================================================================
+# Prometheus Alert Rules — TaskSync Pro (SAAS-001)
+# Deployed with Prometheus; evaluated every 15s by default
+# =============================================================================
+
+groups:
+  - name: tasksync-api
+    interval: 30s
+    rules:
+      # ── High Error Rate (>1% 5xx over 5min) ─────────────────────────
+      - alert: HighErrorRate
+        expr: |
+          rate(http_requests_total{status=~"5.."}[5m])
+          /
+          rate(http_requests_total[5m])
+          > 0.01
+        for: 5m
+        labels:
+          severity: critical
+          team: backend
+        annotations:
+          summary: "Error rate >1% for 5 minutes"
+          description: "API error rate is {{ $value | humanizePercentage }} over the last 5 minutes. Threshold: 1%."
+          runbook: "docs/RUNBOOK.md#8-high-error-rate-5xx"
+
+      # ── High Latency (P95 > 500ms) ──────────────────────────────────
+      - alert: HighLatency
+        expr: |
+          histogram_quantile(0.95,
+            rate(http_request_duration_seconds_bucket[5m])
+          ) > 0.5
+        for: 5m
+        labels:
+          severity: warning
+          team: backend
+        annotations:
+          summary: "P95 latency >500ms"
+          description: "P95 API latency is {{ $value | humanizeDuration }} over the last 5 minutes. Threshold: 500ms."
+          runbook: "docs/RUNBOOK.md#2-high-api-latency"
+
+      # ── High Latency P99 (>2s) ──────────────────────────────────────
+      - alert: HighLatencyP99
+        expr: |
+          histogram_quantile(0.99,
+            rate(http_request_duration_seconds_bucket[5m])
+          ) > 2.0
+        for: 2m
+        labels:
+          severity: critical
+          team: backend
+        annotations:
+          summary: "P99 latency >2s"
+          description: "P99 API latency is {{ $value | humanizeDuration }} over the last 2 minutes. Threshold: 2s."
+          runbook: "docs/RUNBOOK.md#2-high-api-latency"
+
+      # ── Service Down (no metrics for 1m) ────────────────────────────
+      - alert: ServiceDown
+        expr: up{job="laravel"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          team: backend
+        annotations:
+          summary: "Laravel API is down"
+          description: "Laravel API has been unreachable for {{ $value }} seconds."
+          runbook: "docs/RUNBOOK.md#1-503-service-unavailable"
+
+  - name: tasksync-queue
+    interval: 30s
+    rules:
+      # ── Queue Backlog (>100 jobs) ───────────────────────────────────
+      - alert: QueueBacklog
+        expr: laravel_queue_size > 100
+        for: 2m
+        labels:
+          severity: warning
+          team: backend
+        annotations:
+          summary: "Queue backlog >100 jobs"
+          description: "Horizon queue has {{ $value }} pending jobs. Threshold: 100."
+          runbook: "docs/RUNBOOK.md#3-queue-backlog"
+
+      # ── Critical Queue Backlog (>500 jobs) ──────────────────────────
+      - alert: QueueBacklogCritical
+        expr: laravel_queue_size > 500
+        for: 1m
+        labels:
+          severity: critical
+          team: backend
+        annotations:
+          summary: "Queue backlog >500 jobs"
+          description: "Horizon queue has {{ $value }} pending jobs. Immediate action required."
+          runbook: "docs/RUNBOOK.md#3-queue-backlog"
+
+      # ── High Queue Processing Time (P95 > 30s) ──────────────────────
+      - alert: QueueProcessingTime
+        expr: |
+          histogram_quantile(0.95,
+            rate(horizon_job_processed_duration_seconds_bucket[5m])
+          ) > 30
+        for: 5m
+        labels:
+          severity: warning
+          team: backend
+        annotations:
+          summary: "Queue processing time P95 >30s"
+          description: "P95 queue processing time is {{ $value | humanizeDuration }}. Threshold: 30s."
+
+      # ── Failed Jobs Spike ───────────────────────────────────────────
+      - alert: FailedJobsSpike
+        expr: rate(horizon_job_failed_total[5m]) > 5
+        for: 5m
+        labels:
+          severity: warning
+          team: backend
+        annotations:
+          summary: "Failed jobs spike >5/min"
+          description: "{{ $value | humanize }} failed jobs per minute. Check Horizon dashboard."
+
+  - name: tasksync-database
+    interval: 30s
+    rules:
+      # ── DB Connection Pool Exhausted (>50) ──────────────────────────
+      - alert: DBConnections
+        expr: pg_stat_activity_count > 50
+        for: 2m
+        labels:
+          severity: warning
+          team: backend
+        annotations:
+          summary: "DB connections >50"
+          description: "PostgreSQL has {{ $value }} active connections. Threshold: 50."
+          runbook: "docs/RUNBOOK.md#6-db-connection-pool-exhausted"
+
+      # ── DB Connection Pool Critical (>80) ───────────────────────────
+      - alert: DBConnectionsCritical
+        expr: pg_stat_activity_count > 80
+        for: 1m
+        labels:
+          severity: critical
+          team: backend
+        annotations:
+          summary: "DB connections >80 — near max"
+          description: "PostgreSQL has {{ $value }} active connections. Threshold: 80."
+          runbook: "docs/RUNBOOK.md#6-db-connection-pool-exhausted"
+
+      # ── Slow Queries Detected ───────────────────────────────────────
+      - alert: SlowQueries
+        expr: pg_stat_activity_max_tx_duration > 5
+        for: 2m
+        labels:
+          severity: warning
+          team: backend
+        annotations:
+          summary: "Slow query running >5s"
+          description: "Longest running query is {{ $value | humanizeDuration }} old. Check pg_stat_activity."
+          runbook: "docs/RUNBOOK.md#2-high-api-latency"
+
+  - name: tasksync-redis
+    interval: 30s
+    rules:
+      # ── Redis Memory High (>80%) ────────────────────────────────────
+      - alert: RedisMemoryHigh
+        expr: (redis_memory_used_bytes / redis_memory_max_bytes) * 100 > 80
+        for: 5m
+        labels:
+          severity: warning
+          team: backend
+        annotations:
+          summary: "Redis memory >80%"
+          description: "Redis is using {{ $value | humanizePercentage }} of max memory."
+          runbook: "docs/RUNBOOK.md#10-redis-out-of-memory"
+
+      # ── Redis Memory Critical (>95%) ────────────────────────────────
+      - alert: RedisMemoryCritical
+        expr: (redis_memory_used_bytes / redis_memory_max_bytes) * 100 > 95
+        for: 2m
+        labels:
+          severity: critical
+          team: backend
+        annotations:
+          summary: "Redis memory >95% — evictions imminent"
+          description: "Redis is using {{ $value | humanizePercentage }} of max memory. Evictions may occur."
+          runbook: "docs/RUNBOOK.md#10-redis-out-of-memory"
+
+      # ── Redis Low Hit Rate (<80%) ───────────────────────────────────
+      - alert: RedisHitRateLow
+        expr: |
+          rate(redis_keyspace_hits_total[5m])
+          /
+          (rate(redis_keyspace_hits_total[5m]) + rate(redis_keyspace_misses_total[5m]))
+          < 0.8
+        for: 10m
+        labels:
+          severity: warning
+          team: backend
+        annotations:
+          summary: "Redis cache hit rate <80%"
+          description: "Redis cache hit rate is {{ $value | humanizePercentage }}. Check cache invalidation."
+          runbook: "docs/RUNBOOK.md#2-high-api-latency"
+
+  - name: tasksync-infrastructure
+    interval: 30s
+    rules:
+      # ── SSL Certificate Expiry (<14 days) ───────────────────────────
+      - alert: CertificateExpiry
+        expr: certificate_expiry_days < 14
+        labels:
+          severity: critical
+          team: devops
+        annotations:
+          summary: "SSL cert expires in <14 days"
+          description: "SSL certificate for {{ $labels.domain }} expires in {{ $value | humanizeDuration }}."
+          runbook: "docs/RUNBOOK.md#9-ssl-certificate-expiry"
+
+      # ── SSL Certificate Expiry Warning (<30 days) ───────────────────
+      - alert: CertificateExpiryWarning
+        expr: certificate_expiry_days < 30
+        labels:
+          severity: warning
+          team: devops
+        annotations:
+          summary: "SSL cert expires in <30 days"
+          description: "SSL certificate for {{ $labels.domain }} expires in {{ $value | humanizeDuration }}."
+
+      # ── Disk Space Low (<20% free) ──────────────────────────────────
+      - alert: DiskSpaceLow
+        expr: (node_filesystem_avail_bytes / node_filesystem_size_bytes) * 100 < 20
+        for: 5m
+        labels:
+          severity: warning
+          team: devops
+        annotations:
+          summary: "Disk space <20% free"
+          description: "Filesystem {{ $labels.mountpoint }} has {{ $value | humanizePercentage }} free."
+          runbook: "docs/RUNBOOK.md#7-disk-full"
+
+      # ── Disk Space Critical (<10% free) ─────────────────────────────
+      - alert: DiskSpaceCritical
+        expr: (node_filesystem_avail_bytes / node_filesystem_size_bytes) * 100 < 10
+        for: 2m
+        labels:
+          severity: critical
+          team: devops
+        annotations:
+          summary: "Disk space <10% — critical"
+          description: "Filesystem {{ $labels.mountpoint }} has {{ $value | humanizePercentage }} free. Immediate action required."
+          runbook: "docs/RUNBOOK.md#7-disk-full"
+
+      # ── High CPU Load (>80%) ────────────────────────────────────────
+      - alert: HighCPULoad
+        expr: (1 - avg by(instance)(rate(node_cpu_seconds_total{mode="idle"}[5m]))) * 100 > 80
+        for: 10m
+        labels:
+          severity: warning
+          team: devops
+        annotations:
+          summary: "CPU load >80%"
+          description: "CPU usage is {{ $value | humanizePercentage }} for 10 minutes. Threshold: 80%."
+
+      # ── OOM Kill Detected ────────────────────────────────────────────
+      - alert: OOMKillDetected
+        expr: increases(process_virtual_memory_max_bytes[5m]) > 0
+        for: 1m
+        labels:
+          severity: critical
+          team: devops
+        annotations:
+          summary: "OOM kill detected"
+          description: "A process was OOM-killed. Check docker stats and container logs."
+          runbook: "docs/RUNBOOK.md#5-oom-kill-out-of-memory"
+
+  - name: tasksync-websocket
+    interval: 30s
+    rules:
+      # ── WebSocket Connection Drop ───────────────────────────────────
+      - alert: WebSocketDisconnect
+        expr: reverb_connections_active < 5
+        for: 2m
+        labels:
+          severity: warning
+          team: backend
+        annotations:
+          summary: "WebSocket connections dropped"
+          description: "Reverb has {{ $value }} active connections. Threshold: <5."
+          runbook: "docs/RUNBOOK.md#4-websocket-disconnects"
+
+      # ── WebSocket Uptime ─────────────────────────────────────────────
+      - alert: WebSocketDown
+        expr: up{job="reverb"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          team: backend
+        annotations:
+          summary: "WebSocket server is down"
+          description: "Laravel Reverb has been unreachable for {{ $value }} seconds."
+          runbook: "docs/RUNBOOK.md#4-websocket-disconnects"
+
+  - name: tasksync-slo-burn-rate
+    interval: 1m
+    rules:
+      # ── High Error Budget Burn Rate (5x in 30m) ─────────────────────
+      - alert: ErrorBudgetBurnRate5x
+        expr: |
+          rate(http_requests_total{status=~"5.."}[30m])
+          /
+          rate(http_requests_total[30m])
+          > 0.05  # 5x the 1% budget rate
+        for: 5m
+        labels:
+          severity: critical
+          team: sre
+        annotations:
+          summary: "Error budget burn rate 5x — emergency"
+          description: "Error rate of {{ $value | humanizePercentage }} over 30 minutes. Triggering emergency response."
+          runbook: "docs/SLI_SLO.md#3-multi-window-burn-rate-policy"
+
+      # ── Moderate Error Budget Burn Rate (2x in 6h) ──────────────────
+      - alert: ErrorBudgetBurnRate2x
+        expr: |
+          rate(http_requests_total{status=~"5.."}[6h])
+          /
+          rate(http_requests_total[6h])
+          > 0.02  # 2x the 1% budget rate
+        for: 5m
+        labels:
+          severity: warning
+          team: sre
+        annotations:
+          summary: "Error budget burn rate 2x — investigate"
+          description: "Error rate of {{ $value | humanizePercentage }} over 6 hours. Investigation required."
+          runbook: "docs/SLI_SLO.md#3-multi-window-burn-rate-policy"

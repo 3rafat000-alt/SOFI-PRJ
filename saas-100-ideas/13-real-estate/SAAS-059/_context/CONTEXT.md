@@ -1,0 +1,11 @@
+# CONTEXT — SAAS-059 (durable facts; append-only)
+- title: RealtyCRM
+- sector: 13-real-estate
+- description: إدارة مكاتب العقارات: إعلانات، عملاء، عقود، جولات افتراضية
+- target_customers: مكاتب عقارية، سماسرة
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: RealtyCRM نظام CRM متكامل لإدارة مكاتب العقارات — إعلانات، عملاء، عقود، جولات افتراضية. منصة شاملة تدير دورة حياة العقار من الاستلام إلى الإعلان والجولة الافتراضية وإتمام العقد. تتكامل مع منصات الإعلانات الكبرى وتوفر عقوداً ذكية.
+- target_market_detail: آلاف المكاتب العقارية والسماسرة في كل مدينة رئيسية في العالم العربي. الفئة المستهدفة: مكاتب عقارية صغيرة ومتوسطة، سماسرة مستقلون، شركات تطوير عقاري.
+- competitive_landscape: المنافسون عقار (Aqar) وبيوت (Bayut) وPropertyFinder (منصات إعلانات فقط)، Salesforce/HubSpot (CRM غير متخصص)، كود العقارية (حل محدود). التمايز في CRM متخصص بالعقارات بالعربية مع جولات افتراضية مدمجة وعقود ذكية.
+- stack: Laravel API + React Dashboard + Flutter App (confirmed at PRD)
+- prd_completed: 2026-06-25 — Full PRD written with market analysis, personas, data model, API endpoints, UI screens, business model, implementation plan, risk matrix.

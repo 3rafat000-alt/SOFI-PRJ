@@ -1,0 +1,28 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\ExchangeRateHistory;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class ExchangeRateHistoryFactory extends Factory
+{
+    protected $model = ExchangeRateHistory::class;
+
+    public function definition(): array
+    {
+        $rate = $this->faker->randomFloat(2, 10000, 15000);
+        $spread = 2.0;
+        $halfSpread = $spread / 200;
+
+        return [
+            'from_currency' => 'USD',
+            'to_currency' => 'SYP',
+            'rate' => $rate,
+            'buy_rate' => $rate * (1 - $halfSpread),
+            'sell_rate' => $rate * (1 + $halfSpread),
+            'source' => 'manual',
+            'recorded_at' => now(),
+        ];
+    }
+}

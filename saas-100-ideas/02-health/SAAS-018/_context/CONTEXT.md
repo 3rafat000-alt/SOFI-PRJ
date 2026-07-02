@@ -1,0 +1,14 @@
+# CONTEXT — SAAS-018 (durable facts; append-only)
+- title: PharmaStock
+- sector: 02-health
+- description: إدارة الصيدليات: المخزون، تاريخ الانتهاء، وصفات طبية، مبيعات
+- target_customers: صيدليات، شركات أدوية
+- stack: Laravel API + React Dashboard + Flutter Mobile App
+- target_market_detail: 35,000+ صيدلية في الشرق الأوسط وشمال أفريقيا
+- product_description: نظام متكامل لإدارة الصيدليات يشمل كتالوج الأدوية مع الباركود، تتبع المخزون بصلاحيته وتنبيهات انتهاء الصلاحية، إدارة الوصفات الطبية (تصوير + OCR)، المبيعات وإيصالات ضريبية، طلب الشراء من الموردين.
+- competitive_landscape: Pharmapedia (معلومات دوائية)، RXNT (أمريكي مكلف)، صيدلتي (محلي محدود)
+- differentiation: تنبيهات تاريخ الانتهاء، تكامل وصفات، ماسح باركود، تسعير مناسب
+- target_mrr_per_client: $29-$119/شهر
+- pricing_tiers: Basic ($29), Professional ($59), Enterprise ($119)
+- personas: صيدلي (أحمد)، مساعد صيدلي (مريم)
+- gate_status: Gate 0 (Inception) completed. docs/PRD.md written.

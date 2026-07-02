@@ -1,0 +1,237 @@
+# =============================================================================
+# Monitoring Stack — Prometheus + Grafana + Exporters
+# TaskSync Pro (SAAS-001) — Gate 8 Observability
+# =============================================================================
+# Deploy: docker compose -f deploy/monitoring/docker-compose.monitoring.yml up -d
+# Access: Grafana http://localhost:3000 (admin/admin)
+#         Prometheus http://localhost:9090
+# =============================================================================
+
+version: "3.9"
+
+networks:
+  monitoring:
+    driver: bridge
+  tasksync_network:
+    external: true
+    name: tasksync_default  # Connects to the main application network
+
+volumes:
+  prometheus_data:
+  grafana_data:
+  loki_data:
+
+x-logging: &logging
+  driver: "json-file"
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  # ── Prometheus (metric storage & alert evaluation) ───────────────────
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: tasksync-prometheus
+    hostname: prometheus
+    restart: unless-stopped
+    networks:
+      - monitoring
+      - tasksync_network
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./alert-rules.yml:/etc/prometheus/alert-rules.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=30d"
+      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+      - "--web.console.templates=/usr/share/prometheus/consoles"
+      - "--web.enable-lifecycle"
+    ports:
+      - "127.0.0.1:9090:9090"  # Bind localhost only
+    logging: *logging
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:9090/-/healthy"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+
+  # ── Grafana (dashboards & visualization) ──────────────────────────────
+  grafana:
+    image: grafana/grafana:latest
+    container_name: tasksync-grafana
+    hostname: grafana
+    restart: unless-stopped
+    networks:
+      - monitoring
+    volumes:
+      - grafana_data:/var/lib/grafana
+      # Optional: provision datasources & dashboards
+      # - ./grafana/datasources:/etc/grafana/provisioning/datasources
+      # - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-admin}
+      GF_INSTALL_PLUGINS: grafana-piechart-panel
+      GF_SERVER_ROOT_URL: https://monitor.tasksyncpro.com
+      GF_SERVER_SERVE_FROM_SUB_PATH: "true"
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+      GF_ALERTING_ENABLED: "true"
+      GF_UNIFIED_ALERTING_ENABLED: "true"
+    ports:
+      - "127.0.0.1:3000:3000"  # Bind localhost only
+    logging: *logging
+    depends_on:
+      prometheus:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.1"
+          memory: 128M
+
+  # ── Node Exporter (host-level CPU/RAM/Disk metrics) ──────────────────
+  node_exporter:
+    image: prom/node-exporter:latest
+    container_name: tasksync-node-exporter
+    hostname: node_exporter
+    restart: unless-stopped
+    networks:
+      - monitoring
+    pid: host  # Access host process metrics
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - "--path.procfs=/host/proc"
+      - "--path.sysfs=/host/sys"
+      - "--path.rootfs=/rootfs"
+      - "--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)"
+    ports:
+      - "127.0.0.1:9100:9100"
+    logging: *logging
+    deploy:
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 128M
+        reservations:
+          cpus: "0.05"
+          memory: 64M
+
+  # ── Redis Exporter ─────────────────────────────────────────────────────
+  redis_exporter:
+    image: oliver006/redis_exporter:latest
+    container_name: tasksync-redis-exporter
+    hostname: redis_exporter
+    restart: unless-stopped
+    networks:
+      - monitoring
+      - tasksync_network
+    environment:
+      REDIS_ADDR: redis:6379
+      REDIS_PASSWORD: ${PRODUCTION_REDIS_PASSWORD}
+    ports:
+      - "127.0.0.1:9121:9121"
+    logging: *logging
+    depends_on:
+      - prometheus  # Ensure network is ready
+    deploy:
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 128M
+        reservations:
+          cpus: "0.05"
+          memory: 64M
+
+  # ── PostgreSQL Exporter ────────────────────────────────────────────────
+  postgres_exporter:
+    image: prometheuscommunity/postgres-exporter:latest
+    container_name: tasksync-postgres-exporter
+    hostname: postgres_exporter
+    restart: unless-stopped
+    networks:
+      - monitoring
+      - tasksync_network
+    environment:
+      DATA_SOURCE_NAME: "postgresql://tasksync:${PRODUCTION_DB_PASSWORD}@postgres:5432/tasksync?sslmode=disable"
+    ports:
+      - "127.0.0.1:9187:9187"
+    logging: *logging
+    depends_on:
+      - prometheus
+    deploy:
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 128M
+        reservations:
+          cpus: "0.05"
+          memory: 64M
+
+  # ── Loki (log aggregation — optional, adds to monitoring) ─────────────
+  loki:
+    image: grafana/loki:3.0
+    container_name: tasksync-loki
+    hostname: loki
+    restart: unless-stopped
+    networks:
+      - monitoring
+    volumes:
+      - loki_data:/loki
+      - ./loki-config.yml:/etc/loki/local-config.yaml:ro
+    command: -config.file=/etc/loki/local-config.yaml
+    ports:
+      - "127.0.0.1:3100:3100"
+    logging: *logging
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.1"
+          memory: 128M
+
+  # ── Promtail (log collector for Loki) ─────────────────────────────────
+  promtail:
+    image: grafana/promtail:3.0
+    container_name: tasksync-promtail
+    hostname: promtail
+    restart: unless-stopped
+    networks:
+      - monitoring
+    volumes:
+      - /var/log:/var/log:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - ./promtail-config.yml:/etc/promtail/config.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    command: -config.file=/etc/promtail/config.yml
+    logging: *logging
+    deploy:
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 64M

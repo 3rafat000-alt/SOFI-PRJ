@@ -1,0 +1,11 @@
+# CONTEXT — SAAS-057 (durable facts; append-only)
+- title: SolarPro
+- sector: 10-energy
+- description: إدارة أنظمة الطاقة الشمسية: تتبع الإنتاج، الصيانة، فواتير العملاء
+- target_customers: شركات طاقة شمسية، منازل
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: SolarPro منصة متكاملة لإدارة أنظمة الطاقة الشمسية — تتبع الإنتاج، جدولة الصيانة، إدارة العملاء والفواتير. لشركات الطاقة الشمسية وأصحاب المنازل. تتجاوز مجرد مراقبة الإنتاج إلى إدارة دورة حياة كاملة (تركيب → صيانة → فواتير → عقود) مع دعم تكامل API العواكس.
+- target_market_detail: سوق الطاقة الشمسية في العالم العربي ينمو بأكثر من 20% سنوياً. الفئة المستهدفة: شركات تركيب وصيانة الأنظمة الشمسية في السعودية، الإمارات، مصر، الأردن، المغرب. منازل ومنشآت تجارية لديها أنظمة شمسية وتحتاج متابعة.
+- competitive_landscape: المنافسون SolarEdge وEnphase monitoring (مراقبة إنتاج فقط، مرتبطة بأجهزة محددة)، أنظمة بوابة العواكس المحلية، إكسل. التمايز في المنصة الشاملة التي تدير دورة الحياة الكاملة وتدعم عواكس متعددة.
+- stack: Laravel API + React Dashboard + Flutter App (confirmed at PRD)
+- prd_completed: 2026-06-25 — Full PRD written with market analysis, personas, data model, API endpoints, UI screens, business model, implementation plan, risk matrix.

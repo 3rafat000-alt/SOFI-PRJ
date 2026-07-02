@@ -1,0 +1,14 @@
+# CONTEXT — SAAS-013 (durable facts; append-only)
+- title: Eventify
+- sector: 05-hospitality
+- description: إدارة الفعاليات: بيع تذاكر، تسجيل حضور، إدارة رعاة، دعوات رقمية
+- target_customers: منظمو فعاليات، قاعات
+- stack: Laravel API + React Dashboard + Flutter Mobile App
+- target_market_detail: 20,000+ منظم فعاليات وقاعات مؤتمرات في الشرق الأوسط
+- product_description: منصة شاملة لإدارة الفعاليات والمؤتمرات تشمل بيع التذاكر بأنواعها (VIP, عادي, مبكر)، تسجيل الحضور عبر QR، إدارة الرعاة بدرجاتهم، الدعوات الرقمية مع تتبع RSVP، وتقارير المبيعات.
+- competitive_landscape: Eventbrite (عالمي، عالي العمولة)، Ticketmaster (فعاليات كبيرة)، Plany (عربي محدود)
+- differentiation: دعم عربي وطرق دفع محلية (Mada, فوري, Vodafone Cash)، رسوم تنافسية
+- target_mrr_per_client: $0-$149/شهر
+- pricing_tiers: Free (عمولة 5%), Professional ($49), Enterprise ($149)
+- personas: منظم فعاليات (سارة)، حضور/ضيف (محمد)
+- gate_status: Gate 0 (Inception) completed. docs/PRD.md written.

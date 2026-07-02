@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  AID registration for SAKK Wallet HCE (tap-to-pay).
+
+  The AID is: F0 53 41 4B 4B 01
+    F0       – proprietary application (not ISO-assigned)
+    53 41 4B 4B = "SAKK" in ASCII
+    01       – version 1
+
+  category="payment" ensures the service is discoverable even when the
+  app is in the background, and lets Android resolve AID conflicts with
+  other payment apps.
+-->
+<host-apdu-service
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/hce_description"
+    android:requireDeviceUnlock="false">
+
+    <aid-group
+        android:category="payment"
+        android:description="@string/aid_group_description">
+
+        <!-- SELECT by AID: F0 SAKK 01 -->
+        <aid-filter android:name="F053414B4B01"/>
+
+    </aid-group>
+
+</host-apdu-service>

@@ -1,0 +1,12 @@
+[
+  {"num":41,"id":"SAAS-041","name":"AlertHub","sector":"04-operations","desc":"إدارة التنبيهات: نظام مركزي لإشعارات Push، SMS، Email","target":"DevOps، شركات تقنية"},
+  {"num":42,"id":"SAAS-042","name":"PollPro","sector":"03-marketing","desc":"تصويتات واستفتاءات: تصويت حي، نتائج فورية، مشاركة QR","target":"مؤتمرات، مدارس"},
+  {"num":43,"id":"SAAS-043","name":"FileVault","sector":"01-productivity","desc":"مشاركة ملفات آمنة: رفع وتنزيل، صلاحيات، روابط منتهية الصلاحية","target":"فرق عمل، شركات محاماة"},
+  {"num":44,"id":"SAAS-044","name":"ChatFlow","sector":"03-marketing","desc":"دردشة عملاء مباشرة: بوت ذكي، توجيه للموظفين، سجل محادثات","target":"متاجر، شركات خدمات"},
+  {"num":45,"id":"SAAS-045","name":"KioskPro","sector":"05-hospitality","desc":"شاشات خدمة ذاتية: طلبات مطاعم، معلومات زوار، قائمة انتظار","target":"مطاعم، مستشفيات، بنوك"},
+  {"num":46,"id":"SAAS-046","name":"StampMe","sector":"01-productivity","desc":"نظام حضور وانصراف: GPS، بصمة وجه، تقارير حضور شهرية","target":"شركات، مصانع، مدارس"},
+  {"num":47,"id":"SAAS-047","name":"BudgetWave","sector":"08-finance","desc":"إدارة الميزانيات: تتبع مصروفات، أهداف ادخار، تقسيم ميزانية","target":"أفراد، عائلات، فرق صغيرة"},
+  {"num":48,"id":"SAAS-048","name":"CourseCraft","sector":"07-education","desc":"إنشاء وبيع دورات رقمية: أدوات تفاعلية، مجتمع طلاب، بوابة دفع","target":"مدربون، خبراء"},
+  {"num":49,"id":"SAAS-049","name":"NetworkHub CRM","sector":"03-marketing","desc":"إدارة علاقات العملاء: جهات اتصال، تتبع تفاعلات، مهام متابعة","target":"شركات صغيرة، فريلانسر"},
+  {"num":50,"id":"SAAS-050","name":"DevSync","sector":"01-productivity","desc":"إدارة مشاريع برمجية: Sprints، Bugs، Repository، Code Review","target":"فرق برمجة، شركات تقنية"}
+]

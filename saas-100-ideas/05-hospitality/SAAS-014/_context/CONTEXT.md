@@ -1,0 +1,14 @@
+# CONTEXT — SAAS-014 (durable facts; append-only)
+- title: HotelEase
+- sector: 05-hospitality
+- description: إدارة الفنادق والشقق المفروشة: حجوزات، تسكين، فوترة، تقييم نزلاء
+- target_customers: فنادق صغيرة، شقق مفروشة
+- stack: Laravel API + React Dashboard + Flutter Mobile App
+- target_market_detail: 30,000+ فندق صغير وشقة مفروشة في الشرق الأوسط وشمال أفريقيا
+- product_description: نظام إدارة فنادق (PMS) شامل للفنادق الصغيرة والشقق الفندقية يشمل الحجوزات والتقويم المرئي، تسكين وخرج النزلاء، إدارة الغرف والأسعار، الفوترة والإيصالات، تكامل مع منصات OTA (Booking, Airbnb, Agoda).
+- competitive_landscape: Cloudbeds (مكلف للصغيرة)، Mews (ميزات زائدة)، Oyo (حجز فقط)
+- differentiation: تسعير مخفض للفنادق الصغيرة، دعم عربي كامل، واجهة مبسطة
+- target_mrr_per_client: $29-$129/شهر
+- pricing_tiers: Basic ($29), Professional ($69), Enterprise ($129)
+- personas: مدير فندق (كريم)، موظف استقبال (سلمى)
+- gate_status: Gate 0 (Inception) completed. docs/PRD.md written.

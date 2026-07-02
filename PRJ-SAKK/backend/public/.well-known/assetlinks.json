@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.sakk.wallet",
+      "sha256_cert_fingerprints": [
+        "41:1A:26:7F:A3:D0:E8:38:AA:3A:66:5A:99:5A:00:57:86:32:6C:3C:35:B1:9E:74:87:5A:68:1E:8E:25:6F:1A"
+      ]
+    }
+  }
+]

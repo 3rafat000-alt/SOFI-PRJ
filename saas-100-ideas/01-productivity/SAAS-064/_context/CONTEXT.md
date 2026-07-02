@@ -1,0 +1,13 @@
+# CONTEXT — SAAS-064 (durable facts; append-only)
+- title: FreelanceHub
+- sector: 01-productivity
+- description: إدارة أعمال الفريلانسر: مشاريع، فواتير، عملاء، مدفوعات
+- target_customers: مستقلون، فريلانسر
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: منصة إدارة أعمال الفريلانسر — مشاريع، فواتير، عملاء، مدفوعات، تتبع وقت، ومقترحات. مصممة للمستقلين العرب لإدارة أعمالهم من منصة واحدة.
+- target_market: سوق منصات العمل الحر ~$15B عالمياً، الشرق الأوسط ~$1B. نمو سريع في اقتصاد الوظائف المؤقتة.
+- competitive_landscape: FreshBooks (محاسبة فقط، إنجليزي، $19+)، Toggl Track (تتبع وقت فقط بدون فواتير)، Bonsai (إنجليزي فقط)، Harvest ($12/شهر، بدون عربي)، مستقل/خمسات (منصات بحث عن عمل وليس إدارة).
+- differentiation: عربي بالكامل، بوابات دفع محلية (STC Pay، تمارا)، قوالب فواتير عربية، تتبع وقت ذكي، تكامل مع منصات العمل الحر.
+- pricing_tiers: Free ($0 — 3 projects), Pro ($9/mo — unlimited), Business ($19/mo — team 5)
+- prd_completed_at: gate-0-inception
+- next_gate: 1-discovery → sofi-journey-architect

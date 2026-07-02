@@ -1,0 +1,13 @@
+# CONTEXT — SAAS-002 (durable facts; append-only)
+- title: ClinicFlow
+- sector: 02-health
+- description: إدارة العيادات الطبية: حجوزات المواعيد، سجلات المرضى، التذكير عبر الجوال
+- target_customers: عيادات خاصة، أطباء
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: نظام إدارة العيادات الطبية السحابي — حجوزات مواعيد، سجلات مرضى إلكترونية (EMR)، تذكير آلي عبر واتساب/رسائل، وتقارير مالية. موجه للعيادات الخاصة (1-10 أطباء).
+- target_market: سوق إدارة العيادات ~$12B عالمياً، ~$800M في الشرق الأوسط. نمو 15% CAGR.
+- competitive_landscape: Vezeeta (حجوزات فقط بدون EMR)، Pharmate (صيدليات وليس عيادات)، ClinicSource (أمريكي بدون دعم عربي)، Practice Fusion (قديم)، صحة (حكومي).
+- differentiation: عربي بالكامل، تذكير ذكي عبر واتساب، تكامل مع أنظمة التأمين المحلية، تصميم بسيط.
+- pricing_tiers: Starter ($29/mo — 2 doctors, 500 patients), Pro ($59/mo — 5 doctors, unlimited), Enterprise (custom)
+- prd_completed_at: gate-0-inception
+- next_gate: 1-discovery → sofi-journey-architect

@@ -1,0 +1,12 @@
+[
+  {"num":31,"id":"SAAS-031","name":"SurveyCraft","sector":"03-marketing","desc":"إنشاء استبيانات وتحليلها: قوالب جاهزة، تحليلات بصرية للنتائج","target":"باحثون، مسوقون، جامعات"},
+  {"num":32,"id":"SAAS-032","name":"LeadFunnel","sector":"03-marketing","desc":"إدارة العملاء المحتملين: تتبع عملاء، مراحل مبيعات، تنبيهات ذكية","target":"فرق مبيعات، شركات عقارية"},
+  {"num":33,"id":"SAAS-033","name":"SupportDesk","sector":"01-productivity","desc":"نظام تذاكر دعم فني: استقبال شكاوى، توزيع على الفريق، تقييم حلول","target":"شركات تقنية، مزودو خدمات"},
+  {"num":34,"id":"SAAS-034","name":"BookingPro","sector":"05-hospitality","desc":"نظام حجوزات عام: حجز مواعيد لأي عمل مع تقويم ودفع إلكتروني","target":"مدربون، مستشارون"},
+  {"num":35,"id":"SAAS-035","name":"InventoryPro","sector":"06-commerce","desc":"إدارة المخازن والجرد: تتبع منتجات، تنبيهات نفاد، إدارة موردين","target":"متاجر جملة، مستودعات"},
+  {"num":36,"id":"SAAS-036","name":"NoteSpace","sector":"01-productivity","desc":"تدوين ملاحظات تعاوني: كتابة جماعية، قوائم مهام، مشاركة مع الفريق","target":"طلاب، فرق عمل"},
+  {"num":37,"id":"SAAS-037","name":"URLShort Pro","sector":"03-marketing","desc":"إدارة روابط مختصرة: اختصار ذكي، QR Code تلقائي، تحليلات نقرات","target":"مسوقون، مؤثرون"},
+  {"num":38,"id":"SAAS-038","name":"MailCraft","sector":"03-marketing","desc":"حملات بريد إلكتروني: قوالب، قوائم توزيع، A/B Testing، تحليلات","target":"شركات، متاجر"},
+  {"num":39,"id":"SAAS-039","name":"FormBuilder","sector":"01-productivity","desc":"إنشاء نماذج ذكية: نماذج ديناميكية، شروط منطقية، تخزين ردود","target":"مؤسسات، مدارس"},
+  {"num":40,"id":"SAAS-040","name":"WikiBase","sector":"01-productivity","desc":"قواعد المعرفة الداخلية: أرشفة، بحث ذكي، وصلات داخلية، صلاحيات","target":"شركات، فرق بعيدة"}
+]

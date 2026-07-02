@@ -1,0 +1,14 @@
+# CONTEXT — SAAS-095 (durable facts; append-only)
+- title: MobileFix
+- sector: 11-services
+- description: إدارة ورش صيانة الجوالات: قطع غيار، فنيين، ضمان
+- target_customers: محلات جوالات، فنيون
+- stack: Laravel API + React Dashboard + Flutter Mobile App
+- target_market_detail: 50,000+ ورشة صيانة جوالات في الشرق الأوسط وشمال أفريقيا
+- product_description: منصة متكاملة لإدارة ورش صيانة الجوالات تشمل استقبال الأجهزة، تشخيص الأعطال، إدارة قطع الغيار والمخزون، توزيع العمل على الفنيين، نظام ضمان، وفواتير إلكترونية.
+- competitive_landscape: RepairDesk (أجنبي، $79-199/شهر)، Mend (أمريكي)، Teknom (تركي محدود)
+- differentiation: دعم عربي كامل، أسعار مخفضة، إدارة متقدمة لقطع الغيار مع تنبيهات، تكامل مع موردي قطع الغيار المحليين
+- target_mrr_per_client: $29-$129/شهر
+- pricing_tiers: Single Shop ($29), Multi-Shop ($59), Chain ($129)
+- personas: صاحب ورشة (أحمد)، فني صيانة (كريم)
+- gate_status: Gate 0 (Inception) completed. docs/PRD.md written.

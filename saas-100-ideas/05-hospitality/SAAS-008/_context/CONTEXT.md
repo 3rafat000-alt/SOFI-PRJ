@@ -1,0 +1,13 @@
+# CONTEXT — SAAS-008 (durable facts; append-only)
+- title: SalonPro
+- sector: 05-hospitality
+- description: إدارة صالونات التجميل: حجوزات، إدارة موظفين، برنامج ولاء
+- target_customers: صالونات تجميل، حلاقين
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: نظام إدارة صالونات التجميل والحلاقة — حجوزات مواعيد، إدارة الموظفين والعمولات، برنامج ولاء، وتقارير مالية. يشمل تطبيق عميل للحجز وبرنامج ولاء.
+- target_market: سوق إدارة الصالونات ~$6B عالمياً، ~$350M في الشرق الأوسط. نمو 14% CAGR.
+- competitive_landscape: Booksy (حجوزات فقط)، Salon Target (أمريكي قديم)، StyleSeat (غير متاح محلياً)، Vagaro (أمريكي)، Glofox (لياقة وليس صالونات).
+- differentiation: عربي بالكامل، إدارة عمولات ومرتبات، برنامج ولاء، إشعارات واتساب، مناسب للسوق الخليجي.
+- pricing_tiers: Starter ($19/mo — 5 employees), Pro ($39/mo — unlimited employees), Premium ($69/mo — 3 salons)
+- prd_completed_at: gate-0-inception
+- next_gate: 1-discovery → sofi-journey-architect

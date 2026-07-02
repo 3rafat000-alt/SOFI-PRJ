@@ -1,0 +1,12 @@
+[
+  {"num":71,"id":"SAAS-071","name":"LegalConsult","sector":"14-legal","desc":"استشارات قانونية أونلاين: مواعيد محامين، وثائق، توثيق","target":"أفراد، شركات"},
+  {"num":72,"id":"SAAS-072","name":"RooftopSolar","sector":"10-energy","desc":"حساب تكلفة وفائدة تركيب الطاقة الشمسية للمنازل والشركات","target":"أصحاب منازل، شركات"},
+  {"num":73,"id":"SAAS-073","name":"WaterMgt","sector":"04-operations","desc":"إدارة شبكات المياه: تتبع استهلاك، فواتير، صيانة شبكات","target":"مؤسسات مياه، بلديات"},
+  {"num":74,"id":"SAAS-074","name":"NurseryPro","sector":"02-health","desc":"إدارة دور الحضانة: تسجيل أطفال، حضور، رسوم، تواصل مع أهل","target":"حضانات، رياض أطفال"},
+  {"num":75,"id":"SAAS-075","name":"SouqFarmer","sector":"09-agriculture","desc":"ربط المزارعين بالمستهلكين: طلبات، توصيل، جودة","target":"مزارعون، مستهلكون"},
+  {"num":76,"id":"SAAS-076","name":"ExamPro","sector":"07-education","desc":"منصة اختبارات إلكترونية: تصحيح آلي، نتائج فورية، تقارير","target":"جامعات، مدارس"},
+  {"num":77,"id":"SAAS-077","name":"TobaccoShop","sector":"06-commerce","desc":"إدارة محلات الدخان والنرجيلة: مخزون، موردين، طلبات","target":"محلات دخان، موزعون"},
+  {"num":78,"id":"SAAS-078","name":"ButcherPro","sector":"06-commerce","desc":"إدارة محلات القصاب: طلبات، مخزون لحوم، توصيل","target":"جزارة، محلات لحوم"},
+  {"num":79,"id":"SAAS-079","name":"PharmacyRx","sector":"02-health","desc":"صيدلية أونلاين: وصفات طبية، توصيل أدوية، استشارة صيدلي","target":"صيدليات، مرضى"},
+  {"num":80,"id":"SAAS-080","name":"BankMicro","sector":"08-finance","desc":"إدارة حسابات بنكية صغيرة: دفعات، تحويلات، كشوفات","target":"أفراد، شركات صغيرة"}
+]

@@ -1,0 +1,14 @@
+# CONTEXT — SAAS-020 (durable facts; append-only)
+- title: CleanPro
+- sector: 11-services
+- description: إدارة شركات التنظيف: جدولة فرق، تتبع مواقع، مهام تنظيف، فوترة
+- target_customers: شركات تنظيف، خدمات منزلية
+- stack: Laravel API + React Dashboard + Flutter Mobile App
+- target_market_detail: 12,000+ شركة تنظيف وخدمات منزلية في الشرق الأوسط
+- product_description: منصة رقمية لإدارة شركات التنظيف تشمل جدولة الفرق على المهام مع تقويم Gantt، تتبع المواقع الحي للفرق، قوائم مهام موحدة مع توثيق بالصور قبل/بعد، توقيع العميل الإلكتروني، وفوترة تلقائية للعقود الشهرية.
+- competitive_landscape: Housecall Pro (أمريكي)، Serviz (مستهلك)، نظفها (عربي مبسط)
+- differentiation: تركيز B2B، تتبع فرق في الموقع، تقارير جودة، عقود متكررة
+- target_mrr_per_client: $29-$149/شهر
+- pricing_tiers: Basic ($29), Professional ($69), Enterprise ($149)
+- personas: مدير شركة تنظيف (فيصل)، مشرف فريق (ياسر)، عميل (هند)
+- gate_status: Gate 0 (Inception) completed. docs/PRD.md written.

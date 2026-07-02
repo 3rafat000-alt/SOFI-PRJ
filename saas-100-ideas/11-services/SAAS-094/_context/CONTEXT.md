@@ -1,0 +1,14 @@
+# CONTEXT — SAAS-094 (durable facts; append-only)
+- title: ToolRental
+- sector: 11-services
+- description: تأجير الأدوات والمعدات: حجوزات، توصيل، صيانة
+- target_customers: مقاولون، أفراد
+- stack: Laravel API + React Dashboard + Flutter Mobile App
+- target_market_detail: 5,000+ محل تأجير أدوات في الشرق الأوسط، 500,000+ مقاول
+- product_description: منصة شاملة لتأجير الأدوات والمعدات تربط المستأجرين بالمؤجرين. تشمل إدارة المخزون، حجوزات بالتواريخ، توصيل واستلام، صيانة دورية، إيداع تأميني، وتقارير مالية.
+- competitive_landscape: RentSher (أمريكي)، EquipmentShare (معدات ثقيلة)، Ferjan (سعودي ناشئ)
+- differentiation: منصة شاملة للسوق العربي، إدارة مخزون + حجوزات + توصيل + صيانة في نظام واحد، تطبيق موبايل سهل للاستئجار الفوري
+- target_mrr_per_client: $39-$149/شهر
+- pricing_tiers: Basic ($39), Professional ($79), Enterprise ($149)
+- personas: صاحب محل تأجير (محمد)، مقاول (سامي)
+- gate_status: Gate 0 (Inception) completed. docs/PRD.md written.

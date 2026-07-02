@@ -1,0 +1,13 @@
+# CONTEXT — SAAS-068 (durable facts; append-only)
+- title: CoachingPro
+- sector: 01-productivity
+- description: منصة تدريب مهني: دورات، متابعة، شهادات معتمدة
+- target_customers: مدربون محترفون
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: منصة تدريب مهني متكاملة — إنشاء دورات، متابعة المتدربين، تقييم، وشهادات معتمدة للمدربين المحترفين. تشمل بناء الدورات والاختبارات والجلسات المباشرة.
+- target_market: سوق التدريب المهني ~$350B عالمياً، الشرق الأوسط ~$10B. رؤية 2030 تدفع التدريب والتطوير.
+- competitive_landscape: Teachable/Udemy (عمولة 30-50%، دعم عربي محدود)، Thinkific (إنجليزي، $49/شهر)، درر (دورات فقط بدون أدوات مدرب)، Edraak (أكاديمي).
+- differentiation: عربي كامل، شهادات معتمدة (مؤسسة التدريب التقني)، بوابات دفع محلية، غرفة اجتماعات Jitsi مدمجة، تقييم 360 درجة.
+- pricing_tiers: Coach Free ($0 — 1 course, 50 students), Coach Pro ($19/mo — unlimited), Coach Business ($39/mo — team)
+- prd_completed_at: gate-0-inception
+- next_gate: 1-discovery → sofi-journey-architect

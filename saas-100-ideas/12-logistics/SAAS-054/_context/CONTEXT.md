@@ -1,0 +1,11 @@
+# CONTEXT — SAAS-054 (durable facts; append-only)
+- title: RideShare
+- sector: 12-logistics
+- description: تطبيق مشاركة الرحلات والنقل التشاركي بين المدن
+- target_customers: مسافرون، سائقون
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: RideShare تطبيق لمشاركة الرحلات والنقل التشاركي بين المدن — يربط المسافرين بسائقي المركبات الخاصة للرحلات البعيدة. يوفر منصة موثوقة ومنظمة بديلاً عن مجموعات فيسبوك وواتساب غير المنظمة. يتضمن تحققاً من السائقين، نظام تقييم، محفظة رقمية، وتتبع الرحلات.
+- target_market_detail: المسافرون بين المدن — طلاب جامعات، موظفون، عائلات. سائقون يبحثون عن مشاركة تكاليف الرحلات. الأسواق المستهدفة: السعودية، الإمارات، مصر، الأردن حيث المسافات بين المدن كبيرة وتكاليف التنقل مرتفعة.
+- competitive_landscape: المنافسون Blablacar (رائد عالمي لكن حضوره العربي محدود)، Careem وUber (تركيز على التنقل داخل المدن)، حجوزات الباصات (BaaS). التمايز في التركيز على السوق العربي، مدفوعات محلية، خيار الرحلات النسائية، تحقق هوية صارم.
+- stack: Laravel API + React Dashboard + Flutter App (confirmed at PRD)
+- prd_completed: 2026-06-25 — Full PRD written with market analysis, personas, data model, API endpoints, UI screens, business model, implementation plan, risk matrix.

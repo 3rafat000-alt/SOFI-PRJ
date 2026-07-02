@@ -1,0 +1,13 @@
+# CONTEXT — SAAS-063 (durable facts; append-only)
+- title: TruckNet
+- sector: 12-logistics
+- description: إدارة شركات الشحن البري: تتبع شاحنات، بضائع، جدولة رحلات
+- target_customers: شركات نقل، سائقو شاحنات
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: نظام إدارة شركات الشحن البري — تتبع الشاحنات GPS لحظياً، جدولة الرحلات، إدارة الحمولات، تواصل مع السائقين، وإثبات التسليم. مصمم لشركات النقل البري الصغيرة والمتوسطة.
+- target_market: سوق إدارة أساطيل النقل البري ~$20B عالمياً، الشرق الأوسط ~$1.5B. نمو 10% CAGR.
+- competitive_landscape: Samsara (أمريكي $100+/شاحنة/شهر)، Fleetio (بدون تتبع لحظي قوي)، TruckX (بدون عربي)، GPS tracking devices (بدون نظام إدارة متكامل).
+- differentiation: عربي كامل، تتبع GPS مع خرائط محلية، دردشة سائق-إدارة، تكامل مع منصات شحن محلية، تسعير $19/شاحنة فقط.
+- pricing_tiers: Starter ($99/mo — 5 trucks), Pro ($199/mo — 20 trucks, GPS, dispatch), Enterprise (custom)
+- prd_completed_at: gate-0-inception
+- next_gate: 1-discovery → sofi-journey-architect

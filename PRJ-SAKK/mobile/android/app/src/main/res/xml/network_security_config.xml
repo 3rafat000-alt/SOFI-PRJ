@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SEC M3: HTTPS-only network policy for the wallet app.
+  - cleartextTrafficPermitted="false": no plaintext HTTP anywhere (no downgrade).
+  - trust-anchors system only: do NOT trust user-installed CAs, mitigating
+    rogue-CA / proxy MITM of the finance API on hostile devices.
+  Full SPKI certificate pinning can be layered on top later (cert-rotation aware).
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

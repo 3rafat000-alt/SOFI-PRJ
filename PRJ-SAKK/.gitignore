@@ -1,0 +1,92 @@
+# SOFI PRJ-SAKK — root .gitignore
+# Purpose: keep the git history source-only. Never track secrets, build
+# artifacts, or heavy dependency trees. Mirrors backend/.gitignore's .env
+# convention at the repo root so it also applies to any top-level env files.
+
+# ---------------------------------------------------------------------------
+# Dependencies / package managers
+# ---------------------------------------------------------------------------
+/vendor/
+backend/vendor/
+**/vendor/
+node_modules/
+**/node_modules/
+auth.json
+composer.phar
+
+# ---------------------------------------------------------------------------
+# Mobile (Flutter/Dart) build + tooling ephemera
+# ---------------------------------------------------------------------------
+mobile/build/
+**/build/
+.dart_tool/
+mobile/.dart_tool/
+**/Pods/
+mobile/ios/Flutter/ephemeral/
+mobile/ios/Pods/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+mobile/.packages
+*.iml
+.gradle/
+
+# ---------------------------------------------------------------------------
+# Laravel runtime
+# ---------------------------------------------------------------------------
+storage/framework/
+backend/storage/framework/
+storage/logs/
+backend/storage/logs/
+storage/*.key
+backend/storage/*.key
+bootstrap/cache/
+backend/bootstrap/cache/
+*.log
+
+# SEC H6: never commit working DBs — they carry real users, bcrypt hashes,
+# tokens, KYC/bank rows. Ship schema + seeders, not data.
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+**/database/*.sqlite
+
+# ---------------------------------------------------------------------------
+# Secrets
+# ---------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+!**/.env.example
+*.jks
+*.keystore
+*.pem
+*.p12
+google-services.json
+GoogleService-Info.plist
+Homestead.json
+Homestead.yaml
+
+# ---------------------------------------------------------------------------
+# Build artifacts / shipped binaries (never belong in source history)
+# ---------------------------------------------------------------------------
+*.apk
+*.aab
+*.ipa
+public/download/*.apk
+backend/public/download/*.apk
+
+# ---------------------------------------------------------------------------
+# OS / editor cruft
+# ---------------------------------------------------------------------------
+.DS_Store
+.idea/
+.vscode/
+.fleet/
+.nova/
+.zed/
+*.swp
+.phpactor.json
+.phpunit.result.cache
+npm-debug.log
+yarn-error.log

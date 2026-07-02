@@ -1,0 +1,13 @@
+# CONTEXT — SAAS-065 (durable facts; append-only)
+- title: GoldPrice
+- sector: 08-finance
+- description: متابعة أسعار الذهب والعملات: تنبيهات، تحليلات، حاسبة استثمار
+- target_customers: تجار ذهب، مستثمرون
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: منصة متابعة أسعار الذهب والعملات — تنبيهات لحظية، تحليلات فنية، حاسبة استثمار وزكاة، ومحفظة افتراضية. مصممة لتجار الذهب والمستثمرين في المنطقة العربية.
+- target_market: سوق تطبيقات الاستثمار والذهب ~$3B عالمياً، الشرق الأوسط ~$200M (الذهب ثقافة استثمارية في الخليج).
+- competitive_landscape: Gold Price Live (بدون عربي)، Kitco (أمريكي، بدون جوال عربي)، Xe.com (عملات فقط)، Gold IQ (محدود بدون تحليلات فنية).
+- differentiation: عربي كامل (لهجات محلية)، أسعار لحظية من 5 مصادر، تنبيهات ذكية، حاسبة استثمار + زكاة، محفظة افتراضية.
+- pricing_tiers: Free ($0 — delayed 15min, 3 alerts), Premium ($7/mo — real-time, unlimited), Trader ($15/mo — API, advanced)
+- prd_completed_at: gate-0-inception
+- next_gate: 1-discovery → sofi-journey-architect

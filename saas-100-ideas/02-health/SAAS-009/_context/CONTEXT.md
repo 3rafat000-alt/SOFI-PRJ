@@ -1,0 +1,13 @@
+# CONTEXT — SAAS-009 (durable facts; append-only)
+- title: PetCare Vet
+- sector: 02-health
+- description: إدارة العيادات البيطرية: سجلات الحيوانات، مواعيد، تطعيمات، متابعة علاج
+- target_customers: عيادات بيطرية
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: نظام إدارة العيادات البيطرية — سجلات الحيوانات، مواعيد، تطعيمات، وصفات علاجية، وتذكير الملاك بمواعيد التطعيم. يشمل تطبيق مالك حيوان أليف.
+- target_market: سوق إدارة العيادات البيطرية ~$2B عالمياً، ~$150M في الشرق الأوسط. نمو 18% CAGR مع ارتفاع ملكية الحيوانات الأليفة.
+- competitive_landscape: Vetstoria (حجوزات فقط)، VPM (قديم إنجليزي)، ezyVet ($200+ مكلف)، Vetport (نيوزيلندي)، VetCheck (أسترالي).
+- differentiation: عربي بالكامل، سعر منخفض ($19-$69)، تذكير ملاك عبر واتساب، سجل تطعيمات تفاعلي.
+- pricing_tiers: Starter ($19/mo — 200 pets, 1 vet), Pro ($39/mo — 1000 pets, 3 vets), Premium ($69/mo — unlimited)
+- prd_completed_at: gate-0-inception
+- next_gate: 1-discovery → sofi-journey-architect

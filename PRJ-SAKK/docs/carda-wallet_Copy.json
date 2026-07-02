@@ -1,0 +1,1958 @@
+{
+  "meta": {
+    "app_id": "carda-wallet",
+    "brand_name": "صكك",
+    "brand_name_en": "SAKK",
+    "locale_primary": "ar",
+    "locale_secondary": "en",
+    "direction": "rtl",
+    "tone": "professional-warm",
+    "arabic_style": "فصحى مبسطة",
+    "version": "1.0.0",
+    "last_updated": "2026-06-24"
+  },
+
+  "app": {
+    "name": { "ar": "صكك", "en": "SAKK" },
+    "tagline": { "ar": "محفظتك الرقمية الآمنة", "en": "Your Secure Digital Wallet" },
+    "full_name": { "ar": "صكك — محفظة رقمية سورية", "en": "SAKK — Syrian Digital Wallet" },
+    "description": {
+      "ar": "محفظة رقمية متكاملة تدير أموالك بالدولار والليرة السورية والذهب. أرسل واستلم وادخر بكل أمان.",
+      "en": "A full-featured digital wallet for USD, SYP, and gold. Send, receive, and save securely."
+    },
+    "copyright": { "ar": "© 2026 صكك. جميع الحقوق محفوظة.", "en": "© 2026 SAKK. All rights reserved." }
+  },
+
+  "auth": {
+    "login": {
+      "title": { "ar": "تسجيل الدخول", "en": "Sign In" },
+      "subtitle": { "ar": "أهلاً بعودتك إلى صكك", "en": "Welcome back to SAKK" },
+      "email_label": { "ar": "البريد الإلكتروني", "en": "Email" },
+      "email_placeholder": { "ar": "أدخل بريدك الإلكتروني", "en": "Enter your email" },
+      "phone_label": { "ar": "رقم الهاتف", "en": "Phone Number" },
+      "phone_placeholder": { "ar": "أدخل رقم الهاتف", "en": "Enter your phone number" },
+      "password_label": { "ar": "كلمة المرور", "en": "Password" },
+      "password_placeholder": { "ar": "أدخل كلمة المرور", "en": "Enter your password" },
+      "pin_label": { "ar": "رمز الحماية", "en": "Security PIN" },
+      "pin_placeholder": { "ar": "أدخل رمز الحماية المكون من 6 أرقام", "en": "Enter your 6-digit security PIN" },
+      "remember_label": { "ar": "تذكرني", "en": "Remember me" },
+      "submit": { "ar": "دخول", "en": "Sign In" },
+      "forgot_pin": { "ar": "نسيت الرمز؟", "en": "Forgot PIN?" },
+      "forgot_password": { "ar": "نسيت كلمة المرور؟", "en": "Forgot Password?" },
+      "no_account": { "ar": "ليس لديك حساب؟", "en": "Don't have an account?" },
+      "signup_link": { "ar": "إنشاء حساب", "en": "Create Account" },
+      "or_divider": { "ar": "أو", "en": "or" },
+      "login_with_email": { "ar": "تسجيل بالبريد", "en": "Login with Email" },
+      "login_with_phone": { "ar": "تسجيل بالهاتف", "en": "Login with Phone" },
+      "qr_login": { "ar": "تسجيل عبر QR", "en": "QR Login" },
+      "biometric_prompt": { "ar": "استخدم بصمتك أو وجهك", "en": "Use your fingerprint or face" },
+      "device_approval_pending": {
+        "ar": "هذا الجهاز جديد. تم إرسال طلب موافقة إلى أجهزتك الموثوقة.",
+        "en": "This device is new. An approval request has been sent to your trusted devices."
+      },
+
+      "errors": {
+        "invalid_credentials": {
+          "ar": "البريد الإلكتروني أو كلمة المرور غير صحيحة. تحقق من بياناتك وحاول مرة أخرى.",
+          "en": "Email or password is incorrect. Check your credentials and try again."
+        },
+        "invalid_pin": {
+          "ar": "رمز الحماية غير صحيح. لديك 3 محاولات متبقية.",
+          "en": "Invalid security PIN. You have 3 attempts remaining."
+        },
+        "pin_locked": {
+          "ar": "تم قفل الحساب بسبب محاولات فاشلة. يرجى المحاولة بعد 30 دقيقة.",
+          "en": "Account locked due to failed attempts. Please try again in 30 minutes."
+        },
+        "account_disabled": {
+          "ar": "تم تعطيل الحساب. تواصل مع الدعم الفني.",
+          "en": "Account disabled. Contact support."
+        },
+        "device_restricted": {
+          "ar": "جهاز غير مصرح. وافق على الطلب من جهاز موثوق أو استخدم QR.",
+          "en": "Unauthorized device. Approve from a trusted device or use QR login."
+        },
+        "2fa_required": {
+          "ar": "يرجى إدخال رمز المصادقة الثنائية للمتابعة.",
+          "en": "Please enter your two-factor authentication code to continue."
+        },
+        "2fa_invalid": {
+          "ar": "رمز المصادقة الثنائية غير صحيح. حاول مرة أخرى.",
+          "en": "Invalid two-factor authentication code. Try again."
+        },
+        "rate_limited": {
+          "ar": "طلبات كثيرة. انتظر قليلاً قبل المحاولة مرة أخرى.",
+          "en": "Too many requests. Please wait before trying again."
+        },
+        "network_error": {
+          "ar": "تعذر الاتصال بالخادم. تأكد من اتصالك بالإنترنت وحاول مرة أخرى.",
+          "en": "Unable to connect to server. Check your internet connection and try again."
+        },
+        "server_error": {
+          "ar": "خطأ في الخادم. نعمل على حل المشكلة. حاول لاحقاً.",
+          "en": "Server error. We're working on it. Try again later."
+        },
+        "session_expired": {
+          "ar": "انتهت صلاحية الجلسة. يرجى تسجيل الدخول مرة أخرى.",
+          "en": "Session expired. Please sign in again."
+        },
+        "general": {
+          "ar": "حدث خطأ. حاول مرة أخرى لاحقاً.",
+          "en": "Something went wrong. Please try again later."
+        }
+      },
+
+      "loading": {
+        "submitting": { "ar": "جارٍ تسجيل الدخول...", "en": "Signing in..." },
+        "qr_scanning": { "ar": "جارٍ مسح الرمز...", "en": "Scanning QR code..." },
+        "biometric_checking": { "ar": "جارٍ التحقق البيومتري...", "en": "Checking biometric..." },
+        "device_approving": { "ar": "جارٍ الموافقة على الجهاز...", "en": "Approving device..." }
+      }
+    },
+
+    "register": {
+      "title": { "ar": "إنشاء حساب جديد", "en": "Create New Account" },
+      "subtitle": { "ar": "انضم إلى صكك واستمتع بالخدمات المالية الرقمية", "en": "Join SAKK and enjoy digital financial services" },
+      "name_label": { "ar": "الاسم الكامل", "en": "Full Name" },
+      "name_placeholder": { "ar": "الاسم كما تريد ظهوره", "en": "Your name as you'd like it to appear" },
+      "email_label": { "ar": "البريد الإلكتروني", "en": "Email" },
+      "email_placeholder": { "ar": "example@email.com", "en": "example@email.com" },
+      "phone_label": { "ar": "رقم الهاتف", "en": "Phone Number" },
+      "phone_placeholder": { "ar": "+963 9X XXX XXXX", "en": "+963 9X XXX XXXX" },
+      "password_label": { "ar": "كلمة المرور", "en": "Password" },
+      "password_placeholder": { "ar": "8 أحرف على الأقل", "en": "At least 8 characters" },
+      "password_confirm_label": { "ar": "تأكيد كلمة المرور", "en": "Confirm Password" },
+      "password_confirm_placeholder": { "ar": "أعد إدخال كلمة المرور", "en": "Re-enter password" },
+      "referral_label": { "ar": "رمز الإحالة (اختياري)", "en": "Referral Code (optional)" },
+      "referral_placeholder": { "ar": "أدخل رمز الإحالة", "en": "Enter referral code" },
+      "terms_agree": {
+        "ar": "أوافق على {terms} و {privacy}",
+        "en": "I agree to the {terms} and {privacy}"
+      },
+      "terms_link": { "ar": "شروط الخدمة", "en": "Terms of Service" },
+      "privacy_link": { "ar": "سياسة الخصوصية", "en": "Privacy Policy" },
+      "submit": { "ar": "إنشاء حساب", "en": "Create Account" },
+      "have_account": { "ar": "لديك حساب بالفعل؟", "en": "Already have an account?" },
+      "login_link": { "ar": "تسجيل الدخول", "en": "Sign In" },
+      "benefits_title": { "ar": "مزايا الحساب في صكك", "en": "Benefits of SAKK Account" },
+      "benefits": {
+        "ar": [
+          "محفظة بالدولار والليرة السورية",
+          "تحويل الأموال فورياً",
+          "شراء وبيع الذهب",
+          "بطاقات رقمية للتسوق عبر الإنترنت",
+          "أهداف ادخار ذكية"
+        ],
+        "en": [
+          "USD and SYP wallets",
+          "Instant money transfers",
+          "Buy and sell gold",
+          "Digital cards for online shopping",
+          "Smart savings goals"
+        ]
+      },
+
+      "steps": {
+        "step1": { "ar": "المعلومات الأساسية", "en": "Basic Information" },
+        "step2": { "ar": "تأكيد البريد والهاتف", "en": "Verify Email & Phone" },
+        "step3": { "ar": "إعداد رمز الحماية", "en": "Set Security PIN" }
+      },
+
+      "errors": {
+        "email_taken": {
+          "ar": "البريد الإلكتروني مستخدم بالفعل. جرب تسجيل الدخول أو استخدم بريداً آخر.",
+          "en": "Email already taken. Try signing in or use a different email."
+        },
+        "phone_taken": {
+          "ar": "رقم الهاتف مستخدم بالفعل. جرب تسجيل الدخول أو استخدم رقماً آخر.",
+          "en": "Phone number already taken. Try signing in or use a different number."
+        },
+        "password_weak": {
+          "ar": "كلمة المرور ضعيفة. استخدم 8 أحرف على الأقل مع حرف كبير ورقم.",
+          "en": "Password is too weak. Use at least 8 characters with uppercase and a number."
+        },
+        "password_mismatch": {
+          "ar": "كلمتا المرور غير متطابقتين. تأكد من الإدخال.",
+          "en": "Passwords do not match. Please re-enter."
+        },
+        "invalid_referral": {
+          "ar": "رمز الإحالة غير صحيح. تأكد من الرقم أو اتركه فارغاً.",
+          "en": "Invalid referral code. Check the code or leave it blank."
+        },
+        "terms_required": {
+          "ar": "يجب الموافقة على الشروط والأحكام للمتابعة.",
+          "en": "You must agree to the terms and conditions to continue."
+        }
+      },
+
+      "loading": {
+        "creating": { "ar": "جارٍ إنشاء الحساب...", "en": "Creating account..." },
+        "verifying_email": { "ar": "جارٍ تأكيد البريد...", "en": "Verifying email..." },
+        "verifying_phone": { "ar": "جارٍ تأكيد الهاتف...", "en": "Verifying phone..." }
+      }
+    },
+
+    "email_verification": {
+      "title": { "ar": "تأكيد البريد الإلكتروني", "en": "Verify Email" },
+      "sent_message": {
+        "ar": "تم إرسال رمز التأكيد إلى {email}",
+        "en": "A verification code has been sent to {email}"
+      },
+      "code_label": { "ar": "رمز التأكيد", "en": "Verification Code" },
+      "code_placeholder": { "ar": "أدخل الرمز المكون من 6 أرقام", "en": "Enter the 6-digit code" },
+      "submit": { "ar": "تأكيد", "en": "Verify" },
+      "resend": { "ar": "إعادة إرسال الرمز", "en": "Resend Code" },
+      "resend_countdown": { "ar": "إعادة الإرسال بعد {seconds} ثانية", "en": "Resend in {seconds}s" },
+      "change_email": { "ar": "تغيير البريد الإلكتروني", "en": "Change Email" },
+
+      "errors": {
+        "invalid_code": {
+          "ar": "رمز التأكيد غير صحيح. تحقق من الرمز أو اطلب رمزاً جديداً.",
+          "en": "Invalid verification code. Check the code or request a new one."
+        },
+        "expired_code": {
+          "ar": "انتهت صلاحية الرمز. اطلب رمزاً جديداً.",
+          "en": "Verification code expired. Request a new one."
+        },
+        "too_many_attempts": {
+          "ar": "محاولات كثيرة. انتظر 5 دقائق وحاول مرة أخرى.",
+          "en": "Too many attempts. Please wait 5 minutes and try again."
+        }
+      },
+
+      "success": {
+        "verified": {
+          "ar": "تم تأكيد البريد الإلكتروني بنجاح!",
+          "en": "Email verified successfully!"
+        }
+      }
+    },
+
+    "phone_verification": {
+      "title": { "ar": "تأكيد رقم الهاتف", "en": "Verify Phone Number" },
+      "sent_message": {
+        "ar": "تم إرسال رمز التأكيد عبر واتساب أو رسالة نصية إلى {phone}",
+        "en": "A verification code has been sent via WhatsApp or SMS to {phone}"
+      },
+      "code_label": { "ar": "رمز التأكيد", "en": "Verification Code" },
+      "code_placeholder": { "ar": "أدخل الرمز المكون من 6 أرقام", "en": "Enter the 6-digit code" },
+      "submit": { "ar": "تأكيد", "en": "Verify" },
+      "resend": { "ar": "إعادة إرسال الرمز", "en": "Resend Code" },
+      "change_phone": { "ar": "تغيير رقم الهاتف", "en": "Change Phone Number" },
+
+      "errors": {
+        "invalid_code": {
+          "ar": "رمز التأكيد غير صحيح. تحقق من الرمز أو اطلب رمزاً جديداً.",
+          "en": "Invalid verification code. Check the code or request a new one."
+        }
+      },
+
+      "success": {
+        "verified": {
+          "ar": "تم تأكيد رقم الهاتف بنجاح!",
+          "en": "Phone number verified successfully!"
+        }
+      }
+    },
+
+    "pin_setup": {
+      "title": { "ar": "إعداد رمز الحماية", "en": "Set Security PIN" },
+      "subtitle": {
+        "ar": "رمز من 6 أرقام يحمي معاملاتك المالية",
+        "en": "A 6-digit code to protect your financial transactions"
+      },
+      "pin_label": { "ar": "رمز الحماية", "en": "Security PIN" },
+      "pin_placeholder": { "ar": "******", "en": "******" },
+      "confirm_label": { "ar": "تأكيد رمز الحماية", "en": "Confirm Security PIN" },
+      "confirm_placeholder": { "ar": "أعد إدخال الرمز", "en": "Re-enter PIN" },
+      "submit": { "ar": "حفظ الرمز", "en": "Save PIN" },
+      "skip": { "ar": "تخطي الآن (يمكن الإعداد لاحقاً)", "en": "Skip for now (can set up later)" },
+      "info": {
+        "ar": "رمز الحماية يضمن أمان معاملاتك. لا تشاركه مع أي شخص.",
+        "en": "Your security PIN ensures safe transactions. Never share it with anyone."
+      },
+
+      "pin_rules": {
+        "ar": [
+          "يتكون من 6 أرقام",
+          "لا تستخدم أرقاماً متكررة (111111)",
+          "لا تستخدم تسلسلاً واضحاً (123456)"
+        ],
+        "en": [
+          "Must be 6 digits",
+          "Avoid repeated digits (111111)",
+          "Avoid sequential patterns (123456)"
+        ]
+      },
+
+      "errors": {
+        "mismatch": {
+          "ar": "الرمز غير متطابق. حاول مرة أخرى.",
+          "en": "PINs do not match. Try again."
+        },
+        "too_simple": {
+          "ar": "الرمز بسيط جداً. اختر رقماً أكثر تعقيداً.",
+          "en": "PIN is too simple. Choose a more complex code."
+        },
+        "too_short": {
+          "ar": "رمز الحماية يجب أن يكون 6 أرقام.",
+          "en": "Security PIN must be 6 digits."
+        }
+      },
+
+      "success": {
+        "set": {
+          "ar": "تم إعداد رمز الحماية بنجاح!",
+          "en": "Security PIN set successfully!"
+        }
+      }
+    },
+
+    "pin_change": {
+      "title": { "ar": "تغيير رمز الحماية", "en": "Change Security PIN" },
+      "current_label": { "ar": "الرمز الحالي", "en": "Current PIN" },
+      "new_label": { "ar": "الرمز الجديد", "en": "New PIN" },
+      "confirm_label": { "ar": "تأكيد الرمز الجديد", "en": "Confirm New PIN" },
+      "submit": { "ar": "تغيير الرمز", "en": "Change PIN" },
+
+      "errors": {
+        "wrong_current": {
+          "ar": "الرمز الحالي غير صحيح. حاول مرة أخرى.",
+          "en": "Current PIN is incorrect. Try again."
+        },
+        "same_as_old": {
+          "ar": "الرمز الجديد مطابق للقديم. اختر رقماً مختلفاً.",
+          "en": "New PIN matches the old one. Choose a different code."
+        }
+      },
+
+      "success": {
+        "changed": {
+          "ar": "تم تغيير رمز الحماية بنجاح!",
+          "en": "Security PIN changed successfully!"
+        }
+      }
+    },
+
+    "forgot_password": {
+      "title": { "ar": "استعادة كلمة المرور", "en": "Reset Password" },
+      "subtitle": {
+        "ar": "أدخل بريدك الإلكتروني المسجل وسنرسل لك رابط استعادة كلمة المرور.",
+        "en": "Enter your registered email and we'll send you a password reset link."
+      },
+      "email_label": { "ar": "البريد الإلكتروني", "en": "Email" },
+      "email_placeholder": { "ar": "أدخل بريدك الإلكتروني", "en": "Enter your email" },
+      "submit": { "ar": "إرسال رابط الاستعادة", "en": "Send Reset Link" },
+      "back_to_login": { "ar": "العودة لتسجيل الدخول", "en": "Back to Sign In" },
+
+      "errors": {
+        "email_not_found": {
+          "ar": "لا يوجد حساب مرتبط بهذا البريد الإلكتروني.",
+          "en": "No account found with this email address."
+        }
+      },
+
+      "success": {
+        "sent": {
+          "ar": "تم إرسال رابط استعادة كلمة المرور إلى بريدك الإلكتروني.",
+          "en": "A password reset link has been sent to your email."
+        }
+      }
+    },
+
+    "reset_password": {
+      "title": { "ar": "إعادة تعيين كلمة المرور", "en": "Set New Password" },
+      "subtitle": { "ar": "أدخل كلمة مرور جديدة لحسابك.", "en": "Enter a new password for your account." },
+      "password_label": { "ar": "كلمة المرور الجديدة", "en": "New Password" },
+      "password_placeholder": { "ar": "8 أحرف على الأقل", "en": "At least 8 characters" },
+      "password_confirm_label": { "ar": "تأكيد كلمة المرور الجديدة", "en": "Confirm New Password" },
+      "password_confirm_placeholder": { "ar": "أعد إدخال كلمة المرور", "en": "Re-enter password" },
+      "submit": { "ar": "تعيين كلمة المرور", "en": "Set Password" },
+
+      "errors": {
+        "weak_password": {
+          "ar": "كلمة المرور ضعيفة. استخدم 8 أحرف مع حرف كبير ورقم ورمز خاص.",
+          "en": "Password is too weak. Use 8+ characters with uppercase, number, and symbol."
+        },
+        "token_expired": {
+          "ar": "رابط استعادة كلمة المرور منتهٍ. اطلب رابطاً جديداً.",
+          "en": "Password reset link expired. Request a new link."
+        }
+      },
+
+      "success": {
+        "reset": {
+          "ar": "تم تعيين كلمة المرور الجديدة بنجاح! يمكنك الآن تسجيل الدخول.",
+          "en": "New password set successfully! You can now sign in."
+        }
+      }
+    },
+
+    "two_factor": {
+      "enable_title": { "ar": "تفعيل المصادقة الثنائية", "en": "Enable Two-Factor Authentication" },
+      "enable_subtitle": {
+        "ar": "أضف طبقة حماية إضافية لحسابك. استخدم Google Authenticator لمسح الرمز.",
+        "en": "Add an extra layer of security. Use Google Authenticator to scan the code."
+      },
+      "setup_step1": {
+        "ar": "1. حمّل تطبيق Google Authenticator",
+        "en": "1. Download Google Authenticator app"
+      },
+      "setup_step2": {
+        "ar": "2. امسح رمز QR أدناه باستخدام التطبيق",
+        "en": "2. Scan the QR code below with the app"
+      },
+      "setup_step3": {
+        "ar": "3. أدخل الرمز المكون من 6 أرقام من التطبيق",
+        "en": "3. Enter the 6-digit code from the app"
+      },
+      "code_label": { "ar": "رمز التحقق", "en": "Verification Code" },
+      "code_placeholder": { "ar": "أدخل الرمز من التطبيق", "en": "Enter code from app" },
+      "secret_key_label": { "ar": "المفتاح السري (للإدخال اليدوي)", "en": "Secret Key (for manual entry)" },
+      "copy_secret": { "ar": "نسخ المفتاح", "en": "Copy Secret" },
+      "copied": { "ar": "تم النسخ!", "en": "Copied!" },
+      "submit": { "ar": "تفعيل", "en": "Enable" },
+      "recovery_codes_title": { "ar": "رموز الاسترداد", "en": "Recovery Codes" },
+      "recovery_codes_subtitle": {
+        "ar": "احفظ هذه الرموز في مكان آمن. تستخدم لمرة واحدة إذا فقدت الوصول إلى تطبيق المصادقة.",
+        "en": "Save these codes in a secure place. Each code can be used once if you lose access to the authenticator app."
+      },
+      "recovery_codes_download": { "ar": "تحميل الرموز", "en": "Download Codes" },
+      "recovery_codes_print": { "ar": "طباعة", "en": "Print" },
+      "recovery_codes_copied": { "ar": "تم نسخ رموز الاسترداد", "en": "Recovery codes copied" },
+      "confirm_saved": {
+        "ar": "أؤكد أنني حفظت رموز الاسترداد في مكان آمن",
+        "en": "I confirm I have saved the recovery codes in a secure place"
+      },
+      "finish": { "ar": "تم", "en": "Done" },
+
+      "verify_title": { "ar": "التحقق بخطوتين", "en": "Two-Factor Verification" },
+      "verify_subtitle": {
+        "ar": "أدخل الرمز المكون من 6 أرقام من تطبيق المصادقة.",
+        "en": "Enter the 6-digit code from your authenticator app."
+      },
+      "verify_submit": { "ar": "تحقق", "en": "Verify" },
+      "use_recovery_code": { "ar": "استخدم رمز استرداد", "en": "Use a Recovery Code" },
+      "recovery_code_label": { "ar": "رمز الاسترداد", "en": "Recovery Code" },
+      "recovery_code_placeholder": { "ar": "أدخل رمز الاسترداد", "en": "Enter recovery code" },
+
+      "disable_title": { "ar": "تعطيل المصادقة الثنائية", "en": "Disable Two-Factor Authentication" },
+      "disable_confirm": {
+        "ar": "هل أنت متأكد من تعطيل المصادقة الثنائية؟ هذا يقلل من أمان حسابك.",
+        "en": "Are you sure you want to disable two-factor authentication? This reduces your account security."
+      },
+      "disable_verify": {
+        "ar": "أدخل رمز التحقق من التطبيق لتأكيد التعطيل.",
+        "en": "Enter the verification code from the app to confirm disabling."
+      },
+      "disable_submit": { "ar": "تعطيل", "en": "Disable" },
+
+      "status_active": { "ar": "المصادقة الثنائية مفعلة ✅", "en": "Two-factor authentication is active ✅" },
+      "status_inactive": { "ar": "المصادقة الثنائية غير مفعلة", "en": "Two-factor authentication is not active" },
+
+      "errors": {
+        "invalid_code": {
+          "ar": "رمز التحقق غير صحيح. حاول مرة أخرى.",
+          "en": "Invalid verification code. Try again."
+        },
+        "invalid_recovery": {
+          "ar": "رمز الاسترداد غير صحيح أو مستخدم مسبقاً.",
+          "en": "Invalid or already used recovery code."
+        },
+        "already_enabled": {
+          "ar": "المصادقة الثنائية مفعلة بالفعل لحسابك.",
+          "en": "Two-factor authentication is already enabled."
+        },
+        "setup_incomplete": {
+          "ar": "لم يكتمل إعداد المصادقة الثنائية. امسح الرمز وحاول مجدداً.",
+          "en": "Two-factor setup incomplete. Scan the QR code and try again."
+        }
+      },
+
+      "success": {
+        "enabled": {
+          "ar": "تم تفعيل المصادقة الثنائية بنجاح! حسابك أكثر أماناً الآن.",
+          "en": "Two-factor authentication enabled successfully! Your account is more secure now."
+        },
+        "disabled": {
+          "ar": "تم تعطيل المصادقة الثنائية.",
+          "en": "Two-factor authentication disabled."
+        }
+      }
+    },
+
+    "logout": {
+      "confirm_title": { "ar": "تسجيل الخروج", "en": "Sign Out" },
+      "confirm_message": {
+        "ar": "هل تريد تسجيل الخروج من جميع الأجهزة أم هذا الجهاز فقط؟",
+        "en": "Do you want to sign out from all devices or just this one?"
+      },
+      "this_device": { "ar": "هذا الجهاز فقط", "en": "This Device Only" },
+      "all_devices": { "ar": "جميع الأجهزة", "en": "All Devices" },
+      "cancel": { "ar": "إلغاء", "en": "Cancel" },
+
+      "loading": {
+        "signing_out": { "ar": "جارٍ تسجيل الخروج...", "en": "Signing out..." }
+      },
+
+      "success": {
+        "signed_out": {
+          "ar": "تم تسجيل الخروج بنجاح.",
+          "en": "Signed out successfully."
+        }
+      }
+    }
+  },
+
+  "wallet": {
+    "dashboard_title": { "ar": "محفظتي", "en": "My Wallet" },
+    "total_balance": { "ar": "إجمالي الرصيد", "en": "Total Balance" },
+    "usd_wallet": { "ar": "محفظة الدولار", "en": "USD Wallet" },
+    "syp_wallet": { "ar": "محفظة الليرة", "en": "SYP Wallet" },
+    "gold_wallet": { "ar": "محفظة الذهب", "en": "Gold Wallet" },
+    "usd_balance": { "ar": "رصيد الدولار", "en": "USD Balance" },
+    "syp_balance": { "ar": "رصيد الليرة", "en": "SYP Balance" },
+    "gold_balance": { "ar": "رصيد الذهب", "en": "Gold Balance" },
+    "available_balance": { "ar": "الرصيد المتاح", "en": "Available Balance" },
+    "pending_balance": { "ar": "الرصيد المعلق", "en": "Pending Balance" },
+    "reserved_balance": { "ar": "الرصيد المحجوز", "en": "Reserved Balance" },
+    "exchange_rate": { "ar": "سعر الصرف", "en": "Exchange Rate" },
+    "last_updated": { "ar": "آخر تحديث: {time}", "en": "Last updated: {time}" },
+
+    "actions": {
+      "send": { "ar": "تحويل", "en": "Send" },
+      "receive": { "ar": "استلام", "en": "Receive" },
+      "exchange": { "ar": "صرف عملات", "en": "Exchange" },
+      "buy_gold": { "ar": "شراء ذهب", "en": "Buy Gold" },
+      "sell_gold": { "ar": "بيع ذهب", "en": "Sell Gold" },
+      "add_money": { "ar": "إيداع", "en": "Deposit" },
+      "withdraw": { "ar": "سحب", "en": "Withdraw" },
+      "pay_bills": { "ar": "دفع فواتير", "en": "Pay Bills" },
+      "more": { "ar": "المزيد", "en": "More" }
+    },
+
+    "send": {
+      "title": { "ar": "تحويل الأموال", "en": "Send Money" },
+      "subtitle": {
+        "ar": "أرسل أموالاً إلى مستخدم صكك آخر",
+        "en": "Send money to another SAKK user"
+      },
+      "recipient_label": { "ar": "المستلم", "en": "Recipient" },
+      "recipient_placeholder": { "ar": "البريد الإلكتروني أو رقم الهاتف", "en": "Email or phone number" },
+      "recipient_recent": { "ar": "المستلمون مؤخراً", "en": "Recent Recipients" },
+      "amount_label": { "ar": "المبلغ", "en": "Amount" },
+      "amount_placeholder": { "ar": "أدخل المبلغ", "en": "Enter amount" },
+      "currency_label": { "ar": "العملة", "en": "Currency" },
+      "note_label": { "ar": "الغرض (اختياري)", "en": "Note (optional)" },
+      "note_placeholder": { "ar": "مثال: سداد فاتورة", "en": "E.g., Bill payment" },
+      "fee_info": { "ar": "رسوم التحويل: {fee}", "en": "Transfer fee: {fee}" },
+      "cashback_info": { "ar": "ستحصل على 1% كاش باك!", "en": "You'll earn 1% cashback!" },
+      "total_label": { "ar": "المجموع", "en": "Total" },
+      "submit": { "ar": "تأكيد التحويل", "en": "Confirm Transfer" },
+      "enter_pin": { "ar": "أدخل رمز الحماية لتأكيد التحويل", "en": "Enter your security PIN to confirm" },
+
+      "confirmation": {
+        "title": { "ar": "تأكيد التحويل", "en": "Confirm Transfer" },
+        "to": { "ar": "إلى", "en": "To" },
+        "amount": { "ar": "المبلغ", "en": "Amount" },
+        "fee": { "ar": "الرسوم", "en": "Fee" },
+        "total": { "ar": "الإجمالي", "en": "Total" },
+        "note": { "ar": "الغرض", "en": "Note" },
+        "confirm": { "ar": "تأكيد", "en": "Confirm" },
+        "cancel": { "ar": "تراجع", "en": "Cancel" }
+      },
+
+      "otp_required": {
+        "ar": "للحماية، تم إرسال رمز تحقق إلى جهازك الموثوق.",
+        "en": "For security, a verification code has been sent to your trusted device."
+      },
+
+      "errors": {
+        "recipient_not_found": {
+          "ar": "المستلم غير موجود في صكك. تأكد من البريد أو الهاتف.",
+          "en": "Recipient not found on SAKK. Check the email or phone number."
+        },
+        "self_transfer": {
+          "ar": "لا يمكنك تحويل أموال إلى نفسك.",
+          "en": "You cannot send money to yourself."
+        },
+        "insufficient_balance": {
+          "ar": "الرصيد غير كافٍ لإتمام هذه العملية. رصيدك الحالي: {balance}.",
+          "en": "Insufficient balance for this transaction. Your current balance: {balance}."
+        },
+        "below_minimum": {
+          "ar": "الحد الأدنى للتحويل هو {min}.",
+          "en": "Minimum transfer amount is {min}."
+        },
+        "exceeds_limit": {
+          "ar": "تجاوزت حد التحويل اليومي. حدك الحالي: {limit}.",
+          "en": "Daily transfer limit exceeded. Your current limit: {limit}."
+        },
+        "kyc_restricted": {
+          "ar": "تحتاج لإكمال توثيق الهوية (KYC) لرفع حد التحويل.",
+          "en": "You need to complete KYC verification to increase your transfer limit."
+        },
+        "pin_required": {
+          "ar": "يجب إدخال رمز الحماية للمتابعة.",
+          "en": "You must enter your security PIN to proceed."
+        },
+        "device_not_trusted": {
+          "ar": "هذا الجهاز غير موثوق. استخدم جهازاً موثوقاً أو انتظر 48 ساعة.",
+          "en": "This device is not trusted. Use a trusted device or wait 48 hours."
+        }
+      },
+
+      "loading": {
+        "looking_up": { "ar": "جارٍ البحث عن المستلم...", "en": "Looking up recipient..." },
+        "sending": { "ar": "جارٍ إرسال التحويل...", "en": "Sending transfer..." },
+        "confirming": { "ar": "جارٍ تأكيد المعاملة...", "en": "Confirming transaction..." }
+      },
+
+      "success": {
+        "sent": {
+          "ar": "تم إرسال {amount} بنجاح إلى {name}!",
+          "en": "{amount} sent successfully to {name}!"
+        },
+        "cashback_earned": {
+          "ar": "حصلت على {amount} كاش باك!",
+          "en": "You earned {amount} cashback!"
+        }
+      }
+    },
+
+    "receive": {
+      "title": { "ar": "استلام الأموال", "en": "Receive Money" },
+      "subtitle": {
+        "ar": "شارك هذه المعلومات مع المرسل ليتمكن من تحويل الأموال إليك.",
+        "en": "Share this information with the sender so they can transfer money to you."
+      },
+      "your_email": { "ar": "بريدك الإلكتروني في صكك", "en": "Your SAKK Email" },
+      "your_phone": { "ar": "رقم هاتفك في صكك", "en": "Your SAKK Phone" },
+      "share": { "ar": "مشاركة", "en": "Share" },
+      "copy_email": { "ar": "نسخ البريد", "en": "Copy Email" },
+      "copy_phone": { "ar": "نسخ الهاتف", "en": "Copy Phone" },
+      "qr_code": { "ar": "رمز QR للاستلام", "en": "Receive QR Code" },
+      "qr_info": {
+        "ar": "اطلب من المرسل مسح هذا الرمز لإرسال الأموال إليك.",
+        "en": "Ask the sender to scan this code to send you money."
+      },
+      "download_qr": { "ar": "تحميل رمز QR", "en": "Download QR Code" },
+
+      "request_title": { "ar": "طلب أموال", "en": "Request Money" },
+      "request_subtitle": {
+        "ar": "اطلب أموالاً من مستخدم صكك آخر",
+        "en": "Request money from another SAKK user"
+      },
+      "request_from_label": { "ar": "طلب من", "en": "Request from" },
+      "request_from_placeholder": { "ar": "البريد الإلكتروني أو رقم الهاتف", "en": "Email or phone number" },
+      "request_amount_label": { "ar": "المبلغ المطلوب", "en": "Requested Amount" },
+      "request_note_label": { "ar": "السبب (اختياري)", "en": "Reason (optional)" },
+      "submit_request": { "ar": "إرسال طلب", "en": "Send Request" },
+
+      "request_success": {
+        "ar": "تم إرسال طلب الدفع إلى {name}",
+        "en": "Payment request sent to {name}"
+      }
+    },
+
+    "exchange": {
+      "title": { "ar": "صرف عملات", "en": "Currency Exchange" },
+      "subtitle": {
+        "ar": "حول بين الدولار والليرة السورية بسعر السوق",
+        "en": "Convert between USD and SYP at market rate"
+      },
+      "from_label": { "ar": "من", "en": "From" },
+      "to_label": { "ar": "إلى", "en": "To" },
+      "amount_label": { "ar": "المبلغ", "en": "Amount" },
+      "you_receive": { "ar": "المبلغ المستلم", "en": "You Receive" },
+      "rate_info": { "ar": "سعر الصرف: 1 USD = {rate} SYP", "en": "Exchange rate: 1 USD = {rate} SYP" },
+      "fee_info": { "ar": "رسوم الصرف: {fee}", "en": "Exchange fee: {fee}" },
+      "submit": { "ar": "تأكيد الصرف", "en": "Confirm Exchange" },
+      "swap_currencies": { "ar": "تبديل العملات", "en": "Swap Currencies" },
+
+      "errors": {
+        "insufficient_from": {
+          "ar": "الرصيد في محفظة {currency} غير كافٍ.",
+          "en": "Insufficient balance in {currency} wallet."
+        },
+        "rate_changed": {
+          "ar": "تغير سعر الصرف. تحقق من السعر الجديد وحاول مرة أخرى.",
+          "en": "Exchange rate changed. Check the new rate and try again."
+        }
+      },
+
+      "loading": {
+        "calculating": { "ar": "جارٍ حساب السعر...", "en": "Calculating rate..." },
+        "exchanging": { "ar": "جارٍ تنفيذ الصرف...", "en": "Processing exchange..." }
+      },
+
+      "success": {
+        "done": {
+          "ar": "تم صرف {amount_from} إلى {amount_to} بنجاح!",
+          "en": "Exchanged {amount_from} to {amount_to} successfully!"
+        }
+      }
+    },
+
+    "transactions": {
+      "title": { "ar": "سجل المعاملات", "en": "Transaction History" },
+      "recent_title": { "ar": "آخر المعاملات", "en": "Recent Transactions" },
+      "view_all": { "ar": "عرض الكل", "en": "View All" },
+      "filter_title": { "ar": "تصفية", "en": "Filter" },
+      "filter_all": { "ar": "الكل", "en": "All" },
+      "filter_sent": { "ar": "تحويلات صادرة", "en": "Sent" },
+      "filter_received": { "ar": "تحويلات واردة", "en": "Received" },
+      "filter_exchange": { "ar": "صرف عملات", "en": "Exchange" },
+      "filter_gold": { "ar": "ذهب", "en": "Gold" },
+      "filter_card": { "ar": "بطاقات", "en": "Cards" },
+      "filter_savings": { "ar": "ادخار", "en": "Savings" },
+      "date_range": { "ar": "الفترة", "en": "Date Range" },
+      "today": { "ar": "اليوم", "en": "Today" },
+      "this_week": { "ar": "هذا الأسبوع", "en": "This Week" },
+      "this_month": { "ar": "هذا الشهر", "en": "This Month" },
+      "custom": { "ar": "تخصيص", "en": "Custom" },
+      "search": { "ar": "بحث في المعاملات...", "en": "Search transactions..." },
+
+      "type_sent": { "ar": "تحويل صادر", "en": "Transfer Sent" },
+      "type_received": { "ar": "تحويل وارد", "en": "Transfer Received" },
+      "type_exchange": { "ar": "صرف عملات", "en": "Currency Exchange" },
+      "type_gold_buy": { "ar": "شراء ذهب", "en": "Gold Purchase" },
+      "type_gold_sell": { "ar": "بيع ذهب", "en": "Gold Sale" },
+      "type_card_creation": { "ar": "رسوم بطاقة", "en": "Card Fee" },
+      "type_savings_deposit": { "ar": "إيداع ادخار", "en": "Savings Deposit" },
+      "type_savings_withdraw": { "ar": "سحب ادخار", "en": "Savings Withdrawal" },
+      "type_cashback": { "ar": "كاش باك", "en": "Cashback" },
+      "type_referral": { "ar": "مكافأة إحالة", "en": "Referral Reward" },
+      "type_deposit": { "ar": "إيداع", "en": "Deposit" },
+      "type_withdrawal": { "ar": "سحب", "en": "Withdrawal" },
+
+      "status_completed": { "ar": "مكتمل", "en": "Completed" },
+      "status_pending": { "ar": "قيد المعالجة", "en": "Processing" },
+      "status_failed": { "ar": "فشل", "en": "Failed" },
+      "status_cancelled": { "ar": "ملغي", "en": "Cancelled" },
+      "status_refunded": { "ar": "مسترجع", "en": "Refunded" },
+
+      "reference": { "ar": "رقم المرجع: {ref}", "en": "Reference: {ref}" },
+      "date": { "ar": "التاريخ", "en": "Date" },
+      "details": { "ar": "التفاصيل", "en": "Details" },
+
+      "empty": {
+        "title": { "ar": "لا توجد معاملات بعد", "en": "No transactions yet" },
+        "description": {
+          "ar": "عندما تقوم بأي معاملة، ستظهر هنا. ابدأ بتحويل أو استلام الأموال.",
+          "en": "When you make a transaction, it will appear here. Start by sending or receiving money."
+        },
+        "action": { "ar": "تحويل أموال", "en": "Send Money" }
+      },
+
+      "empty_filtered": {
+        "title": { "ar": "لا توجد نتائج", "en": "No matching transactions" },
+        "description": {
+          "ar": "لم نجد معاملات تطابق بحثك. جرب معايير مختلفة.",
+          "en": "No transactions match your search. Try different filters."
+        },
+        "clear_filter": { "ar": "مسح التصفية", "en": "Clear Filters" }
+      },
+
+      "errors": {
+        "load_failed": {
+          "ar": "تعذر تحميل سجل المعاملات. اسحب للأسفل لإعادة المحاولة.",
+          "en": "Failed to load transaction history. Pull down to retry."
+        }
+      }
+    },
+
+    "deposit": {
+      "title": { "ar": "إيداع الأموال", "en": "Deposit" },
+      "tab_crypto": { "ar": "عملات رقمية (USDT)", "en": "Crypto (USDT)" },
+      "tab_agent": { "ar": "إيداع نقدي عبر وكيل", "en": "Cash via Agent" },
+      "tab_bank": { "ar": "تحويل بنكي", "en": "Bank Transfer" },
+
+      "crypto_title": { "ar": "إيداع عبر USDT", "en": "Deposit via USDT" },
+      "crypto_subtitle": {
+        "ar": "اختر الشبكة وأرسل USDT إلى العنوان أدناه",
+        "en": "Choose network and send USDT to the address below"
+      },
+      "network_label": { "ar": "الشبكة", "en": "Network" },
+      "network_trc20": { "ar": "TRC20 (USDT)", "en": "TRC20 (USDT)" },
+      "network_erc20": { "ar": "ERC20 (USDT)", "en": "ERC20 (USDT)" },
+      "network_bep20": { "ar": "BEP20 (USDT)", "en": "BEP20 (USDT)" },
+      "address_label": { "ar": "عنوان الإيداع", "en": "Deposit Address" },
+      "address_copied": { "ar": "تم نسخ العنوان!", "en": "Address copied!" },
+      "copy_address": { "ar": "نسخ العنوان", "en": "Copy Address" },
+      "min_deposit": { "ar": "الحد الأدنى للإيداع: {min}", "en": "Minimum deposit: {min}" },
+      "warning_network": {
+        "ar": "تنبيه: أرسل USDT فقط على شبكة {network}. إرسال على شبكة أخرى يؤدي إلى فقدان الأموال.",
+        "en": "Warning: Only send USDT on {network} network. Sending on other networks will result in loss of funds."
+      },
+
+      "agent_title": { "ar": "إيداع عبر وكيل", "en": "Deposit via Agent" },
+      "agent_subtitle": {
+        "ar": "ابحث عن أقرب وكيل معتمد لإيداع النقود في محفظتك",
+        "en": "Find a nearby authorized agent to deposit cash into your wallet"
+      },
+      "find_agent": { "ar": "ابحث عن وكيل", "en": "Find an Agent" },
+      "agent_nearby": { "ar": "وكلاء قريبون منك", "en": "Nearby Agents" },
+      "agent_commission": { "ar": "رسوم الإيداع عبر الوكيل: {fee}", "en": "Agent deposit fee: {fee}" },
+
+      "loading": {
+        "generating_address": { "ar": "جارٍ إنشاء عنوان الإيداع...", "en": "Generating deposit address..." }
+      },
+
+      "success": {
+        "pending": {
+          "ar": "تم إرسال طلب الإيداع. سيتم تأكيده بعد وصول المعاملة على الشبكة.",
+          "en": "Deposit request submitted. It will be confirmed once the transaction arrives on the network."
+        }
+      }
+    },
+
+    "withdraw": {
+      "title": { "ar": "سحب الأموال", "en": "Withdraw" },
+      "tab_crypto": { "ar": "USDT", "en": "USDT" },
+      "tab_agent": { "ar": "سحب نقدي عبر وكيل", "en": "Cash via Agent" },
+
+      "crypto_title": { "ar": "سحب USDT", "en": "Withdraw USDT" },
+      "crypto_subtitle": {
+        "ar": "أدخل عنوان المحفظة التي تريد السحب إليها",
+        "en": "Enter the wallet address you want to withdraw to"
+      },
+      "address_label": { "ar": "عنوان المحفظة", "en": "Wallet Address" },
+      "address_placeholder": { "ar": "أدخل عنوان محفظة USDT", "en": "Enter USDT wallet address" },
+      "network_label": { "ar": "الشبكة", "en": "Network" },
+      "amount_label": { "ar": "المبلغ", "en": "Amount" },
+      "fee_info": { "ar": "رسوم السحب: {fee}", "en": "Withdrawal fee: {fee}" },
+      "submit": { "ar": "تأكيد السحب", "en": "Confirm Withdrawal" },
+
+      "crypto_errors": {
+        "invalid_address": {
+          "ar": "عنوان المحفظة غير صحيح لشبكة {network}.",
+          "en": "Invalid wallet address for {network} network."
+        },
+        "below_minimum": {
+          "ar": "الحد الأدنى للسحب: {min}.",
+          "en": "Minimum withdrawal: {min}."
+        },
+        "insufficient": {
+          "ar": "الرصيد غير كافٍ للسحب. الرصيد المتاح: {balance}.",
+          "en": "Insufficient balance for withdrawal. Available: {balance}."
+        }
+      },
+
+      "loading": {
+        "processing": { "ar": "جارٍ معالجة السحب...", "en": "Processing withdrawal..." }
+      },
+
+      "success": {
+        "submitted": {
+          "ar": "تم تقديم طلب السحب. سيتم معالجته قريباً.",
+          "en": "Withdrawal request submitted. It will be processed shortly."
+        }
+      }
+    },
+
+    "empty": {
+      "title": { "ar": "محفظتك فارغة", "en": "Your wallet is empty" },
+      "description": {
+        "ar": "ابدأ بإيداع الأموال أو استلامها من الأصدقاء.",
+        "en": "Start by depositing money or receiving from friends."
+      },
+      "action": { "ar": "إيداع أموال", "en": "Deposit Money" }
+    }
+  },
+
+  "cards": {
+    "title": { "ar": "البطاقات الرقمية", "en": "Digital Cards" },
+    "subtitle": {
+      "ar": "بطاقات رقمية للتسوق عبر الإنترنت بكل أمان",
+      "en": "Digital cards for secure online shopping"
+    },
+
+    "create_card": { "ar": "إنشاء بطاقة", "en": "Create Card" },
+    "create_title": { "ar": "بطاقة جديدة", "en": "New Card" },
+    "create_subtitle": {
+      "ar": "سيتم خصم رسوم إنشاء البطاقة من محفظة الدولار.",
+      "en": "The card creation fee will be deducted from your USD wallet."
+    },
+    "card_nickname_label": { "ar": "اسم البطاقة (اختياري)", "en": "Card Nickname (optional)" },
+    "card_nickname_placeholder": { "ar": "مثال: بطاقة التسوق", "en": "E.g., Shopping Card" },
+    "card_type_label": { "ar": "نوع البطاقة", "en": "Card Type" },
+    "card_virtual": { "ar": "افتراضية", "en": "Virtual" },
+    "card_fee_info": { "ar": "رسوم الإنشاء: {fee}", "en": "Creation fee: {fee}" },
+    "create_confirm": { "ar": "تأكيد إنشاء البطاقة", "en": "Confirm Card Creation" },
+
+    "card_details": { "ar": "تفاصيل البطاقة", "en": "Card Details" },
+    "card_number": { "ar": "رقم البطاقة", "en": "Card Number" },
+    "card_holder": { "ar": "حامل البطاقة", "en": "Cardholder" },
+    "expiry_date": { "ar": "تاريخ الانتهاء", "en": "Expiry Date" },
+    "cvv": { "ar": "CVV", "en": "CVV" },
+    "show_pan": { "ar": "إظهار الرقم", "en": "Show Number" },
+    "hide_pan": { "ar": "إخفاء الرقم", "en": "Hide Number" },
+    "show_cvv": { "ar": "إظهار CVV", "en": "Show CVV" },
+    "hide_cvv": { "ar": "إخفاء CVV", "en": "Hide CVV" },
+    "copy_pan": { "ar": "نسخ الرقم", "en": "Copy Number" },
+    "pan_copied": { "ar": "تم نسخ الرقم!", "en": "Number copied!" },
+    "status_active_card": { "ar": "نشطة", "en": "Active" },
+    "status_frozen": { "ar": "مجمدة", "en": "Frozen" },
+    "status_cancelled": { "ar": "ملغاة", "en": "Cancelled" },
+
+    "freeze_card": { "ar": "تجميد البطاقة", "en": "Freeze Card" },
+    "freeze_confirm": {
+      "ar": "هل تريد تجميد هذه البطاقة؟ يمكن إلغاء التجميد لاحقاً.",
+      "en": "Freeze this card? You can unfreeze it later."
+    },
+    "unfreeze_card": { "ar": "إلغاء التجميد", "en": "Unfreeze Card" },
+    "unfreeze_confirm": {
+      "ar": "هل تريد إلغاء تجميد هذه البطاقة؟",
+      "en": "Unfreeze this card?"
+    },
+
+    "cancel": { "ar": "إلغاء البطاقة", "en": "Cancel Card" },
+    "cancel_title": { "ar": "إلغاء البطاقة", "en": "Cancel Card" },
+    "cancel_confirm": {
+      "ar": "هل أنت متأكد من إلغاء البطاقة؟ هذا الإجراء نهائي ولا يمكن التراجع عنه.",
+      "en": "Are you sure you want to cancel this card? This action is permanent and cannot be undone."
+    },
+    "cancel_warning": {
+      "ar": "بعد الإلغاء، لن تتمكن من استخدام البطاقة في أي مشتريات. أي مشتريات معلقة قد تفشل.",
+      "en": "After cancellation, the card cannot be used for any purchases. Pending transactions may fail."
+    },
+    "cancel_type_virtual": {
+      "ar": "إلغاء بطاقة افتراضية",
+      "en": "Cancel Virtual Card"
+    },
+    "cancel_enter_pin": {
+      "ar": "أدخل رمز الحماية لتأكيد الإلغاء",
+      "en": "Enter your security PIN to confirm cancellation"
+    },
+
+    "no_cards": {
+      "title": { "ar": "لا توجد بطاقات بعد", "en": "No cards yet" },
+      "description": {
+        "ar": "أنشئ بطاقة رقمية واستخدمها للتسوق عبر الإنترنت بأمان.",
+        "en": "Create a digital card and use it for safe online shopping."
+      },
+      "action": { "ar": "إنشاء بطاقة", "en": "Create Card" }
+    },
+
+    "usage_tips": {
+      "title": { "ar": "نصائح الاستخدام", "en": "Usage Tips" },
+      "tips": {
+        "ar": [
+          "استخدم بطاقة منفصلة لكل موقع تسوق لزيادة الأمان",
+          "يمكن تجميد البطاقة مؤقتاً إذا شككت في وجود اختراق",
+          "لا تشارك رقم البطاقة أو CVV مع أي شخص"
+        ],
+        "en": [
+          "Use a separate card for each website for better security",
+          "Freeze your card temporarily if you suspect a breach",
+          "Never share your card number or CVV with anyone"
+        ]
+      }
+    },
+
+    "errors": {
+      "creation_failed": {
+        "ar": "تعذر إنشاء البطاقة. تحقق من رصيدك وحاول مرة أخرى.",
+        "en": "Failed to create card. Check your balance and try again."
+      },
+      "insufficient_funds": {
+        "ar": "رصيد الدولار غير كافٍ لرسوم إنشاء البطاقة.",
+        "en": "USD balance insufficient for card creation fee."
+      },
+      "cancel_failed": {
+        "ar": "تعذر إلغاء البطاقة. حاول مرة أخرى لاحقاً.",
+        "en": "Failed to cancel card. Try again later."
+      },
+      "freeze_failed": {
+        "ar": "تعذر تجميد البطاقة. حاول مرة أخرى.",
+        "en": "Failed to freeze card. Try again."
+      },
+      "load_failed": {
+        "ar": "تعذر تحميل بيانات البطاقات. اسحب للأسفل لإعادة المحاولة.",
+        "en": "Failed to load cards. Pull down to retry."
+      }
+    },
+
+    "loading": {
+      "creating": { "ar": "جارٍ إنشاء البطاقة...", "en": "Creating card..." },
+      "freezing": { "ar": "جارٍ تجميد البطاقة...", "en": "Freezing card..." },
+      "unfreezing": { "ar": "جارٍ إلغاء التجميد...", "en": "Unfreezing card..." },
+      "cancelling": { "ar": "جارٍ إلغاء البطاقة...", "en": "Cancelling card..." },
+      "loading_details": { "ar": "جارٍ تحميل تفاصيل البطاقة...", "en": "Loading card details..." }
+    },
+
+    "success": {
+      "created": {
+        "ar": "تم إنشاء البطاقة بنجاح! الرقم مخفي للأمان.",
+        "en": "Card created successfully! Number hidden for security."
+      },
+      "frozen": {
+        "ar": "تم تجميد البطاقة. يمكن إلغاء التجميد من الإعدادات.",
+        "en": "Card frozen. You can unfreeze from settings."
+      },
+      "unfrozen": {
+        "ar": "تم إلغاء تجميد البطاقة. يمكنك استخدامها الآن.",
+        "en": "Card unfrozen. You can use it now."
+      },
+      "cancelled": {
+        "ar": "تم إلغاء البطاقة نهائياً.",
+        "en": "Card permanently cancelled."
+      }
+    }
+  },
+
+  "gold": {
+    "title": { "ar": "الذهب", "en": "Gold" },
+    "subtitle": {
+      "ar": "اشتر وبيع الذهب بأكثر العيارات طلباً",
+      "en": "Buy and sell gold in the most popular purities"
+    },
+    "portfolio_title": { "ar": "محفظة الذهب", "en": "Gold Portfolio" },
+    "total_gold": { "ar": "إجمالي الذهب", "en": "Total Gold" },
+    "total_value": { "ar": "القيمة الإجمالية", "en": "Total Value" },
+    "current_price": { "ar": "سعر الذهب اليوم", "en": "Today's Gold Price" },
+    "last_24h": { "ar": "آخر 24 ساعة", "en": "Last 24h" },
+    "change_percent": { "ar": "التغير", "en": "Change" },
+
+    "buy": {
+      "title": { "ar": "شراء ذهب", "en": "Buy Gold" },
+      "subtitle": {
+        "ar": "اختر العيار وعدد الغرامات للشراء",
+        "en": "Choose the purity and number of grams to purchase"
+      },
+      "purity_label": { "ar": "العيار", "en": "Purity" },
+      "purity_24k": { "ar": "عيار 24 (ذهب عيار 24)", "en": "24K (99.99%)" },
+      "purity_22k": { "ar": "عيار 22 (ذهب عيار 22)", "en": "22K (91.67%)" },
+      "purity_21k": { "ar": "عيار 21 (ذهب عيار 21)", "en": "21K (87.50%)" },
+      "purity_18k": { "ar": "عيار 18 (ذهب عيار 18)", "en": "18K (75.00%)" },
+      "grams_label": { "ar": "عدد الغرامات", "en": "Number of Grams" },
+      "grams_placeholder": { "ar": "أدخل عدد الغرامات", "en": "Enter grams" },
+      "price_per_gram": { "ar": "سعر الغرام: {price}", "en": "Price per gram: {price}" },
+      "total_cost": { "ar": "الإجمالي", "en": "Total Cost" },
+      "fee_info": { "ar": "رسوم الشراء: {fee} (1%)", "en": "Purchase fee: {fee} (1%)" },
+      "wallet_debit": { "ar": "سيتم الخصم من محفظة الدولار", "en": "Will be deducted from USD wallet" },
+      "submit": { "ar": "تأكيد الشراء", "en": "Confirm Purchase" },
+
+      "errors": {
+        "insufficient_usd": {
+          "ar": "رصيد الدولار غير كافٍ. تحتاج {required} دولار ورصيدك {balance}.",
+          "en": "Insufficient USD balance. You need {required} USD and have {balance}."
+        },
+        "below_min_grams": {
+          "ar": "الحد الأدنى للشراء: {min} غرام.",
+          "en": "Minimum purchase: {min} grams."
+        },
+        "exceeds_max_grams": {
+          "ar": "الحد الأقصى للشراء: {max} غرام لكل معاملة.",
+          "en": "Maximum purchase: {max} grams per transaction."
+        }
+      }
+    },
+
+    "sell": {
+      "title": { "ar": "بيع ذهب", "en": "Sell Gold" },
+      "subtitle": {
+        "ar": "بع غرامات الذهب واحصل على الدولار في محفظتك",
+        "en": "Sell gold grams and receive USD in your wallet"
+      },
+      "available_gold": { "ar": "الذهب المتاح للبيع", "en": "Available Gold for Sale" },
+      "purity_label": { "ar": "العيار", "en": "Purity" },
+      "grams_label": { "ar": "عدد الغرامات", "en": "Number of Grams" },
+      "grams_placeholder": { "ar": "أدخل عدد الغرامات للبيع", "en": "Enter grams to sell" },
+      "price_per_gram": { "ar": "سعر الغرام: {price}", "en": "Price per gram: {price}" },
+      "total_value": { "ar": "القيمة الإجمالية", "en": "Total Value" },
+      "fee_info": { "ar": "رسوم البيع: {fee} (0.5%)", "en": "Selling fee: {fee} (0.5%)" },
+      "you_receive": { "ar": "المبلغ المستلم", "en": "You Receive" },
+      "submit": { "ar": "تأكيد البيع", "en": "Confirm Sale" },
+
+      "errors": {
+        "insufficient_gold": {
+          "ar": "الذهب المتاح للبيع غير كافٍ. رصيدك: {available} غرام.",
+          "en": "Insufficient gold for sale. Your balance: {available} grams."
+        },
+        "below_min_grams": {
+          "ar": "الحد الأدنى للبيع: {min} غرام.",
+          "en": "Minimum sale: {min} grams."
+        }
+      }
+    },
+
+    "price_chart": {
+      "title": { "ar": "مخطط الأسعار", "en": "Price Chart" },
+      "period_1d": { "ar": "يوم", "en": "1D" },
+      "period_1w": { "ar": "أسبوع", "en": "1W" },
+      "period_1m": { "ar": "شهر", "en": "1M" },
+      "period_3m": { "ar": "3 أشهر", "en": "3M" },
+      "period_1y": { "ar": "سنة", "en": "1Y" }
+    },
+
+    "empty": {
+      "title": { "ar": "لا تملك ذهباً بعد", "en": "No gold yet" },
+      "description": {
+        "ar": "ابدأ بشراء الذهب واستثمر مدخراتك بأمان.",
+        "en": "Start buying gold and invest your savings safely."
+      },
+      "action": { "ar": "شراء ذهب", "en": "Buy Gold" }
+    },
+
+    "loading": {
+      "fetching_price": { "ar": "جارٍ الحصول على سعر الذهب...", "en": "Fetching gold price..." },
+      "buying": { "ar": "جارٍ شراء الذهب...", "en": "Buying gold..." },
+      "selling": { "ar": "جارٍ بيع الذهب...", "en": "Selling gold..." }
+    },
+
+    "success": {
+      "bought": {
+        "ar": "تم شراء {grams} غرام {purity} بنجاح!",
+        "en": "{grams} grams of {purity} purchased successfully!"
+      },
+      "sold": {
+        "ar": "تم بيع {grams} غرام {purity} بنجاح!",
+        "en": "{grams} grams of {purity} sold successfully!"
+      }
+    }
+  },
+
+  "savings": {
+    "title": { "ar": "أهداف الادخار", "en": "Savings Goals" },
+    "subtitle": {
+      "ar": "حدد أهدافاً ادخارية وادخر بانتظام لتحقيقها",
+      "en": "Set saving goals and save regularly to achieve them"
+    },
+    "create_goal": { "ar": "هدف ادخار جديد", "en": "New Savings Goal" },
+    "goal_name_label": { "ar": "اسم الهدف", "en": "Goal Name" },
+    "goal_name_placeholder": { "ar": "مثال: سيارة جديدة", "en": "E.g., New Car" },
+    "target_amount_label": { "ar": "المبلغ المستهدف", "en": "Target Amount" },
+    "current_amount_label": { "ar": "المبلغ المدخر", "en": "Saved Amount" },
+    "currency_label": { "ar": "العملة", "en": "Currency" },
+    "deadline_label": { "ar": "تاريخ الهدف (اختياري)", "en": "Target Date (optional)" },
+    "progress": { "ar": "نسبة الإنجاز", "en": "Progress" },
+    "progress_percent": { "ar": "{percent}%", "en": "{percent}%" },
+    "remaining": { "ar": "المتبقي: {amount}", "en": "Remaining: {amount}" },
+    "days_left": { "ar": "متبقي {days} يوم", "en": "{days} days left" },
+
+    "deposit": { "ar": "إضافة إلى الهدف", "en": "Add to Goal" },
+    "deposit_title": { "ar": "إيداع في هدف الادخار", "en": "Deposit to Savings Goal" },
+    "deposit_amount_label": { "ar": "المبلغ المراد إيداعه", "en": "Amount to Deposit" },
+    "withdraw": { "ar": "سحب من الهدف", "en": "Withdraw from Goal" },
+    "withdraw_title": { "ar": "سحب من هدف الادخار", "en": "Withdraw from Savings Goal" },
+    "withdraw_amount_label": { "ar": "المبلغ المراد سحبه", "en": "Amount to Withdraw" },
+
+    "delete_goal": { "ar": "حذف الهدف", "en": "Delete Goal" },
+    "delete_confirm": {
+      "ar": "سيتم استرداد المبلغ المدخر إلى محفظتك. هل أنت متأكد من حذف الهدف؟",
+      "en": "The saved amount will be returned to your wallet. Are you sure you want to delete this goal?"
+    },
+
+    "empty": {
+      "title": { "ar": "لا توجد أهداف ادخار", "en": "No savings goals yet" },
+      "description": {
+        "ar": "حدد هدفاً ادخارياً وابدأ بادخار المال لتحقيقه.",
+        "en": "Set a savings goal and start saving money to achieve it."
+      },
+      "action": { "ar": "إنشاء هدف", "en": "Create Goal" }
+    },
+
+    "errors": {
+      "target_too_low": {
+        "ar": "الحد الأدنى للهدف هو {min}.",
+        "en": "Minimum target amount is {min}."
+      },
+      "deposit_exceeds_wallet": {
+        "ar": "لا يمكن إيداع مبلغ أكبر من رصيد المحفظة.",
+        "en": "Cannot deposit more than your wallet balance."
+      },
+      "withdraw_exceeds_saved": {
+        "ar": "لا يمكن سحب مبلغ أكبر من المدخر في الهدف.",
+        "en": "Cannot withdraw more than the saved amount."
+      },
+      "goal_not_found": {
+        "ar": "الهدف غير موجود أو تم حذفه.",
+        "en": "Goal not found or has been deleted."
+      }
+    },
+
+    "success": {
+      "created": {
+        "ar": "تم إنشاء هدف الادخار بنجاح!",
+        "en": "Savings goal created successfully!"
+      },
+      "deposited": {
+        "ar": "تم إيداع {amount} في هدف {goal}!",
+        "en": "{amount} deposited to {goal}!"
+      },
+      "withdrawn": {
+        "ar": "تم سحب {amount} من هدف {goal}.",
+        "en": "{amount} withdrawn from {goal}."
+      },
+      "deleted": {
+        "ar": "تم حذف هدف الادخار واسترداد المبلغ إلى محفظتك.",
+        "en": "Savings goal deleted and amount returned to your wallet."
+      }
+    }
+  },
+
+  "kyc": {
+    "title": { "ar": "توثيق الهوية (KYC)", "en": "Identity Verification (KYC)" },
+    "status_title": { "ar": "حالة التوثيق", "en": "Verification Status" },
+    "level": { "ar": "المستوى {level}", "en": "Level {level}" },
+
+    "levels": {
+      "level1": {
+        "name": { "ar": "المستوى 1 — البريد الإلكتروني", "en": "Level 1 — Email" },
+        "description": { "ar": "تأكيد البريد الإلكتروني", "en": "Email verification" },
+        "benefits": {
+          "ar": ["تحويل يصل إلى $100 يومياً"],
+          "en": ["Transfers up to $100 daily"]
+        },
+        "status_verified": { "ar": "تم توثيق البريد ✅", "en": "Email verified ✅" }
+      },
+      "level2": {
+        "name": { "ar": "المستوى 2 — رقم الهاتف", "en": "Level 2 — Phone" },
+        "description": { "ar": "تأكيد رقم الهاتف", "en": "Phone number verification" },
+        "benefits": {
+          "ar": ["تحويل يصل إلى $500 يومياً", "شراء وبيع الذهب"],
+          "en": ["Transfers up to $500 daily", "Buy and sell gold"]
+        },
+        "status_verified": { "ar": "تم توثيق الهاتف ✅", "en": "Phone verified ✅" }
+      },
+      "level3": {
+        "name": { "ar": "المستوى 3 — الهوية الكاملة", "en": "Level 3 — Full Identity" },
+        "description": { "ar": "توثيق الهوية بالصور الشخصية", "en": "ID document and selfie verification" },
+        "benefits": {
+          "ar": ["تحويل غير محدود", "بطاقات رقمية", "إيداع وسحب USDT"],
+          "en": ["Unlimited transfers", "Digital cards", "USDT deposit and withdrawal"]
+        },
+        "status_pending": { "ar": "قيد المراجعة", "en": "Under Review" },
+        "status_approved": { "ar": "تم التوثيق الكامل ✅", "en": "Full verification ✅" },
+        "status_rejected": { "ar": "لم يتم القبول", "en": "Not Approved" }
+      }
+    },
+
+    "upload_title": { "ar": "رفع المستندات", "en": "Upload Documents" },
+    "upload_subtitle": {
+      "ar": "يرجى تقديم صورة واضحة للهوية الشخصية وصورة شخصية.",
+      "en": "Please provide a clear photo of your ID and a selfie."
+    },
+    "id_front_label": { "ar": "وجه الهوية الأمامي", "en": "ID Front" },
+    "id_back_label": { "ar": "وجه الهوية الخلفي", "en": "ID Back" },
+    "selfie_label": { "ar": "صورة شخصية مع الهوية", "en": "Selfie with ID" },
+    "upload_hint": {
+      "ar": "jpg, png — الحد الأقصى 5MB لكل صورة",
+      "en": "jpg, png — Max 5MB per image"
+    },
+    "submit": { "ar": "إرسال للتوثيق", "en": "Submit for Verification" },
+
+    "status_badge": {
+      "unverified": { "ar": "غير موثق", "en": "Unverified" },
+      "pending": { "ar": "قيد المراجعة", "en": "Under Review" },
+      "approved": { "ar": "موثق", "en": "Verified" },
+      "rejected": { "ar": "مرفوض", "en": "Rejected" }
+    },
+
+    "rejection_reason": {
+      "title": { "ar": "سبب الرفض", "en": "Rejection Reason" },
+      "unclear_image": {
+        "ar": "الصورة غير واضحة. يرجى إعادة رفع صورة أوضح.",
+        "en": "Image is not clear. Please upload a clearer photo."
+      },
+      "expired_id": {
+        "ar": "الهوية منتهية الصلاحية. يرجى تقديم هوية سارية.",
+        "en": "ID is expired. Please provide a valid ID."
+      },
+      "mismatch": {
+        "ar": "الاسم في الهوية لا يتطابق مع الاسم المسجل. يرجى التحقق.",
+        "en": "The name on the ID does not match the registered name. Please verify."
+      }
+    },
+
+    "errors": {
+      "upload_failed": {
+        "ar": "تعذر رفع الملفات. تحقق من حجم الصورة وحاول مرة أخرى.",
+        "en": "Failed to upload files. Check the image size and try again."
+      },
+      "invalid_format": {
+        "ar": "صيغة الملف غير مدعومة. استخدم jpg أو png.",
+        "en": "File format not supported. Use jpg or png."
+      }
+    },
+
+    "success": {
+      "submitted": {
+        "ar": "تم إرسال مستندات التوثيق. سنقوم بمراجعتها وإعلامك بالقريباً.",
+        "en": "Verification documents submitted. We'll review them and notify you shortly."
+      },
+      "approved": {
+        "ar": "تم توثيق الهوية بنجاح! يمكنك الآن الاستفادة من جميع الخدمات.",
+        "en": "Identity verified successfully! You can now access all services."
+      }
+    }
+  },
+
+  "notifications": {
+    "title": { "ar": "الإشعارات", "en": "Notifications" },
+    "empty": {
+      "title": { "ar": "لا توجد إشعارات", "en": "No notifications" },
+      "description": {
+        "ar": "عندما تصلك إشعارات جديدة، ستظهر هنا.",
+        "en": "When you receive new notifications, they'll appear here."
+      }
+    },
+    "mark_all_read": { "ar": "تحديد الكل كمقروء", "en": "Mark All as Read" },
+    "mark_read": { "ar": "تحديد كمقروء", "en": "Mark as Read" },
+    "delete": { "ar": "حذف", "en": "Delete" },
+
+    "types": {
+      "transfer_sent": {
+        "title": { "ar": "تم إرسال المبلغ", "en": "Transfer Sent" },
+        "body": {
+          "ar": "تم إرسال {amount} إلى {name} بنجاح.",
+          "en": "{amount} sent to {name} successfully."
+        }
+      },
+      "transfer_received": {
+        "title": { "ar": "وصلتك حوالة", "en": "Transfer Received" },
+        "body": {
+          "ar": "استلمت {amount} من {name}.",
+          "en": "You received {amount} from {name}."
+        }
+      },
+      "transfer_pending": {
+        "title": { "ar": "معاملة قيد المعالجة", "en": "Transaction Processing" },
+        "body": {
+          "ar": "معاملة بقيمة {amount} قيد المعالجة.",
+          "en": "A transaction of {amount} is being processed."
+        }
+      },
+      "card_created": {
+        "title": { "ar": "تم إنشاء البطاقة", "en": "Card Created" },
+        "body": {
+          "ar": "تم إنشاء بطاقة رقمية جديدة بنجاح.",
+          "en": "A new digital card has been created successfully."
+        }
+      },
+      "card_frozen": {
+        "title": { "ar": "تم تجميد البطاقة", "en": "Card Frozen" },
+        "body": {
+          "ar": "بطاقة {name} مجمدة الآن.",
+          "en": "Card {name} is now frozen."
+        }
+      },
+      "card_unfrozen": {
+        "title": { "ar": "تم إلغاء تجميد البطاقة", "en": "Card Unfrozen" },
+        "body": {
+          "ar": "بطاقة {name} غير مجمدة الآن.",
+          "en": "Card {name} is now unfrozen."
+        }
+      },
+      "kyc_approved": {
+        "title": { "ar": "تم توثيق الهوية", "en": "Identity Verified" },
+        "body": {
+          "ar": "تم قبول مستندات توثيق الهوية. يمكنك استخدام جميع الخدمات.",
+          "en": "Your identity documents have been approved. You can use all services."
+        }
+      },
+      "kyc_rejected": {
+        "title": { "ar": "لم يتم قبول التوثيق", "en": "Verification Rejected" },
+        "body": {
+          "ar": "لم يتم قبول مستندات التوثيق. يرجى مراجعة السبب وإعادة المحاولة.",
+          "en": "Your verification documents were rejected. Please review the reason and retry."
+        }
+      },
+      "gold_price_alert": {
+        "title": { "ar": "تنبيه سعر الذهب", "en": "Gold Price Alert" },
+        "body": {
+          "ar": "سعر الذهب (عيار {purity}) الآن: {price}.",
+          "en": "Gold price ({purity}) is now: {price}."
+        }
+      },
+      "cashback_earned": {
+        "title": { "ar": "كاش باك!", "en": "Cashback Earned!" },
+        "body": {
+          "ar": "حصلت على {amount} كاش باك من معاملة سابقة.",
+          "en": "You earned {amount} cashback from a previous transaction."
+        }
+      },
+      "referral_bonus": {
+        "title": { "ar": "مكافأة إحالة", "en": "Referral Bonus" },
+        "body": {
+          "ar": "تم تفعيل حساب صديقك {name}. حصلت على مكافأة {amount}! استمر في دعوة الأصدقاء.",
+          "en": "Your friend {name} activated their account. You earned a {amount} bonus! Keep inviting friends."
+        }
+      },
+      "device_approval_request": {
+        "title": { "ar": "طلب جهاز جديد", "en": "New Device Request" },
+        "body": {
+          "ar": "جهاز جديد يحاول الوصول إلى حسابك. وافق أو ارفض من إعدادات الأجهزة.",
+          "en": "A new device is trying to access your account. Approve or reject from device settings."
+        }
+      },
+      "device_approved": {
+        "title": { "ar": "تمت الموافقة على الجهاز", "en": "Device Approved" },
+        "body": {
+          "ar": "تمت الموافقة على جهازك الجديد. سيكون جاهزاً للاستخدام بعد 48 ساعة.",
+          "en": "Your new device has been approved. It will be ready to use after 48 hours."
+        }
+      },
+      "savings_goal_reached": {
+        "title": { "ar": "مبروك! حققت هدف الادخار", "en": "Congratulations! Goal Reached" },
+        "body": {
+          "ar": "حققت هدف الادخار {name}! أنت رائع!",
+          "en": "You reached your savings goal {name}! You're amazing!"
+        }
+      },
+      "exchange_completed": {
+        "title": { "ar": "تم صرف العملات", "en": "Exchange Completed" },
+        "body": {
+          "ar": "تم صرف {from_amount} إلى {to_amount} بنجاح.",
+          "en": "{from_amount} exchanged to {to_amount} successfully."
+        }
+      },
+      "deposit_confirmed": {
+        "title": { "ar": "تم تأكيد الإيداع", "en": "Deposit Confirmed" },
+        "body": {
+          "ar": "تم إيداع {amount} في محفظتك.",
+          "en": "{amount} has been deposited to your wallet."
+        }
+      },
+      "withdrawal_confirmed": {
+        "title": { "ar": "تم تأكيد السحب", "en": "Withdrawal Confirmed" },
+        "body": {
+          "ar": "تم سحب {amount} من محفظتك.",
+          "en": "{amount} has been withdrawn from your wallet."
+        }
+      },
+      "payment_request": {
+        "title": { "ar": "طلب دفع", "en": "Payment Request" },
+        "body": {
+          "ar": "{name} يطلب منك {amount}. اضغط للتفاصيل.",
+          "en": "{name} is requesting {amount} from you. Tap for details."
+        }
+      }
+    }
+  },
+
+  "onboarding": {
+    "skip": { "ar": "تخطي", "en": "Skip" },
+    "next": { "ar": "التالي", "en": "Next" },
+    "get_started": { "ar": "ابدأ الآن", "en": "Get Started" },
+    "back": { "ar": "رجوع", "en": "Back" },
+    "progress_steps": { "ar": "الخطوة {current} من {total}", "en": "Step {current} of {total}" },
+
+    "step1": {
+      "title": { "ar": "مرحباً بك في صكك", "en": "Welcome to SAKK" },
+      "description": {
+        "ar": "محفظتك الرقمية الآمنة. دير أموالك بالدولار والليرة والذهب من تطبيق واحد.",
+        "en": "Your secure digital wallet. Manage your USD, SYP, and gold from one app."
+      },
+      "illustration_alt": { "ar": "رسوم متحركة لمحفظة رقمية", "en": "Digital wallet illustration" }
+    },
+    "step2": {
+      "title": { "ar": "حول ودير وأرسل", "en": "Exchange, Manage & Send" },
+      "description": {
+        "ar": "حول بين الدولار والليرة، أرسل الأموال للأصدقاء، ادفع الفواتير — كل ذلك بسرعة وأمان.",
+        "en": "Convert between USD and SYP, send money to friends, pay bills — all fast and secure."
+      },
+      "illustration_alt": { "ar": "رسوم متحركة لتحويل الأموال", "en": "Money transfer illustration" }
+    },
+    "step3": {
+      "title": { "ar": "استثمر في الذهب", "en": "Invest in Gold" },
+      "description": {
+        "ar": "اشتر وبيع الذهب بأكثر العيارات طلباً. ادخر ذهباً لمستقبلك.",
+        "en": "Buy and sell gold in the most popular purities. Save gold for your future."
+      },
+      "illustration_alt": { "ar": "رسوم متحركة لسبائك الذهب", "en": "Gold bars illustration" }
+    },
+    "step4": {
+      "title": { "ar": "بطاقات رقمية آمنة", "en": "Secure Digital Cards" },
+      "description": {
+        "ar": "أنشئ بطاقات رقمية للتسوق عبر الإنترنت بأمان تام.",
+        "en": "Create digital cards for safe online shopping."
+      },
+      "illustration_alt": { "ar": "رسوم متحركة لبطاقة رقمية", "en": "Digital card illustration" }
+    }
+  },
+
+  "profile": {
+    "title": { "ar": "الملف الشخصي", "en": "Profile" },
+    "personal_info": { "ar": "المعلومات الشخصية", "en": "Personal Information" },
+    "full_name": { "ar": "الاسم الكامل", "en": "Full Name" },
+    "email": { "ar": "البريد الإلكتروني", "en": "Email" },
+    "phone": { "ar": "رقم الهاتف", "en": "Phone Number" },
+    "date_of_birth": { "ar": "تاريخ الميلاد", "en": "Date of Birth" },
+    "nationality": { "ar": "الجنسية", "en": "Nationality" },
+    "edit": { "ar": "تعديل", "en": "Edit" },
+    "save": { "ar": "حفظ", "en": "Save" },
+    "cancel": { "ar": "إلغاء", "en": "Cancel" },
+
+    "security_title": { "ar": "الأمان", "en": "Security" },
+    "change_pin": { "ar": "تغيير رمز الحماية", "en": "Change Security PIN" },
+    "change_password": { "ar": "تغيير كلمة المرور", "en": "Change Password" },
+    "two_factor": { "ar": "المصادقة الثنائية", "en": "Two-Factor Auth" },
+    "devices": { "ar": "الأجهزة المتصلة", "en": "Connected Devices" },
+
+    "preferences_title": { "ar": "التفضيلات", "en": "Preferences" },
+    "language": { "ar": "اللغة", "en": "Language" },
+    "language_ar": { "ar": "العربية", "en": "Arabic" },
+    "language_en": { "ar": "English", "en": "English" },
+    "notifications_settings": { "ar": "إعدادات الإشعارات", "en": "Notification Settings" },
+    "theme": { "ar": "المظهر", "en": "Theme" },
+    "theme_light": { "ar": "فاتح", "en": "Light" },
+    "theme_dark": { "ar": "داكن", "en": "Dark" },
+    "theme_system": { "ar": "النظام", "en": "System" },
+
+    "referral_title": { "ar": "الإحالات", "en": "Referrals" },
+    "referral_code": { "ar": "رمز الإحالة الخاص بك", "en": "Your Referral Code" },
+    "referral_count": { "ar": "عدد الإحالات الناجحة", "en": "Successful Referrals" },
+    "referral_earnings": { "ar": "إجمالي مكافآت الإحالة", "en": "Total Referral Earnings" },
+    "share_referral": { "ar": "شارك رمز الإحالة مع الأصدقاء", "en": "Share your referral code with friends" },
+    "referral_bonus_info": {
+      "ar": "احصل على $5 لكل صديق يسجل عبر رابطك ويوثق حسابه.",
+      "en": "Earn $5 for each friend who signs up through your link and verifies their account."
+    },
+
+    "about_title": { "ar": "عن التطبيق", "en": "About" },
+    "version": { "ar": "الإصدار", "en": "Version" },
+    "terms": { "ar": "شروط الخدمة", "en": "Terms of Service" },
+    "privacy": { "ar": "سياسة الخصوصية", "en": "Privacy Policy" },
+    "support": { "ar": "الدعم الفني", "en": "Support" },
+    "logout": { "ar": "تسجيل الخروج", "en": "Sign Out" },
+
+    "errors": {
+      "update_failed": {
+        "ar": "تعذر تحديث المعلومات. حاول مرة أخرى.",
+        "en": "Failed to update information. Try again."
+      }
+    },
+
+    "success": {
+      "updated": {
+        "ar": "تم تحديث المعلومات بنجاح!",
+        "en": "Information updated successfully!"
+      }
+    }
+  },
+
+  "devices": {
+    "title": { "ar": "الأجهزة المتصلة", "en": "Connected Devices" },
+    "subtitle": {
+      "ar": "الأجهزة التي لديها حق الوصول إلى حسابك",
+      "en": "Devices with access to your account"
+    },
+    "current_device": { "ar": "الجهاز الحالي", "en": "Current Device" },
+    "trusted_devices": { "ar": "أجهزة موثوقة", "en": "Trusted Devices" },
+    "pending_devices": { "ar": "أجهزة معلقة", "en": "Pending Devices" },
+    "device_name": { "ar": "اسم الجهاز", "en": "Device Name" },
+    "last_seen": { "ar": "آخر ظهور", "en": "Last Seen" },
+    "added_date": { "ar": "تاريخ الإضافة", "en": "Date Added" },
+    "trust_period": { "ar": "فترة الأمان: 48 ساعة متبقية", "en": "Safety period: 48 hours remaining" },
+    "trust_period_done": { "ar": "فترة الأمان: مكتملة ✅", "en": "Safety period: Complete ✅" },
+
+    "approve": { "ar": "موافقة", "en": "Approve" },
+    "reject": { "ar": "رفض", "en": "Reject" },
+    "remove": { "ar": "إزالة", "en": "Remove" },
+
+    "remove_confirm": {
+      "ar": "هل أنت متأكد من إزالة هذا الجهاز؟ ستحتاج لتسجيل الدخول مرة أخرى منه.",
+      "en": "Are you sure you want to remove this device? You'll need to sign in again from it."
+    },
+
+    "empty": {
+      "title": { "ar": "لا توجد أجهزة أخرى", "en": "No other devices" },
+      "description": {
+        "ar": "الأجهزة التي تسجل الدخول بها ستظهر هنا.",
+        "en": "Devices you sign in from will appear here."
+      }
+    },
+
+    "errors": {
+      "remove_failed": {
+        "ar": "تعذر إزالة الجهاز. حاول مرة أخرى.",
+        "en": "Failed to remove device. Try again."
+      }
+    },
+
+    "success": {
+      "approved": {
+        "ar": "تمت الموافقة على الجهاز. فترة الأمان 48 ساعة.",
+        "en": "Device approved. 48-hour safety period active."
+      },
+      "rejected": {
+        "ar": "تم رفض الجهاز.",
+        "en": "Device rejected."
+      },
+      "removed": {
+        "ar": "تم إزالة الجهاز.",
+        "en": "Device removed."
+      }
+    }
+  },
+
+  "agents": {
+    "title": { "ar": "الوكلاء", "en": "Agents" },
+    "subtitle": {
+      "ar": "اعثر على أقرب وكيل معتمد لإيداع أو سحب النقود",
+      "en": "Find a nearby authorized agent for cash deposit or withdrawal"
+    },
+    "become_agent": { "ar": "انضم كموزع معتمد", "en": "Become an Agent" },
+    "search_placeholder": { "ar": "ابحث عن وكيل أو منطقة...", "en": "Search for an agent or area..." },
+    "nearby_agents": { "ar": "وكلاء قريبون", "en": "Nearby Agents" },
+    "distance": { "ar": "المسافة: {distance} كم", "en": "Distance: {distance} km" },
+    "rating": { "ar": "التقييم: {rating}/5", "en": "Rating: {rating}/5" },
+    "hours": { "ar": "ساعات العمل: {hours}", "en": "Hours: {hours}" },
+    "available": { "ar": "متاح الآن", "en": "Available Now" },
+    "unavailable": { "ar": "غير متاح حالياً", "en": "Currently Unavailable" },
+    "deposit_with_agent": { "ar": "إيداع عبر الوكيل", "en": "Deposit via Agent" },
+    "withdraw_with_agent": { "ar": "سحب عبر الوكيل", "en": "Withdraw via Agent" },
+
+    "no_results": {
+      "title": { "ar": "لا يوجد وكلاء", "en": "No agents found" },
+      "description": {
+        "ar": "لم نجد وكلاء في هذه المنطقة. جرب البحث في منطقة أخرى.",
+        "en": "No agents found in this area. Try searching a different area."
+      }
+    },
+
+    "errors": {
+      "location_denied": {
+        "ar": "لم نتمكن من الوصول إلى موقعك. فعّل خدمات الموقع في الإعدادات.",
+        "en": "Unable to access your location. Enable location services in settings."
+      },
+      "load_failed": {
+        "ar": "تعذر تحميل قائمة الوكلاء. اسحب للأسفل لإعادة المحاولة.",
+        "en": "Failed to load agents list. Pull down to retry."
+      }
+    }
+  },
+
+  "merchants": {
+    "title": { "ar": "التجار", "en": "Merchants" },
+    "subtitle": {
+      "ar": "اقبل المدفوعات من عملاء صكك في متجرك",
+      "en": "Accept payments from SAKK customers at your store"
+    },
+    "become_merchant": { "ar": "انضم كتاجر", "en": "Become a Merchant" },
+    "api_docs": { "ar": "وثائق API", "en": "API Documentation" },
+    "sales_report": { "ar": "تقرير المبيعات", "en": "Sales Report" },
+    "total_sales": { "ar": "إجمالي المبيعات", "en": "Total Sales" },
+    "transactions_count": { "ar": "عدد المعاملات", "en": "Transaction Count" },
+    "merchant_qr": { "ar": "رمز QR للدفع", "en": "Payment QR Code" }
+  },
+
+  "qr": {
+    "scan_title": { "ar": "مسح QR", "en": "Scan QR" },
+    "scan_subtitle": {
+      "ar": "وجه الكاميرا نحو رمز QR لقراءته",
+      "en": "Point your camera at a QR code to scan it"
+    },
+    "scan_for_payment": { "ar": "امسح QR للدفع", "en": "Scan QR to Pay" },
+    "scan_for_auth": { "ar": "امسح QR لتسجيل الدخول", "en": "Scan QR to Login" },
+    "my_qr": { "ar": "رمز QR الخاص بي", "en": "My QR Code" },
+    "camera_permission_denied": {
+      "ar": "الوصول إلى الكاميرا مطلوب لمسح الرموز. فعّل الإذن في الإعدادات.",
+      "en": "Camera access is required to scan codes. Enable it in settings."
+    },
+    "invalid_qr": {
+      "ar": "رمز QR غير صحيح. حاول مرة أخرى.",
+      "en": "Invalid QR code. Try again."
+    }
+  },
+
+  "payment_request": {
+    "title": { "ar": "طلب دفع", "en": "Payment Request" },
+    "from": { "ar": "طلب من {name}", "en": "Request from {name}" },
+    "amount": { "ar": "المبلغ: {amount}", "en": "Amount: {amount}" },
+    "note": { "ar": "السبب: {note}", "en": "Reason: {note}" },
+    "accept": { "ar": "قبول الدفع", "en": "Accept Payment" },
+    "decline": { "ar": "رفض", "en": "Decline" },
+
+    "accepted": {
+      "ar": "تم تأكيد الدفع إلى {name}!",
+      "en": "Payment to {name} confirmed!"
+    },
+    "declined": {
+      "ar": "تم رفض طلب الدفع.",
+      "en": "Payment request declined."
+    }
+  },
+
+  "support": {
+    "title": { "ar": "الدعم الفني", "en": "Support" },
+    "subtitle": {
+      "ar": "نحن هنا لمساعدتك. تواصل معنا بأي طريقة تناسبك.",
+      "en": "We're here to help. Reach out to us any way you prefer."
+    },
+    "faq": { "ar": "الأسئلة الشائعة", "en": "FAQ" },
+    "contact_us": { "ar": "اتصل بنا", "en": "Contact Us" },
+    "email_support": { "ar": "دعم عبر البريد الإلكتروني", "en": "Email Support" },
+    "chat_support": { "ar": "محادثة فورية", "en": "Live Chat" },
+    "whatsapp": { "ar": "واتساب", "en": "WhatsApp" },
+    "report_problem": { "ar": "الإبلاغ عن مشكلة", "en": "Report a Problem" },
+    "problem_description": { "ar": "وصف المشكلة", "en": "Problem Description" },
+    "problem_placeholder": { "ar": "اشرح المشكلة بالتفصيل...", "en": "Describe the problem in detail..." },
+
+    "success": {
+      "submitted": {
+        "ar": "تم إرسال طلب الدعم. سنتواصل معك قريباً.",
+        "en": "Support request submitted. We'll get back to you shortly."
+      }
+    }
+  },
+
+  "admin": {
+    "dashboard": {
+      "title": { "ar": "لوحة التحكم", "en": "Dashboard" },
+      "total_users": { "ar": "إجمالي المستخدمين", "en": "Total Users" },
+      "active_users": { "ar": "المستخدمون النشطون", "en": "Active Users" },
+      "total_transactions": { "ar": "إجمالي المعاملات", "en": "Total Transactions" },
+      "total_volume": { "ar": "حجم المعاملات", "en": "Transaction Volume" },
+      "pending_kyc": { "ar": "KYC قيد المراجعة", "en": "Pending KYC" },
+      "recent_registrations": { "ar": "آخر التسجيلات", "en": "Recent Registrations" },
+      "system_health": { "ar": "حالة النظام", "en": "System Health" }
+    },
+
+    "users": {
+      "title": { "ar": "إدارة المستخدمين", "en": "User Management" },
+      "search": { "ar": "بحث عن مستخدم...", "en": "Search users..." },
+      "filter_role": { "ar": "تصفية حسب الدور", "en": "Filter by Role" },
+      "role_user": { "ar": "مستخدم", "en": "User" },
+      "role_merchant": { "ar": "تاجر", "en": "Merchant" },
+      "role_agent": { "ar": "وكيل", "en": "Agent" },
+      "role_company": { "ar": "شركة", "en": "Company" },
+      "role_admin": { "ar": "مدير", "en": "Admin" },
+      "impersonate": { "ar": "انتحال شخصية", "en": "Impersonate" },
+      "impersonate_confirm": {
+        "ar": "سيتم تسجيل الدخول كـ {name}. سجل الخروج للعودة لحسابك.",
+        "en": "You will be logged in as {name}. Sign out to return to your account."
+      },
+      "freeze_wallet": { "ar": "تجميد المحفظة", "en": "Freeze Wallet" },
+      "unfreeze_wallet": { "ar": "إلغاء تجميد المحفظة", "en": "Unfreeze Wallet" },
+      "delete_user": { "ar": "حذف المستخدم", "en": "Delete User" },
+      "delete_confirm": {
+        "ar": "هل أنت متأكد من حذف هذا المستخدم؟ لا يمكن التراجع.",
+        "en": "Are you sure you want to delete this user? This cannot be undone."
+      }
+    },
+
+    "kyc_review": {
+      "title": { "ar": "مراجعة KYC", "en": "KYC Review" },
+      "subtitle": { "ar": "مراجعة مستندات توثيق الهوية", "en": "Review identity verification documents" },
+      "approve": { "ar": "قبول", "en": "Approve" },
+      "reject": { "ar": "رفض", "en": "Reject" },
+      "reject_reason_label": { "ar": "سبب الرفض", "en": "Rejection Reason" },
+      "reject_reason_placeholder": { "ar": "اشرح سبب الرفض للمستخدم...", "en": "Explain the rejection reason to the user..." },
+      "no_pending": {
+        "ar": "لا توجد طلبات KYC قيد المراجعة.",
+        "en": "No pending KYC requests."
+      }
+    },
+
+    "transactions": {
+      "title": { "ar": "إدارة المعاملات", "en": "Transaction Management" },
+      "reverse": { "ar": "عكس المعاملة", "en": "Reverse Transaction" },
+      "reverse_confirm": {
+        "ar": "هل أنت متأكد من عكس هذه المعاملة؟ سيتم استرداد الأموال.",
+        "en": "Are you sure you want to reverse this transaction? Funds will be returned."
+      }
+    },
+
+    "settings": {
+      "title": { "ar": "إعدادات النظام", "en": "System Settings" },
+      "fees": { "ar": "إدارة الرسوم", "en": "Fee Management" },
+      "limits": { "ar": "إدارة الحدود", "en": "Limit Management" },
+      "notifications": { "ar": "إرسال إشعار", "en": "Send Notification" },
+      "notify_all": { "ar": "إرسال للجميع", "en": "Send to All" },
+      "notify_select": { "ar": "إرسال لمستخدمين محددين", "en": "Send to Selected Users" },
+      "message_label": { "ar": "نص الإشعار", "en": "Notification Message" },
+      "message_placeholder": { "ar": "أدخل نص الإشعار...", "en": "Enter notification text..." },
+
+      "success": {
+        "notification_sent": {
+          "ar": "تم إرسال الإشعار بنجاح.",
+          "en": "Notification sent successfully."
+        }
+      }
+    },
+
+    "export": {
+      "title": { "ar": "تصدير البيانات", "en": "Export Data" },
+      "format_csv": { "ar": "CSV", "en": "CSV" },
+      "format_excel": { "ar": "Excel", "en": "Excel" },
+      "export_transactions": { "ar": "تصدير المعاملات", "en": "Export Transactions" },
+      "export_users": { "ar": "تصدير المستخدمين", "en": "Export Users" },
+      "date_from": { "ar": "من تاريخ", "en": "From Date" },
+      "date_to": { "ar": "إلى تاريخ", "en": "To Date" },
+      "download": { "ar": "تحميل", "en": "Download" }
+    }
+  },
+
+  "common": {
+    "loading": { "ar": "جارٍ التحميل...", "en": "Loading..." },
+    "processing": { "ar": "جارٍ المعالجة...", "en": "Processing..." },
+    "sending": { "ar": "جارٍ الإرسال...", "en": "Sending..." },
+    "saving": { "ar": "جارٍ الحفظ...", "en": "Saving..." },
+    "submitting": { "ar": "جارٍ الإرسال...", "en": "Submitting..." },
+    "verifying": { "ar": "جارٍ التحقق...", "en": "Verifying..." },
+    "uploading": { "ar": "جارٍ الرفع...", "en": "Uploading..." },
+    "refreshing": { "ar": "جارٍ التحديث...", "en": "Refreshing..." },
+    "please_wait": { "ar": "يرجى الانتظار...", "en": "Please wait..." },
+
+    "save": { "ar": "حفظ", "en": "Save" },
+    "cancel": { "ar": "إلغاء", "en": "Cancel" },
+    "confirm": { "ar": "تأكيد", "en": "Confirm" },
+    "yes": { "ar": "نعم", "en": "Yes" },
+    "no": { "ar": "لا", "en": "No" },
+    "ok": { "ar": "حسناً", "en": "OK" },
+    "close": { "ar": "إغلاق", "en": "Close" },
+    "back": { "ar": "رجوع", "en": "Back" },
+    "next": { "ar": "التالي", "en": "Next" },
+    "skip": { "ar": "تخطي", "en": "Skip" },
+    "done": { "ar": "تم", "en": "Done" },
+    "retry": { "ar": "إعادة المحاولة", "en": "Retry" },
+    "try_again": { "ar": "حاول مرة أخرى", "en": "Try Again" },
+    "go_back": { "ar": "العودة", "en": "Go Back" },
+
+    "search": { "ar": "بحث", "en": "Search" },
+    "filter": { "ar": "تصفية", "en": "Filter" },
+    "sort": { "ar": "ترتيب", "en": "Sort" },
+    "clear": { "ar": "مسح", "en": "Clear" },
+    "select": { "ar": "اختيار", "en": "Select" },
+    "select_all": { "ar": "اختيار الكل", "en": "Select All" },
+    "deselect_all": { "ar": "إلغاء اختيار الكل", "en": "Deselect All" },
+
+    "confirm_title": { "ar": "تأكيد", "en": "Confirm" },
+    "success_title": { "ar": "تم بنجاح", "en": "Success" },
+    "error_title": { "ar": "خطأ", "en": "Error" },
+    "warning_title": { "ar": "تنبيه", "en": "Warning" },
+    "info_title": { "ar": "معلومات", "en": "Information" },
+
+    "no_data": { "ar": "لا توجد بيانات", "en": "No data available" },
+    "no_results": { "ar": "لا توجد نتائج", "en": "No results found" },
+    "load_more": { "ar": "تحميل المزيد", "en": "Load More" },
+    "show_less": { "ar": "عرض أقل", "en": "Show Less" },
+    "show_more": { "ar": "عرض المزيد", "en": "Show More" },
+    "see_all": { "ar": "عرض الكل", "en": "See All" },
+
+    "copy": { "ar": "نسخ", "en": "Copy" },
+    "copied": { "ar": "تم النسخ!", "en": "Copied!" },
+    "share": { "ar": "مشاركة", "en": "Share" },
+    "download": { "ar": "تحميل", "en": "Download" },
+    "print": { "ar": "طباعة", "en": "Print" },
+
+    "optional": { "ar": "(اختياري)", "en": "(optional)" },
+    "required": { "ar": "مطلوب", "en": "Required" },
+
+    "network_error": {
+      "title": { "ar": "انقطاع الاتصال", "en": "Connection Lost" },
+      "message": {
+        "ar": "تعذر الاتصال بالخادم. تحقق من اتصال الإنترنت.",
+        "en": "Unable to connect to the server. Check your internet connection."
+      },
+      "action": { "ar": "إعادة المحاولة", "en": "Retry" }
+    },
+    "server_error": {
+      "title": { "ar": "خطأ في الخادم", "en": "Server Error" },
+      "message": {
+        "ar": "حدث خطأ في الخادم. نعمل على حل المشكلة. حاول لاحقاً.",
+        "en": "A server error occurred. We're working on it. Try again later."
+      }
+    },
+    "timeout_error": {
+      "title": { "ar": "انتهت المهلة", "en": "Request Timed Out" },
+      "message": {
+        "ar": "الطلب استغرق وقتاً طويلاً. تحقق من اتصالك وحاول مرة أخرى.",
+        "en": "The request took too long. Check your connection and try again."
+      }
+    },
+    "rate_limit_error": {
+      "title": { "ar": "طلبات كثيرة", "en": "Too Many Requests" },
+      "message": {
+        "ar": "أرسلت طلبات كثيرة في وقت قصير. انتظر قليلاً ثم حاول مرة أخرى.",
+        "en": "You sent too many requests in a short time. Please wait and try again."
+      }
+    },
+    "session_expired": {
+      "title": { "ar": "انتهت الجلسة", "en": "Session Expired" },
+      "message": {
+        "ar": "انتهت صلاحية جلستك. يرجى تسجيل الدخول مرة أخرى للأمان.",
+        "en": "Your session has expired. Please sign in again for security."
+      },
+      "action": { "ar": "تسجيل الدخول", "en": "Sign In" }
+    },
+    "maintenance": {
+      "title": { "ar": "الصيانة المجدولة", "en": "Scheduled Maintenance" },
+      "message": {
+        "ar": "النظام قيد الصيانة حاليًا. نعتذر عن الإزعاج. سنعود قريباً.",
+        "en": "The system is currently under maintenance. Apologies for the inconvenience. We'll be back shortly."
+      }
+    },
+    "offline": {
+      "title": { "ar": "أنت غير متصل", "en": "You're Offline" },
+      "message": {
+        "ar": "بعض الخدمات قد لا تعمل بدون اتصال إنترنت.",
+        "en": "Some services may not work without an internet connection."
+      }
+    },
+    "unsaved_changes": {
+      "title": { "ar": "تغييرات غير محفوظة", "en": "Unsaved Changes" },
+      "message": {
+        "ar": "لديك تغييرات لم تحفظ. هل تريد الخروج بدون حفظ؟",
+        "en": "You have unsaved changes. Do you want to leave without saving?"
+      },
+      "leave": { "ar": "خروج بدون حفظ", "en": "Leave without Saving" },
+      "stay": { "ar": "البقاء", "en": "Stay" }
+    },
+
+    "validation": {
+      "required": {
+        "ar": "هذا الحقل مطلوب.",
+        "en": "This field is required."
+      },
+      "email": {
+        "ar": "يرجى إدخال بريد إلكتروني صحيح.",
+        "en": "Please enter a valid email address."
+      },
+      "phone": {
+        "ar": "يرجى إدخال رقم هاتف صحيح.",
+        "en": "Please enter a valid phone number."
+      },
+      "min_length": {
+        "ar": "يجب أن يكون على الأقل {min} أحرف.",
+        "en": "Must be at least {min} characters."
+      },
+      "max_length": {
+        "ar": "يجب ألا يتجاوز {max} حرف.",
+        "en": "Must not exceed {max} characters."
+      },
+      "number": {
+        "ar": "يرجى إدخال رقم صحيح.",
+        "en": "Please enter a valid number."
+      },
+      "positive": {
+        "ar": "يرجى إدخال رقم موجب.",
+        "en": "Please enter a positive number."
+      },
+      "amount_min": {
+        "ar": "الحد الأدنى للمبلغ هو {min}.",
+        "en": "Minimum amount is {min}."
+      },
+      "amount_max": {
+        "ar": "الحد الأقصى للمبلغ هو {max}.",
+        "en": "Maximum amount is {max}."
+      },
+      "password_requirements": {
+        "ar": "8 أحرف على الأقل، حرف كبير، رقم، ورمز خاص.",
+        "en": "At least 8 characters, uppercase, number, and special character."
+      },
+      "pin_format": {
+        "ar": "رمز الحماية يجب أن يكون 6 أرقام.",
+        "en": "Security PIN must be 6 digits."
+      },
+      "terms_required": {
+        "ar": "يجب الموافقة على الشروط والأحكام.",
+        "en": "You must agree to the terms and conditions."
+      }
+    }
+  }
+}

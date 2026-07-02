@@ -1,0 +1,13 @@
+# CONTEXT — SAAS-010 (durable facts; append-only)
+- title: GarageMaster
+- sector: 04-operations
+- description: إدارة ورش السيارات: إصلاحات، فواتير، قطع غيار، تواصل مع العملاء
+- target_customers: ورش سيارات، مراكز صيانة
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: نظام إدارة ورش السيارات ومراكز الصيانة — تتبع الإصلاحات، إدارة قطع الغيار، فواتير إلكترونية، تواصل مع العملاء. يشمل تطبيق فني وتطبيق عميل.
+- target_market: سوق إدارة ورش السيارات ~$4B عالمياً، ~$250M في الشرق الأوسط. نمو 12% CAGR.
+- competitive_landscape: AutoFluent (أمريكي $100+)، GaragePlug (بريطاني)، ShopManager (كندي ثقيل)، Mitchell 1 (أمريكي فقط)، YouMech (تواصل وليس إدارة).
+- differentiation: عربي كامل، تسعير منخفض ($19-$69)، دعم قطع الغيار المحلية، إشعارات واتساب، مناسب لورش المنطقة.
+- pricing_tiers: Starter ($19/mo — 100 jobs, 3 techs), Pro ($39/mo — unlimited, 10 techs), Premium ($69/mo — multi-branch)
+- prd_completed_at: gate-0-inception
+- next_gate: 1-discovery → sofi-journey-architect

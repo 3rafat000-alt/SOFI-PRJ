@@ -1,0 +1,12 @@
+[
+  {"num":91,"id":"SAAS-091","name":"LawyerRef","sector":"14-legal","desc":"شبكة إحالة المحامين: تخصصات، تقييمات، استشارات","target":"محامون، طالبو استشارات"},
+  {"num":92,"id":"SAAS-092","name":"EduFinance","sector":"08-finance","desc":"تمويل التعليم الجامعي: أقساط، منح، قروض طلابية","target":"طلاب، جامعات، بنوك"},
+  {"num":93,"id":"SAAS-093","name":"HallBooking","sector":"05-hospitality","desc":"إدارة قاعات المناسبات: حجوزات، تجهيزات، عقود","target":"قاعات أفراح، مناسبات"},
+  {"num":94,"id":"SAAS-094","name":"ToolRental","sector":"11-services","desc":"تأجير الأدوات والمعدات: حجوزات، توصيل، صيانة","target":"مقاولون، أفراد"},
+  {"num":95,"id":"SAAS-095","name":"MobileFix","sector":"11-services","desc":"إدارة ورش صيانة الجوالات: قطع غيار، فنيين، ضمان","target":"محلات جوالات، فنيون"},
+  {"num":96,"id":"SAAS-096","name":"NGOmgt","sector":"11-services","desc":"إدارة الجمعيات الخيرية: متبرعين، مشاريع، تقارير","target":"جمعيات، منظمات غير حكومية"},
+  {"num":97,"id":"SAAS-097","name":"FishFarm","sector":"09-agriculture","desc":"إدارة مزارع الأسماك: تغذية، إنتاج، مبيعات","target":"مزارع أسماك، مربون"},
+  {"num":98,"id":"SAAS-098","name":"CourierMgt","sector":"12-logistics","desc":"إدارة شركات الطرود البريدية: تتبع، توصيل، دفع","target":"شركات توصيل، متاجر"},
+  {"num":99,"id":"SAAS-099","name":"PowerBackup","sector":"10-energy","desc":"إدارة مولدات الكهرباء: صيانة، وقود، توزيع","target":"منازل، شركات، أبراج"},
+  {"num":100,"id":"SAAS-100","name":"AutoMarket","sector":"06-commerce","desc":"سوق السيارات المستعملة: إعلانات، معاينة، توثيق عقود","target":"تجار سيارات، أفراد"}
+]

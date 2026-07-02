@@ -1,0 +1,12 @@
+[
+  {"num":81,"id":"SAAS-081","name":"CemeteryMgt","sector":"11-services","desc":"إدارة المقابر: سجلات دفن، زوار، صيانة، حجوزات","target":"بلديات، جمعيات"},
+  {"num":82,"id":"SAAS-082","name":"HoneyFarm","sector":"09-agriculture","desc":"إدارة مناحل العسل: تتبع خلايا، إنتاج، مبيعات","target":"نحالون، منتجو عسل"},
+  {"num":83,"id":"SAAS-083","name":"TextilePro","sector":"15-industry","desc":"إدارة مصانع النسيج: خامات، إنتاج، طلبيات، صادرات","target":"مصانع نسيج، تجار أقمشة"},
+  {"num":84,"id":"SAAS-084","name":"PrintHub","sector":"15-industry","desc":"إدارة المطابع: طلبات طباعة، تصميم، توصيل، فوترة","target":"مطابع، دور نشر"},
+  {"num":85,"id":"SAAS-085","name":"GasDistribute","sector":"10-energy","desc":"إدارة توزيع الغاز المنزلي: أسطوانات، توزيع، طلبات","target":"موزعو غاز، محلات"},
+  {"num":86,"id":"SAAS-086","name":"CableTV","sector":"11-services","desc":"إدارة اشتراكات التلفاز والإنترنت: فواتير، عملاء، صيانة","target":"مزودو إنترنت، كيبل"},
+  {"num":87,"id":"SAAS-087","name":"ColdStorage","sector":"12-logistics","desc":"إدارة التبريد والتجميد: تتبع درجات حرارة، مخزون، صلاحية","target":"مستودعات تبريد، محلات"},
+  {"num":88,"id":"SAAS-088","name":"BakeryMgt","sector":"05-hospitality","desc":"إدارة محلات الحلويات: وصفات، إنتاج، طلبات زبائن","target":"حلويات، كافيهات"},
+  {"num":89,"id":"SAAS-089","name":"SpareParts","sector":"04-operations","desc":"إدارة محلات قطع غيار السيارات: مخزون، موردين، طلبات","target":"قطع غيار، ورش"},
+  {"num":90,"id":"SAAS-090","name":"FurniturePro","sector":"06-commerce","desc":"إدارة معارض الأثاث: معرض افتراضي، طلبات، توصيل","target":"معارض أثاث، موزعون"}
+]

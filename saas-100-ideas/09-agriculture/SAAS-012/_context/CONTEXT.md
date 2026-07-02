@@ -1,0 +1,14 @@
+# CONTEXT — SAAS-012 (durable facts; append-only)
+- title: FarmTech
+- sector: 09-agriculture
+- description: إدارة المزارع الذكية: جدولة الري، تتبع المحاصيل، المخزون، تقارير الإنتاج
+- target_customers: مزارعون، شركات زراعية
+- stack: Laravel API + React Dashboard + Flutter Mobile App
+- target_market_detail: 100,000+ مزرعة في الشرق الأوسط وشمال أفريقيا
+- product_description: منصة ذكية لإدارة المزارع تشمل جدولة الري الآلي، تتبع المحاصيل ومراحل النمو، إدارة المخزون الزراعي (بذور، أسمدة، مبيدات)، تقارير الإنتاج، وتكامل مع أجهزة استشعار الحقل (IoT).
+- competitive_landscape: FarmLogs (أمريكي)، Cropio (أوكراني)، نايتروجين (سعودي محدود)
+- differentiation: دعم العربية، تكامل حساسات IoT، تسعير مناسب للأسواق الناشئة
+- target_mrr_per_client: $39-$179/شهر
+- pricing_tiers: Basic ($39), Professional ($89), Enterprise ($179)
+- personas: مزارع (خالد)، مهندس زراعي (نور)
+- gate_status: Gate 0 (Inception) completed. docs/PRD.md written.

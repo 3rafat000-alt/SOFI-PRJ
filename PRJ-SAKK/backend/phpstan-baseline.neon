@@ -1,0 +1,1759 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Left side of && is always true\.$#'
+			identifier: booleanAnd.leftAlwaysTrue
+			count: 1
+			path: app/Console/Commands/BackfillKycPrivateFiles.php
+
+		-
+			message: '#^Negated boolean expression is always true\.$#'
+			identifier: booleanNot.alwaysTrue
+			count: 1
+			path: app/Console/Commands/BackfillKycPrivateFiles.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between resource and false will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Console/Commands/BackfillKycPrivateFiles.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$full_name\.$#'
+			identifier: property.notFound
+			count: 5
+			path: app/Http/Controllers/API/AdminController.php
+
+		-
+			message: '#^Cannot access property \$value on string\.$#'
+			identifier: property.nonObject
+			count: 4
+			path: app/Http/Controllers/API/AdminController.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between ''cancelled''\|''completed''\|''failed''\|''pending''\|''processing''\|''refunded''\|''reversed'' and App\\Enums\\TransactionStatus\:\:COMPLETED will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Http/Controllers/API/AdminController.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between mixed and null will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 3
+			path: app/Http/Controllers/API/AdminController.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''cancelled''\|''completed''\|''failed''\|''pending''\|''processing''\|''refunded''\|''reversed'' and App\\Enums\\TransactionStatus\:\:REVERSED will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Http/Controllers/API/AdminController.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Http/Controllers/API/AdminController.php
+
+		-
+			message: '#^Access to constant SUSPENDED on an unknown class App\\Http\\Controllers\\API\\UserStatus\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Http/Controllers/API/AuthController.php
+
+		-
+			message: '#^Cannot access property \$value on string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Http/Controllers/API/AuthController.php
+
+		-
+			message: '#^Cannot call method color\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/API/AuthController.php
+
+		-
+			message: '#^Cannot call method label\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/API/AuthController.php
+
+		-
+			message: '#^Cannot call method labelAr\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/API/AuthController.php
+
+		-
+			message: '#^Cannot call method toIso8601String\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/API/AuthController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$device_id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Controllers/API/BiometricController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$device_name\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Controllers/API/BiometricController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$device_type\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/BiometricController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/BiometricController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_trusted\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/BiometricController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$last_used_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/BiometricController.php
+
+		-
+			message: '#^Anonymous function has an unused use \$request\.$#'
+			identifier: closure.unusedUse
+			count: 1
+			path: app/Http/Controllers/API/CCPaymentController.php
+
+		-
+			message: '#^Cannot access property \$value on string\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: app/Http/Controllers/API/CCPaymentController.php
+
+		-
+			message: '#^Cannot call method label\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Http/Controllers/API/CCPaymentController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$balance\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/CardController.php
+
+		-
+			message: '#^Cannot access property \$value on string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Http/Controllers/API/CardController.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between ''active''\|''cancelled''\|''expired''\|''frozen''\|''pending'' and App\\Enums\\CardStatus\:\:ACTIVE will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Http/Controllers/API/CardController.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Http/Controllers/API/CardController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$device_name\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Http/Controllers/API/DeviceController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:approveWithHold\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/API/DeviceController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:isPending\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/API/DeviceController.php
+
+		-
+			message: '#^Cannot call method toIso8601String\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 3
+			path: app/Http/Controllers/API/DeviceController.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>sell_price" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Controllers/API/GoldSavingsController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$full_name\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Controllers/API/PaymentRequestController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/Http/Controllers/API/PaymentRequestController.php
+
+		-
+			message: '#^Cannot call method isPast\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/API/PaymentRequestController.php
+
+		-
+			message: '#^Cannot call method toIso8601String\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 3
+			path: app/Http/Controllers/API/PaymentRequestController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$amount\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/SavingsController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/SavingsController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$notes\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/SavingsController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$reference\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/SavingsController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/SavingsController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$type\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/SavingsController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$type_label\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/SavingsController.php
+
+		-
+			message: '#^Anonymous function has an unused use \$request\.$#'
+			identifier: closure.unusedUse
+			count: 1
+			path: app/Http/Controllers/API/SavingsController.php
+
+		-
+			message: '#^Cannot call method toDateString\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/API/SavingsController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$amount\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/TransactionController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$card\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/TransactionController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$category\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/TransactionController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/TransactionController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$currency\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/TransactionController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$description\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/TransactionController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$fee\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/TransactionController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$net_amount\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/TransactionController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$reference\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/TransactionController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/TransactionController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/TransactionController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$type\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/TransactionController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$wallet\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/TransactionController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\HasMany\:\:completed\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Http/Controllers/API/TransactionController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\HasMany\:\:forPeriod\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/API/TransactionController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\API\\WalletController\:\:\$transactionService is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: app/Http/Controllers/API/WalletController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:documents\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Http/Controllers/Admin/AgentDocumentController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Admin/AuditLogController.php
+
+		-
+			message: '#^Cannot cast Illuminate\\Database\\Eloquent\\Builder\<App\\Models\\AuditLog\> to int\.$#'
+			identifier: cast.int
+			count: 1
+			path: app/Http/Controllers/Admin/AuditLogController.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>email" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Controllers/Admin/AuditLogController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:documents\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Http/Controllers/Admin/MerchantDocumentController.php
+
+		-
+			message: '#^Call to function in_array\(\) with arguments ''audit_logs''\|''integration_logs''\|''password_reset…''\|''sessions''\|''user_notifications'', array\{''transactions'', ''wallets'', ''users'', ''gold_transactions'', ''gold_wallets'', ''savings_goals'', ''savings_transactions'', ''virtual_cards'', \.\.\.\} and true will always evaluate to false\.$#'
+			identifier: function.impossibleType
+			count: 1
+			path: app/Http/Controllers/Admin/SystemConfigController.php
+
+		-
+			message: '#^Match arm comparison between ''user_notifications'' and ''user_notifications'' is always true\.$#'
+			identifier: match.alwaysTrue
+			count: 1
+			path: app/Http/Controllers/Admin/SystemConfigController.php
+
+		-
+			message: '#^Class Laravel\\Horizon\\Contracts\\WorkloadRepository not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Http/Controllers/Admin/SystemHealthController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Middleware/EnsureDeviceCanTransact.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$transactions_locked_until\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Middleware/EnsureDeviceCanTransact.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:isPending\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Middleware/EnsureDeviceCanTransact.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:isTransactionLocked\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Middleware/EnsureDeviceCanTransact.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>is_admin" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Requests/Admin/ExportCsvRequest.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>is_admin" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Requests/Admin/KycReviewRequest.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>is_admin" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Requests/Admin/TransactionsIndexRequest.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>is_admin" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Requests/Admin/UpdateKycRequest.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>is_admin" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Requests/Admin/UpdateUserRequest.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>is_admin" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Requests/Admin/UsersIndexRequest.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$activated_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$apple_pay_enabled\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$atm_enabled\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$balance\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$bin\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$brand\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$card_number_masked\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$card_type\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$cardholder_name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$color\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$contactless_enabled\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$daily_limit\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$daily_spent\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$expires_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$expiry\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$expiry_month\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$expiry_year\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$formatted_balance\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$frozen_reason\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$google_pay_enabled\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$international_enabled\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$is_active\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$is_expired\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$monthly_limit\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$monthly_spent\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$nickname\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$online_enabled\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$per_transaction_limit\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$samsung_pay_enabled\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$spending_limit\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 5
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$total_spent\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$updated_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CardResource\:\:\$uuid\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CardResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$amount\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$balance_after\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$balance_before\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$card\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$card_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$category\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$completed_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$confirmations\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$currency\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$description\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$exchange_rate\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$failure_reason\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$fee\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$formatted_amount\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$net_amount\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$network\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$original_amount\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$original_currency\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$processed_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$recipient\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$recipient_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$reference\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 6
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$tx_hash\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$type\.$#'
+			identifier: property.notFound
+			count: 6
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$updated_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\TransactionResource\:\:\$uuid\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/TransactionResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$avatar\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$country_code\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$date_of_birth\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$email_verified_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$first_name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$full_name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$gender\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$is_active\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$is_kyc_verified\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$kyc_status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$kyc_verified_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$language\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$last_login_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$last_name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$phone\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$phone_verified_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$referral_code\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$timezone\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$two_factor_enabled\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$updated_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$uuid\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WalletResource\:\:\$available_balance\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/WalletResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WalletResource\:\:\$balance\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/WalletResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WalletResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/WalletResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WalletResource\:\:\$currency\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/WalletResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WalletResource\:\:\$daily_limit\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/WalletResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WalletResource\:\:\$daily_spent\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/WalletResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WalletResource\:\:\$deposit_address\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/WalletResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WalletResource\:\:\$formatted_balance\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/WalletResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WalletResource\:\:\$frozen_reason\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/WalletResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WalletResource\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/WalletResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WalletResource\:\:\$is_active\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/WalletResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WalletResource\:\:\$is_crypto\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Http/Resources/WalletResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WalletResource\:\:\$is_default\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/WalletResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WalletResource\:\:\$is_frozen\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/WalletResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WalletResource\:\:\$monthly_limit\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/WalletResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WalletResource\:\:\$monthly_spent\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/WalletResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WalletResource\:\:\$network\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/WalletResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WalletResource\:\:\$pending_balance\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/WalletResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WalletResource\:\:\$total_deposits\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/WalletResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WalletResource\:\:\$total_received\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/WalletResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WalletResource\:\:\$total_sent\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/WalletResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WalletResource\:\:\$total_withdrawals\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/WalletResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WalletResource\:\:\$transaction_count\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/WalletResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WalletResource\:\:\$updated_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/WalletResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\WalletResource\:\:\$uuid\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/WalletResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/ActivityLog.php
+
+		-
+			message: '#^Deprecated in PHP 8\.4\: Parameter \#3 \$modelId \(int\) is implicitly nullable via default value null\.$#'
+			identifier: parameter.implicitlyNullable
+			count: 1
+			path: app/Models/AuditLog.php
+
+		-
+			message: '#^Cannot call method isFuture\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Models/Device.php
+
+		-
+			message: '#^Method App\\Models\\Integration\:\:log\(\) should return App\\Models\\IntegrationLog but returns Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Integration.php
+
+		-
+			message: '#^Match arm comparison between ''both'' and ''both'' is always true\.$#'
+			identifier: match.alwaysTrue
+			count: 1
+			path: app/Models/Merchant.php
+
+		-
+			message: '#^Cannot call method isPast\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Models/PaymentRequest.php
+
+		-
+			message: '#^Match arm comparison between ''cancelled''\|''completed''\|''failed''\|''pending''\|''processing''\|''refunded''\|''reversed'' and App\\Enums\\TransactionStatus\:\:CANCELLED is always false\.$#'
+			identifier: match.alwaysFalse
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Match arm comparison between ''cancelled''\|''completed''\|''failed''\|''pending''\|''processing''\|''refunded''\|''reversed'' and App\\Enums\\TransactionStatus\:\:COMPLETED is always false\.$#'
+			identifier: match.alwaysFalse
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Match arm comparison between ''cancelled''\|''completed''\|''failed''\|''pending''\|''processing''\|''refunded''\|''reversed'' and App\\Enums\\TransactionStatus\:\:FAILED is always false\.$#'
+			identifier: match.alwaysFalse
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Match arm comparison between ''cancelled''\|''completed''\|''failed''\|''pending''\|''processing''\|''refunded''\|''reversed'' and App\\Enums\\TransactionStatus\:\:PENDING is always false\.$#'
+			identifier: match.alwaysFalse
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Match arm comparison between ''cancelled''\|''completed''\|''failed''\|''pending''\|''processing''\|''refunded''\|''reversed'' and App\\Enums\\TransactionStatus\:\:PROCESSING is always false\.$#'
+			identifier: match.alwaysFalse
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Match arm comparison between ''cancelled''\|''completed''\|''failed''\|''pending''\|''processing''\|''refunded''\|''reversed'' and App\\Enums\\TransactionStatus\:\:REFUNDED is always false\.$#'
+			identifier: match.alwaysFalse
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Match arm comparison between ''cancelled''\|''completed''\|''failed''\|''pending''\|''processing''\|''refunded''\|''reversed'' and App\\Enums\\TransactionStatus\:\:REVERSED is always false\.$#'
+			identifier: match.alwaysFalse
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Match expression does not handle remaining values\: ''cancelled''\|''completed''\|''failed''\|''pending''\|''processing''\|''refunded''\|''reversed''$#'
+			identifier: match.unhandled
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Property App\\Models\\Transaction\:\:\$failure_details \(string\|null\) does not accept array\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Property App\\Models\\Transaction\:\:\$status \(''cancelled''\|''completed''\|''failed''\|''pending''\|''processing''\|''refunded''\|''reversed''\) does not accept App\\Enums\\TransactionStatus\:\:CANCELLED\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Property App\\Models\\Transaction\:\:\$status \(''cancelled''\|''completed''\|''failed''\|''pending''\|''processing''\|''refunded''\|''reversed''\) does not accept App\\Enums\\TransactionStatus\:\:COMPLETED\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Property App\\Models\\Transaction\:\:\$status \(''cancelled''\|''completed''\|''failed''\|''pending''\|''processing''\|''refunded''\|''reversed''\) does not accept App\\Enums\\TransactionStatus\:\:FAILED\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Property App\\Models\\Transaction\:\:\$status \(''cancelled''\|''completed''\|''failed''\|''pending''\|''processing''\|''refunded''\|''reversed''\) does not accept App\\Enums\\TransactionStatus\:\:PROCESSING\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Result of && is always false\.$#'
+			identifier: booleanAnd.alwaysFalse
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Result of \|\| is always false\.$#'
+			identifier: booleanOr.alwaysFalse
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between ''cancelled''\|''completed''\|''failed''\|''pending''\|''processing''\|''refunded''\|''reversed'' and App\\Enums\\TransactionStatus\:\:COMPLETED will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between float and null will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 2
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Models/Transaction.php
+
+		-
+			message: '#^Method App\\Models\\User\:\:getOrCreateWallet\(\) should return App\\Models\\Wallet but returns Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Method App\\Models\\User\:\:getWallet\(\) should return App\\Models\\Wallet\|null but returns Illuminate\\Database\\Eloquent\\Model\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Result of && is always false\.$#'
+			identifier: booleanAnd.alwaysFalse
+			count: 4
+			path: app/Models/User.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between ''pending''\|''rejected''\|''submitted''\|''verified'' and App\\Enums\\KycStatus\:\:REJECTED will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''active''\|''banned''\|''pending''\|''suspended'' and App\\Enums\\UserStatus\:\:ACTIVE will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''pending''\|''rejected''\|''submitted''\|''verified'' and App\\Enums\\KycStatus\:\:VERIFIED will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 2
+			path: app/Models/User.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:credit\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Models/VirtualCard.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:debit\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Models/VirtualCard.php
+
+		-
+			message: '#^Cannot call method isPast\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Models/VirtualCard.php
+
+		-
+			message: '#^Cannot call method toDateString\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Models/VirtualCard.php
+
+		-
+			message: '#^Property App\\Models\\VirtualCard\:\:\$status \(''active''\|''cancelled''\|''expired''\|''frozen''\|''pending''\) does not accept App\\Enums\\CardStatus\:\:ACTIVE\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Models/VirtualCard.php
+
+		-
+			message: '#^Property App\\Models\\VirtualCard\:\:\$status \(''active''\|''cancelled''\|''expired''\|''frozen''\|''pending''\) does not accept App\\Enums\\CardStatus\:\:CANCELLED\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Models/VirtualCard.php
+
+		-
+			message: '#^Property App\\Models\\VirtualCard\:\:\$status \(''active''\|''cancelled''\|''expired''\|''frozen''\|''pending''\) does not accept App\\Enums\\CardStatus\:\:FROZEN\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Models/VirtualCard.php
+
+		-
+			message: '#^Result of \|\| is always true\.$#'
+			identifier: booleanOr.alwaysTrue
+			count: 1
+			path: app/Models/VirtualCard.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between ''active''\|''cancelled''\|''expired''\|''frozen''\|''pending'' and App\\Enums\\CardStatus\:\:ACTIVE will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Models/VirtualCard.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between ''active''\|''cancelled''\|''expired''\|''frozen''\|''pending'' and App\\Enums\\CardStatus\:\:FROZEN will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Models/VirtualCard.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''mastercard''\|''visa'' and App\\Enums\\CardBrand\:\:VISA will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Models/VirtualCard.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 2
+			path: app/Models/VirtualCard.php
+
+		-
+			message: '#^Cannot call method toDateString\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Models/Wallet.php
+
+		-
+			message: '#^Method App\\Services\\AuditLogService\:\:getRequestId\(\) is unused\.$#'
+			identifier: method.unused
+			count: 1
+			path: app/Services/AuditLogService.php
+
+		-
+			message: '#^Offset ''status'' on string\|null on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 2
+			path: app/Services/AuditLogService.php
+
+		-
+			message: '#^Binary operation "\-" between 32 and string results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: app/Services/CCPaymentService.php
+
+		-
+			message: '#^Cannot access property \$value on string\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: app/Services/CCPaymentService.php
+
+		-
+			message: '#^Offset ''debug_mode'' on string\|null on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Services/CCPaymentService.php
+
+		-
+			message: '#^Offset ''ip_whitelist'' on string\|null on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Services/CCPaymentService.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\VirtualCard\:\:\$card_number_last4\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/CardService.php
+
+		-
+			message: '#^Cannot access property \$value on string\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: app/Services/CardService.php
+
+		-
+			message: '#^Result of \|\| is always true\.$#'
+			identifier: booleanOr.alwaysTrue
+			count: 1
+			path: app/Services/CardService.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between ''active''\|''cancelled''\|''expired''\|''frozen''\|''pending'' and App\\Enums\\CardStatus\:\:ACTIVE will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Services/CardService.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''active''\|''cancelled''\|''expired''\|''frozen''\|''pending'' and App\\Enums\\CardStatus\:\:FROZEN will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 2
+			path: app/Services/CardService.php
+
+		-
+			message: '#^Ternary operator condition is always false\.$#'
+			identifier: ternary.alwaysFalse
+			count: 2
+			path: app/Services/CardService.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Services/CardService.php
+
+		-
+			message: '#^Cannot call method toDateString\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Services/ExchangeRateService.php
+
+		-
+			message: '#^Cannot call method toIso8601String\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Services/ExchangeRateService.php
+
+		-
+			message: '#^Constant App\\Services\\FCMService\:\:FCM_V1_URL is unused\.$#'
+			identifier: classConstant.unused
+			count: 1
+			path: app/Services/FCMService.php
+
+		-
+			message: '#^Property App\\Services\\FCMService\:\:\$mode is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: app/Services/FCMService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/KycService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$kyc_level\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/KycService.php
+
+		-
+			message: '#^Instanceof between string and App\\Enums\\KycStatus will always evaluate to false\.$#'
+			identifier: instanceof.alwaysFalse
+			count: 2
+			path: app/Services/KycService.php
+
+		-
+			message: '#^Offset ''code'' on string\|null on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Services/KycService.php
+
+		-
+			message: '#^Offset ''expires_at'' on string\|null on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Services/KycService.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>status" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Services/KycService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/ReferralService.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between ''pending''\|''rejected''\|''submitted''\|''verified'' and App\\Enums\\KycStatus\:\:VERIFIED will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Services/ReferralService.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Services/ReferralService.php
+
+		-
+			message: '#^Access to property \$issuing on an unknown class Stripe\\StripeClient\.$#'
+			identifier: class.notFound
+			count: 7
+			path: app/Services/StripeIssuingService.php
+
+		-
+			message: '#^Anonymous function has an unused use \$cardId\.$#'
+			identifier: closure.unusedUse
+			count: 1
+			path: app/Services/StripeIssuingService.php
+
+		-
+			message: '#^Call to method getMessage\(\) on an unknown class Stripe\\Exception\\ApiErrorException\.$#'
+			identifier: class.notFound
+			count: 5
+			path: app/Services/StripeIssuingService.php
+
+		-
+			message: '#^Call to method getStripeCode\(\) on an unknown class Stripe\\Exception\\ApiErrorException\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Services/StripeIssuingService.php
+
+		-
+			message: '#^Cannot access property \$day on string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Services/StripeIssuingService.php
+
+		-
+			message: '#^Cannot access property \$month on string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Services/StripeIssuingService.php
+
+		-
+			message: '#^Cannot access property \$year on string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Services/StripeIssuingService.php
+
+		-
+			message: '#^Cannot call method toDateString\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Services/StripeIssuingService.php
+
+		-
+			message: '#^Caught class Stripe\\Exception\\ApiErrorException not found\.$#'
+			identifier: class.notFound
+			count: 7
+			path: app/Services/StripeIssuingService.php
+
+		-
+			message: '#^Instantiated class Stripe\\StripeClient not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Services/StripeIssuingService.php
+
+		-
+			message: '#^Offset ''address'' on string\|null on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 5
+			path: app/Services/StripeIssuingService.php
+
+		-
+			message: '#^Parameter \$e of method App\\Services\\StripeIssuingService\:\:translateStripeError\(\) has invalid type Stripe\\Exception\\ApiErrorException\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Services/StripeIssuingService.php
+
+		-
+			message: '#^Property App\\Services\\StripeIssuingService\:\:\$stripe has unknown class Stripe\\StripeClient as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Services/StripeIssuingService.php
+
+		-
+			message: '#^Result of \|\| is always true\.$#'
+			identifier: booleanOr.alwaysTrue
+			count: 1
+			path: app/Services/StripeIssuingService.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between ''active''\|''cancelled''\|''expired''\|''frozen''\|''pending'' and App\\Enums\\CardStatus\:\:ACTIVE will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Services/StripeIssuingService.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''cancelled''\|''completed''\|''failed''\|''pending''\|''processing''\|''refunded''\|''reversed'' and App\\Enums\\TransactionStatus\:\:PROCESSING will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Services/StripeIssuingService.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Services/StripeIssuingService.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>day" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Services/StripeIssuingService.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>month" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Services/StripeIssuingService.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>year" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Services/StripeIssuingService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/TransferService.php
+
+		-
+			message: '#^Result of \|\| is always false\.$#'
+			identifier: booleanOr.alwaysFalse
+			count: 1
+			path: app/Services/TransferService.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''active''\|''banned''\|''pending''\|''suspended'' and App\\Enums\\UserStatus\:\:BANNED will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Services/TransferService.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''active''\|''banned''\|''pending''\|''suspended'' and App\\Enums\\UserStatus\:\:SUSPENDED will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Services/TransferService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$daily_limit\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/WalletService.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\HasMany\:\:completed\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Services/WalletService.php
+
+		-
+			message: '#^Method App\\Services\\WalletService\:\:createWallet\(\) should return App\\Models\\Wallet but returns Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Services/WalletService.php
+
+		-
+			message: '#^Trait App\\Traits\\ApiResponse is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: app/Traits/ApiResponse.php

@@ -1,0 +1,1629 @@
+/**
+ * SAKK ADMIN — Shared Vanilla JS
+ * Zero runtime deps · vanilla DOM · no frameworks · RTL Arabic
+ * @author @prism (Nuor, Director Frontend)
+ *
+ * Globals exported:
+ *   sakkConfirm(title, msg, onConfirm, opts)
+ *   sakkToast(message, type)
+ *   sakkSetLoading(btn, bool)
+ *   sakkCopyToClipboard(text)
+ *   sakkFormatNumber(n, decimals)
+ *   sakkTogglePassword(inputId, btn)
+ *   sakkTableSearch(inputEl, tableEl, colIndexes)
+ *   sakkExportCSV(filename, headers, rows)
+ *   sakkOpenModal(id)
+ *   sakkCloseModal(id)
+ *   sakkOpenDrawer(id)
+ *   sakkCloseDrawer(id)
+ *
+ * Data-attributes (HTML-side):
+ *   data-sidebar-toggle              — desktop sidebar collapse btn
+ *   data-sidebar-mobile-toggle       — mobile hamburger btn
+ *   data-submenu / data-submenu-toggle / data-submenu-content / data-chevron
+ *   data-dropdown-toggle / data-dropdown-menu
+ *   data-tabs / data-tab / data-tab-panel
+ *   data-confirm="title|message"     — intercept form submit or anchor click
+ *   data-search-table="tableId"      — live search input (wired to table)
+ *   data-search-cols="0,1,2"         — restrict search to columns (optional)
+ *   data-sort="colIndex"             — sortable <th> element
+ *   data-filter-select / data-filter-col="colIndex"
+ *                                    — <select> that filters by column value
+ *   data-copy                        — copies element text / attr value
+ *   data-toggle-password="inputId"   — show/hide password
+ *   data-flash-type / data-flash-message
+ *                                    — server-side flash toasts
+ *   data-drawer-toggle="drawerId"    — open/close a drawer panel
+ *   data-modal-open="modalId"        — open a modal-backdrop by id
+ *   data-modal-close                 — close nearest ancestor modal-backdrop
+ */
+
+(function () {
+    'use strict';
+
+    /* ------------------------------------------------------------------
+       SIDEBAR COLLAPSE (desktop) + MOBILE DRAWER
+       ------------------------------------------------------------------ */
+    function initSidebar() {
+        const sidebar      = document.getElementById('sakk-sidebar');
+        const toggleBtns   = document.querySelectorAll('[data-sidebar-toggle]');
+        const mobileBtns   = document.querySelectorAll('[data-sidebar-mobile-toggle]');
+        const mobileOverlay = document.getElementById('sidebar-mobile-overlay');
+
+        if (!sidebar) return;
+
+        // Restore collapsed state
+        const isCollapsed = localStorage.getItem('sakk-sidebar-collapsed') === '1';
+        if (isCollapsed && window.innerWidth >= 768) sidebar.classList.add('collapsed');
+
+        toggleBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (window.innerWidth < 768) return;
+                sidebar.classList.toggle('collapsed');
+                localStorage.setItem('sakk-sidebar-collapsed',
+                    sidebar.classList.contains('collapsed') ? '1' : '0');
+            });
+        });
+
+        function openMobileSidebar() {
+            sidebar.classList.add('mobile-open');
+            if (mobileOverlay) mobileOverlay.classList.add('visible');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeMobileSidebar() {
+            sidebar.classList.remove('mobile-open');
+            if (mobileOverlay) mobileOverlay.classList.remove('visible');
+            document.body.style.overflow = '';
+        }
+
+        mobileBtns.forEach(btn => btn.addEventListener('click', openMobileSidebar));
+        if (mobileOverlay) mobileOverlay.addEventListener('click', closeMobileSidebar);
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') {
+                closeMobileSidebar();
+                // also close any open drawers
+                document.querySelectorAll('.sakk-drawer.is-open').forEach(d => _closeDrawer(d));
+            }
+        });
+
+        // Collapsible sub-menus in nav tree
+        document.querySelectorAll('[data-submenu-toggle]').forEach(trigger => {
+            const wrapper = trigger.closest('[data-submenu]');
+            if (!wrapper) return;
+            const content = wrapper.querySelector('[data-submenu-content]');
+            const chevron = trigger.querySelector('[data-chevron]');
+
+            trigger.addEventListener('click', e => {
+                e.preventDefault();
+                // Auto-expand sidebar on desktop if it is collapsed
+                if (sidebar.classList.contains('collapsed') && window.innerWidth >= 768) {
+                    sidebar.classList.remove('collapsed');
+                    localStorage.setItem('sakk-sidebar-collapsed', '0');
+                    setTimeout(() => _openSubmenu(wrapper, content, chevron), 250);
+                    return;
+                }
+                wrapper.dataset.open === '1'
+                    ? _closeSubmenu(wrapper, content, chevron)
+                    : _openSubmenu(wrapper, content, chevron);
+            });
+
+            // Init: if server-rendered as open
+            if (wrapper.dataset.open === '1') {
+                if (content) content.style.maxHeight = content.scrollHeight + 'px';
+                if (chevron) chevron.style.transform = 'rotate(180deg)';
+            }
+        });
+    }
+
+    function _openSubmenu(wrapper, content, chevron) {
+        if (content) content.style.maxHeight = content.scrollHeight + 'px';
+        wrapper.dataset.open = '1';
+        if (chevron) chevron.style.transform = 'rotate(180deg)';
+    }
+    function _closeSubmenu(wrapper, content, chevron) {
+        if (content) content.style.maxHeight = '0';
+        wrapper.dataset.open = '0';
+        if (chevron) chevron.style.transform = '';
+    }
+
+    /* ------------------------------------------------------------------
+       DRAWER PANELS  (data-drawer-toggle="drawerId")
+       ------------------------------------------------------------------ */
+    function initDrawers() {
+        document.addEventListener('click', e => {
+            const btn = e.target.closest('[data-drawer-toggle]');
+            if (!btn) return;
+            const drawerId = btn.dataset.drawerToggle;
+            const drawer   = document.getElementById(drawerId);
+            if (!drawer) return;
+            drawer.classList.contains('is-open') ? _closeDrawer(drawer) : _openDrawer(drawer);
+        });
+    }
+
+    function _openDrawer(drawer) {
+        drawer.classList.add('is-open');
+        document.body.classList.add('drawer-open');
+        const overlay = drawer.querySelector('.drawer-overlay') ||
+                        document.getElementById(drawer.id + '-overlay');
+        if (overlay) overlay.addEventListener('click', () => _closeDrawer(drawer), { once: true });
+    }
+    function _closeDrawer(drawer) {
+        drawer.classList.remove('is-open');
+        document.body.classList.remove('drawer-open');
+    }
+
+    function sakkOpenDrawer(id)  { const d = document.getElementById(id); if (d) _openDrawer(d); }
+    function sakkCloseDrawer(id) { const d = document.getElementById(id); if (d) _closeDrawer(d); }
+
+    window.sakkOpenDrawer  = sakkOpenDrawer;
+    window.sakkCloseDrawer = sakkCloseDrawer;
+
+    /* ------------------------------------------------------------------
+       MODAL  (data-modal-open / data-modal-close)
+       sakkOpenModal / sakkCloseModal work on any .modal-backdrop element
+       ------------------------------------------------------------------ */
+    function initModals() {
+        // data-modal-open="modalId" — open button
+        document.addEventListener('click', e => {
+            const openBtn = e.target.closest('[data-modal-open]');
+            if (openBtn) {
+                e.preventDefault();
+                sakkOpenModal(openBtn.dataset.modalOpen);
+                return;
+            }
+            // data-modal-close — close button inside modal
+            const closeBtn = e.target.closest('[data-modal-close]');
+            if (closeBtn) {
+                const modal = closeBtn.closest('.modal-backdrop');
+                if (modal) sakkCloseModal(modal.id);
+            }
+        });
+
+        // Esc closes topmost open modal-backdrop
+        document.addEventListener('keydown', e => {
+            if (e.key !== 'Escape') return;
+            const modals = [...document.querySelectorAll('.modal-backdrop')]
+                .filter(m => m.style.display !== 'none');
+            if (modals.length) {
+                sakkCloseModal(modals[modals.length - 1].id);
+                e.stopPropagation();
+            }
+        });
+    }
+
+    function sakkOpenModal(id) {
+        const modal = document.getElementById(id);
+        if (!modal) return;
+        modal.style.display = 'flex';
+        // Focus first focusable element
+        const first = modal.querySelector('button,input,select,textarea,[tabindex]:not([tabindex="-1"])');
+        if (first) setTimeout(() => first.focus(), 50);
+    }
+    function sakkCloseModal(id) {
+        const modal = document.getElementById(id);
+        if (modal) modal.style.display = 'none';
+    }
+
+    window.sakkOpenModal  = sakkOpenModal;
+    window.sakkCloseModal = sakkCloseModal;
+    // Backwards-compat aliases used by some page scripts
+    window.openModal  = sakkOpenModal;
+    window.closeModal = function (id) {
+        if (id) return sakkCloseModal(id);
+        // closeModal() with no arg: close first open modal
+        const open = document.querySelector('.modal-backdrop[style*="flex"]');
+        if (open) open.style.display = 'none';
+    };
+
+    /* ------------------------------------------------------------------
+       DROPDOWN MENUS  (data-dropdown-toggle / data-dropdown-menu)
+       ------------------------------------------------------------------ */
+    function initDropdowns() {
+        // Set initial hidden state
+        document.querySelectorAll('[data-dropdown-menu]').forEach(m => {
+            m.style.display = 'none';
+            m.dataset.open  = '0';
+        });
+
+        document.addEventListener('click', e => {
+            const toggle = e.target.closest('[data-dropdown-toggle]');
+            if (toggle) {
+                e.stopPropagation();
+                const menuId = toggle.dataset.dropdownToggle;
+                const menu   = (menuId && document.getElementById(menuId))
+                             || toggle.nextElementSibling;
+                if (!menu) return;
+                const isOpen = menu.dataset.open === '1';
+                // Close all open menus
+                _closeAllDropdowns();
+                if (!isOpen) {
+                    menu.dataset.open  = '1';
+                    menu.style.display = 'block';
+                    // Aria
+                    toggle.setAttribute('aria-expanded', 'true');
+                }
+                return;
+            }
+            // Click outside
+            _closeAllDropdowns();
+        });
+    }
+
+    function _closeAllDropdowns() {
+        document.querySelectorAll('[data-dropdown-menu][data-open="1"]').forEach(m => {
+            m.dataset.open  = '0';
+            m.style.display = 'none';
+            // Reset aria on sibling toggle
+            const prev = m.previousElementSibling;
+            if (prev && prev.hasAttribute('data-dropdown-toggle')) {
+                prev.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+
+    /* ------------------------------------------------------------------
+       SEGMENTED TABS  (data-tabs / data-tab / data-tab-panel)
+       ------------------------------------------------------------------ */
+    function initTabs() {
+        document.querySelectorAll('[data-tabs]').forEach(container => {
+            const tabs   = container.querySelectorAll('[data-tab]');
+            const panels = container.querySelectorAll('[data-tab-panel]');
+
+            function activateTab(tabId) {
+                tabs.forEach(t => {
+                    const active = t.dataset.tab === tabId;
+                    t.classList.toggle('active', active);
+                    t.setAttribute('aria-selected', active ? 'true' : 'false');
+                    t.setAttribute('tabindex', active ? '0' : '-1');
+                });
+                panels.forEach(p => {
+                    const active = p.dataset.tabPanel === tabId;
+                    p.classList.toggle('active', active);
+                    p.hidden = !active;
+                });
+            }
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', e => {
+                    e.preventDefault();
+                    activateTab(tab.dataset.tab);
+                    history.replaceState(null, '', tab.dataset.tab
+                        ? '#tab-' + tab.dataset.tab
+                        : location.pathname);
+                });
+                // Keyboard: arrow keys within tab list
+                tab.addEventListener('keydown', e => {
+                    const list = [...tabs];
+                    const idx  = list.indexOf(e.currentTarget);
+                    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        // RTL: ArrowLeft = next, ArrowRight = prev
+                        const dir = document.dir === 'rtl'
+                            ? (e.key === 'ArrowLeft' ? 1 : -1)
+                            : (e.key === 'ArrowRight' ? 1 : -1);
+                        const next = list[(idx + dir + list.length) % list.length];
+                        next.focus();
+                        activateTab(next.dataset.tab);
+                    }
+                });
+            });
+
+            // Init: hash or first tab
+            const hash       = location.hash.replace('#tab-', '');
+            const hashMatch  = hash && [...tabs].find(t => t.dataset.tab === hash);
+            const activeTab  = hashMatch
+                             || [...tabs].find(t => t.classList.contains('active'))
+                             || tabs[0];
+            if (activeTab) activateTab(activeTab.dataset.tab);
+        });
+    }
+
+    /* ------------------------------------------------------------------
+       TABLE SEARCH  (data-search-table / data-search-cols)
+       ------------------------------------------------------------------ */
+    function initTableSearch() {
+        document.querySelectorAll('[data-search-table]').forEach(input => {
+            const tableId = input.dataset.searchTable;
+            const table   = document.getElementById(tableId)
+                          || document.querySelector('[data-table-id="' + tableId + '"]');
+            if (!table) return;
+
+            const colIndexes = _parseCols(input.dataset.searchCols);
+            input.addEventListener('input', () => _filterTable(table, input.value, colIndexes));
+        });
+    }
+
+    function sakkTableSearch(inputEl, tableEl, colIndexes) {
+        if (!inputEl || !tableEl) return;
+        inputEl.addEventListener('input', () =>
+            _filterTable(tableEl, inputEl.value, colIndexes || []));
+    }
+    window.sakkTableSearch = sakkTableSearch;
+
+    function _parseCols(str) {
+        if (!str) return [];
+        return str.split(',').map(s => parseInt(s.trim())).filter(n => !isNaN(n));
+    }
+
+    function _filterTable(table, query, colIndexes) {
+        const q    = query.trim().toLowerCase();
+        const rows = table.querySelectorAll('tbody tr:not([data-empty-row])');
+        let visible = 0;
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            const text  = (colIndexes.length
+                ? colIndexes.map(i => cells[i]).filter(Boolean)
+                : Array.from(cells)
+            ).map(c => c.textContent).join(' ').toLowerCase();
+            const match = !q || text.includes(q);
+            row.style.display = match ? '' : 'none';
+            if (match) visible++;
+        });
+        const emptyRow = table.querySelector('[data-empty-row]');
+        if (emptyRow) emptyRow.style.display = visible === 0 ? '' : 'none';
+    }
+
+    /* ------------------------------------------------------------------
+       TABLE SORT  (data-sort="colIndex" on <th>)
+       Clicking a header toggles asc/desc; sorts tbody rows client-side.
+       ------------------------------------------------------------------ */
+    function initTableSort() {
+        document.querySelectorAll('[data-sort]').forEach(th => {
+            th.style.cursor = 'pointer';
+            th.style.userSelect = 'none';
+            if (!th.querySelector('.sort-icon')) {
+                const icon = document.createElement('span');
+                icon.className = 'sort-icon';
+                icon.style.cssText = 'margin-inline-start:4px;opacity:0.4;font-size:0.8em;vertical-align:middle';
+                icon.textContent = '⇅';
+                th.appendChild(icon);
+            }
+
+            th.addEventListener('click', () => {
+                const table = th.closest('table');
+                if (!table) return;
+                const colIndex = parseInt(th.dataset.sort);
+                const tbody    = table.querySelector('tbody');
+                if (!tbody) return;
+
+                const asc = th.dataset.sortDir !== 'asc';
+                th.dataset.sortDir = asc ? 'asc' : 'desc';
+
+                // Reset other headers
+                table.querySelectorAll('[data-sort]').forEach(h => {
+                    if (h !== th) {
+                        delete h.dataset.sortDir;
+                        const ic = h.querySelector('.sort-icon');
+                        if (ic) { ic.textContent = '⇅'; ic.style.opacity = '0.4'; }
+                    }
+                });
+                const icon = th.querySelector('.sort-icon');
+                if (icon) { icon.textContent = asc ? '↑' : '↓'; icon.style.opacity = '1'; }
+
+                const rows = [...tbody.querySelectorAll('tr:not([data-empty-row])')];
+                rows.sort((a, b) => {
+                    const aText = (a.cells[colIndex] || { textContent: '' }).textContent.trim();
+                    const bText = (b.cells[colIndex] || { textContent: '' }).textContent.trim();
+                    const aNum  = parseFloat(aText.replace(/[^0-9.\-]/g, ''));
+                    const bNum  = parseFloat(bText.replace(/[^0-9.\-]/g, ''));
+                    if (!isNaN(aNum) && !isNaN(bNum)) {
+                        return asc ? aNum - bNum : bNum - aNum;
+                    }
+                    return asc
+                        ? aText.localeCompare(bText, 'ar')
+                        : bText.localeCompare(aText, 'ar');
+                });
+                rows.forEach(r => tbody.appendChild(r));
+            });
+        });
+    }
+
+    /* ------------------------------------------------------------------
+       TABLE FILTER  (data-filter-select / data-filter-col="colIndex")
+       A <select> element that filters table rows by exact column value.
+       data-filter-select attribute points to the table id.
+       ------------------------------------------------------------------ */
+    function initTableFilter() {
+        document.querySelectorAll('[data-filter-select]').forEach(select => {
+            const tableId  = select.dataset.filterSelect;
+            const colIndex = parseInt(select.dataset.filterCol ?? '0');
+            const table    = document.getElementById(tableId)
+                           || document.querySelector('[data-table-id="' + tableId + '"]');
+            if (!table) return;
+
+            select.addEventListener('change', () => {
+                const val  = select.value.trim().toLowerCase();
+                const rows = table.querySelectorAll('tbody tr:not([data-empty-row])');
+                let visible = 0;
+                rows.forEach(row => {
+                    const cell  = row.cells[colIndex];
+                    const text  = cell ? cell.textContent.trim().toLowerCase() : '';
+                    const match = !val || text === val || text.includes(val);
+                    row.style.display = match ? '' : 'none';
+                    if (match) visible++;
+                });
+                const emptyRow = table.querySelector('[data-empty-row]');
+                if (emptyRow) emptyRow.style.display = visible === 0 ? '' : 'none';
+            });
+        });
+    }
+
+    /* ------------------------------------------------------------------
+       TOAST SYSTEM
+       ------------------------------------------------------------------ */
+    function _ensureToastRegion() {
+        let region = document.getElementById('sakk-toast-region');
+        if (!region) {
+            region = document.createElement('div');
+            region.id        = 'sakk-toast-region';
+            region.className = 'toast-region';
+            region.setAttribute('aria-live', 'polite');
+            region.setAttribute('aria-atomic', 'false');
+            Object.assign(region.style, {
+                position: 'fixed',
+                bottom: '24px',
+                insetInlineEnd: '24px',
+                zIndex: '9999',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '8px',
+                maxWidth: '360px',
+                width: 'calc(100vw - 48px)',
+                pointerEvents: 'none',
+            });
+            document.body.appendChild(region);
+        }
+        return region;
+    }
+
+    const TOAST_ICONS = {
+        success: 'check_circle',
+        error:   'error',
+        warning: 'warning',
+        info:    'info',
+    };
+    const TOAST_COLORS = {
+        success: { bg: '#f0fdf4', border: '#86efac', icon: '#16a34a', text: '#15803d' },
+        error:   { bg: '#fef2f2', border: '#fca5a5', icon: '#dc2626', text: '#b91c1c' },
+        warning: { bg: '#fffbeb', border: '#fcd34d', icon: '#d97706', text: '#b45309' },
+        info:    { bg: '#eff6ff', border: '#93c5fd', icon: '#2563eb', text: '#1d4ed8' },
+    };
+
+    function sakkToast(message, type) {
+        type = type || 'success';
+        const region = _ensureToastRegion();
+        const c      = TOAST_COLORS[type] || TOAST_COLORS.info;
+        const toast  = document.createElement('div');
+        toast.setAttribute('role', 'alert');
+        Object.assign(toast.style, {
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            padding: '12px 14px',
+            borderRadius: '10px',
+            background: c.bg,
+            border: '1.5px solid ' + c.border,
+            boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+            fontSize: '0.875rem',
+            color: c.text,
+            fontFamily: 'inherit',
+            direction: 'rtl',
+            pointerEvents: 'auto',
+            animation: 'toastIn 0.25s ease forwards',
+        });
+        toast.innerHTML =
+            '<span class="material-icons-round" style="font-size:1.1rem;color:' + c.icon + ';flex-shrink:0">' +
+                (TOAST_ICONS[type] || 'info') +
+            '</span>' +
+            '<span class="sakk-toast-msg" style="flex:1;line-height:1.5"></span>' +
+            '<button style="background:none;border:none;cursor:pointer;padding:2px;display:flex;align-items:center;color:' + c.icon + ';opacity:0.6;margin-inline-start:4px" aria-label="إغلاق">' +
+                '<span class="material-icons-round" style="font-size:0.9rem">close</span>' +
+            '</button>';
+        // Set the message as text, never HTML — prevents DOM XSS if a caller passes
+        // server/user-derived text into a toast.
+        toast.querySelector('.sakk-toast-msg').textContent = message;
+        toast.querySelector('button').addEventListener('click', () => _removeToast(toast));
+        region.appendChild(toast);
+        setTimeout(() => _removeToast(toast), 5000);
+    }
+
+    function _removeToast(el) {
+        el.style.animation = 'toastOut 0.25s ease forwards';
+        setTimeout(() => el.remove(), 250);
+    }
+
+    // Inject keyframes once
+    if (!document.getElementById('sakk-toast-keyframes')) {
+        const style = document.createElement('style');
+        style.id = 'sakk-toast-keyframes';
+        style.textContent =
+            '@keyframes toastIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}' +
+            '@keyframes toastOut{from{opacity:1;transform:none}to{opacity:0;transform:translateY(8px)}}';
+        document.head.appendChild(style);
+    }
+
+    window.sakkToast = sakkToast;
+    // Backwards compat
+    window.showToast = sakkToast;
+
+    /* ------------------------------------------------------------------
+       CONFIRM MODAL  (programmatic: sakkConfirm / auto: data-confirm)
+       ------------------------------------------------------------------ */
+    function _ensureConfirmModal() {
+        let modal = document.getElementById('sakk-confirm-modal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'sakk-confirm-modal';
+            modal.setAttribute('role', 'alertdialog');
+            modal.setAttribute('aria-modal', 'true');
+            modal.setAttribute('aria-labelledby', 'sakk-confirm-title');
+            modal.className = 'modal-backdrop';
+            modal.style.cssText = 'display:none;position:fixed;inset:0;z-index:9000;background:rgba(15,23,42,0.45);display:none;align-items:center;justify-content:center;padding:24px';
+            modal.innerHTML =
+                '<div class="modal-box confirm-modal-box" style="max-width:440px;width:100%;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 24px 48px rgba(0,0,0,0.18)">' +
+                    '<div class="modal-header" style="padding:20px 24px 0;display:flex;align-items:center;justify-content:space-between">' +
+                        '<div style="display:flex;align-items:center;gap:12px">' +
+                            '<div style="width:40px;height:40px;border-radius:12px;background:#fef3c7;display:flex;align-items:center;justify-content:center;flex-shrink:0">' +
+                                '<span class="material-icons-round" style="color:#d97706">warning</span>' +
+                            '</div>' +
+                            '<span id="sakk-confirm-title" class="modal-title" style="font-weight:600;font-size:1rem"></span>' +
+                        '</div>' +
+                        '<button id="sakk-confirm-cancel-x" class="icon-btn btn-icon" aria-label="إغلاق" style="background:none;border:none;cursor:pointer;padding:4px;border-radius:8px">' +
+                            '<span class="material-icons-round" style="font-size:1.25rem">close</span>' +
+                        '</button>' +
+                    '</div>' +
+                    '<div class="modal-body" style="padding:16px 24px">' +
+                        '<p id="sakk-confirm-message" style="color:#475569;font-size:0.875rem;line-height:1.7;margin:0"></p>' +
+                    '</div>' +
+                    '<div class="modal-footer" style="padding:0 24px 20px;display:flex;align-items:center;justify-content:flex-end;gap:8px">' +
+                        '<button id="sakk-confirm-cancel-btn" class="btn btn-secondary">إلغاء</button>' +
+                        '<button id="sakk-confirm-ok-btn" class="btn btn-danger">تأكيد</button>' +
+                    '</div>' +
+                '</div>';
+            document.body.appendChild(modal);
+
+            const _close = () => { modal.style.display = 'none'; };
+            modal.querySelector('#sakk-confirm-cancel-x').addEventListener('click', _close);
+            modal.querySelector('#sakk-confirm-cancel-btn').addEventListener('click', _close);
+            modal.addEventListener('click', e => { if (e.target === modal) _close(); });
+        }
+        return modal;
+    }
+
+    function sakkConfirm(title, message, onConfirm, opts) {
+        opts = opts || {};
+        const modal = _ensureConfirmModal();
+        modal.querySelector('#sakk-confirm-title').textContent   = title   || 'تأكيد';
+        modal.querySelector('#sakk-confirm-message').textContent = message || 'هل أنت متأكد؟';
+        const okBtn = modal.querySelector('#sakk-confirm-ok-btn');
+        okBtn.textContent = opts.okLabel || 'تأكيد';
+        okBtn.className   = 'btn ' + (opts.okClass || 'btn-danger');
+        modal.style.display = 'flex';
+
+        // Clone to remove prior listeners
+        const fresh = okBtn.cloneNode(true);
+        okBtn.parentNode.replaceChild(fresh, okBtn);
+        fresh.addEventListener('click', () => {
+            modal.style.display = 'none';
+            if (typeof onConfirm === 'function') onConfirm();
+        }, { once: true });
+
+        setTimeout(() => fresh.focus(), 50);
+    }
+
+    window.sakkConfirm = sakkConfirm;
+    window.confirmAction = function (title, message, callback) {
+        sakkConfirm(title, message, callback);
+    };
+
+    /* ------------------------------------------------------------------
+       AUTO CONFIRM  (data-confirm="title|message")
+       ------------------------------------------------------------------ */
+    function initAutoConfirm() {
+        document.addEventListener('click', e => {
+            const btn = e.target.closest('[data-confirm]');
+            if (!btn) return;
+            const [title, message] = (btn.dataset.confirm || '|').split('|');
+            const form = btn.closest('form');
+            if (form && btn.type === 'submit') {
+                e.preventDefault();
+                sakkConfirm(title || 'تأكيد', message || 'هل أنت متأكد؟', () => form.submit());
+                return;
+            }
+            e.preventDefault();
+            sakkConfirm(title || 'تأكيد', message || 'هل أنت متأكد؟', () => {
+                if (btn.tagName === 'A') window.location.href = btn.href;
+            });
+        });
+    }
+
+    /* ------------------------------------------------------------------
+       FLASH TOASTS ON PAGE LOAD  (data-flash-type / data-flash-message)
+       ------------------------------------------------------------------ */
+    function initFlashToasts() {
+        document.querySelectorAll('[data-flash-type]').forEach(el => {
+            sakkToast(el.dataset.flashMessage || el.textContent.trim(), el.dataset.flashType || 'info');
+        });
+    }
+
+    /* ------------------------------------------------------------------
+       COPY TO CLIPBOARD  (data-copy)
+       ------------------------------------------------------------------ */
+    function initCopyButtons() {
+        document.addEventListener('click', e => {
+            const btn = e.target.closest('[data-copy]');
+            if (!btn) return;
+            sakkCopyToClipboard(btn.dataset.copy || btn.textContent.trim());
+        });
+    }
+
+    function sakkCopyToClipboard(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text)
+                .then(() => sakkToast('تم النسخ!', 'success'))
+                .catch(() => _clipboardFallback(text));
+        } else {
+            _clipboardFallback(text);
+        }
+    }
+    function _clipboardFallback(text) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.cssText = 'position:fixed;opacity:0;pointer-events:none;top:0;left:0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); sakkToast('تم النسخ!', 'success'); }
+        catch (_) { sakkToast('تعذّر النسخ', 'error'); }
+        ta.remove();
+    }
+
+    window.sakkCopyToClipboard = sakkCopyToClipboard;
+    window.copyToClipboard     = sakkCopyToClipboard;
+
+    /* ------------------------------------------------------------------
+       LOADING STATE HELPER
+       ------------------------------------------------------------------ */
+    function sakkSetLoading(btn, loading) {
+        if (loading === undefined) loading = true;
+        if (loading) {
+            btn.disabled = true;
+            btn.classList.add('btn-loading');
+            btn._origHTML = btn.innerHTML;
+            btn.innerHTML =
+                '<span class="material-icons-round" style="font-size:1rem;animation:spin 0.8s linear infinite">autorenew</span>';
+        } else {
+            btn.disabled = false;
+            btn.classList.remove('btn-loading');
+            if (btn._origHTML !== undefined) btn.innerHTML = btn._origHTML;
+        }
+    }
+
+    window.sakkSetLoading = sakkSetLoading;
+    window.setLoading     = sakkSetLoading;
+
+    // Inject spin keyframe once
+    if (!document.getElementById('sakk-spin-keyframe')) {
+        const s = document.createElement('style');
+        s.id = 'sakk-spin-keyframe';
+        s.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
+        document.head.appendChild(s);
+    }
+
+    /* ------------------------------------------------------------------
+       PASSWORD TOGGLE  (data-toggle-password="inputId")
+       ------------------------------------------------------------------ */
+    function initPasswordToggles() {
+        document.addEventListener('click', e => {
+            const btn = e.target.closest('[data-toggle-password]');
+            if (!btn) return;
+            sakkTogglePassword(btn.dataset.togglePassword, btn);
+        });
+    }
+
+    function sakkTogglePassword(inputId, btn) {
+        const input = document.getElementById(inputId);
+        if (!input) return;
+        const show = input.type === 'password';
+        input.type = show ? 'text' : 'password';
+        const icon = btn && btn.querySelector('.material-icons, .material-icons-round');
+        if (icon) icon.textContent = show ? 'visibility_off' : 'visibility';
+    }
+
+    window.sakkTogglePassword = sakkTogglePassword;
+    window.togglePassword     = (id) => sakkTogglePassword(id);
+
+    /* ------------------------------------------------------------------
+       FORMAT HELPERS
+       ------------------------------------------------------------------ */
+    function sakkFormatNumber(num, decimals) {
+        decimals = decimals !== undefined ? decimals : 2;
+        if (typeof num !== 'number') num = parseFloat(num) || 0;
+        if (num >= 1_000_000) return (num / 1_000_000).toFixed(2) + 'M';
+        if (num >= 1_000)     return (num / 1_000).toFixed(2) + 'K';
+        return num.toFixed(decimals);
+    }
+
+    window.sakkFormatNumber = sakkFormatNumber;
+    window.formatNumber     = sakkFormatNumber;
+
+    /* ------------------------------------------------------------------
+       CSV EXPORT
+       ------------------------------------------------------------------ */
+    function sakkExportCSV(filename, headers, rows) {
+        const csv = [headers, ...rows].map(r =>
+            r.map(c => '"' + String(c == null ? '' : c).replace(/"/g, '""') + '"').join(',')
+        ).join('\n');
+        const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+        const url  = URL.createObjectURL(blob);
+        const a    = document.createElement('a');
+        a.href     = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    window.sakkExportCSV = sakkExportCSV;
+    window.exportToCSV   = sakkExportCSV;
+
+    /* ------------------------------------------------------------------
+       NOTIFICATION BELL  (id="notification-bell" + id="notification-menu")
+       ------------------------------------------------------------------ */
+    function initNotificationBell() {
+        const bell = document.getElementById('notification-bell');
+        const menu = document.getElementById('notification-menu');
+        if (!bell || !menu) return;
+
+        menu.style.display = 'none';
+        menu.dataset.open  = '0';
+
+        bell.addEventListener('click', e => {
+            e.stopPropagation();
+            const open = menu.dataset.open === '1';
+            menu.dataset.open  = open ? '0' : '1';
+            menu.style.display = open ? 'none' : 'block';
+        });
+        document.addEventListener('click', () => {
+            if (menu.dataset.open === '1') {
+                menu.dataset.open  = '0';
+                menu.style.display = 'none';
+            }
+        });
+    }
+
+    /* ------------------------------------------------------------------
+       KEYBOARD SHORTCUTS
+       ------------------------------------------------------------------ */
+    function initKeyboardShortcuts() {
+        var _kbBuf = '';
+        var _kbTimer = null;
+
+        document.addEventListener('keydown', function (e) {
+            if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
+
+            // ── Vim-like sequences (g then d / g then u) ──
+            if (e.key === 'g' && !e.ctrlKey && !e.altKey && !e.metaKey) {
+                e.preventDefault();
+                _kbBuf = 'g';
+                clearTimeout(_kbTimer);
+                _kbTimer = setTimeout(function () { _kbBuf = ''; }, 1000);
+                return;
+            }
+            if (_kbBuf === 'g') {
+                if (e.key === 'd' || e.key === 'u') {
+                    e.preventDefault();
+                    clearTimeout(_kbTimer);
+                    _kbBuf = '';
+                    if (e.key === 'd') {
+                        window.location.href = (window.SAKK_ROUTES && window.SAKK_ROUTES.dashboard) || '/admin';
+                    } else {
+                        window.location.href = (window.SAKK_ROUTES && window.SAKK_ROUTES.users) || '/admin/users';
+                    }
+                    return;
+                }
+                // Reset buffer on other key
+                clearTimeout(_kbTimer);
+                _kbBuf = '';
+            }
+
+            // ── Ctrl shortcuts ──
+            if (e.ctrlKey || e.metaKey) {
+                switch (e.key) {
+                    case 'k': e.preventDefault();
+                        // Quick search — matches the help modal and the navbar input
+                        // placeholder "بحث سريع... (Ctrl+K)". Focus the global search box.
+                        var _gs = document.getElementById('sakk-global-search');
+                        if (_gs) { _gs.focus(); _gs.select(); }
+                        break;
+                    case 'h': e.preventDefault();
+                        window.location.href = (window.SAKK_ROUTES && window.SAKK_ROUTES.dashboard) || '/admin';
+                        break;
+                    case 'u': e.preventDefault();
+                        window.location.href = (window.SAKK_ROUTES && window.SAKK_ROUTES.users) || '/admin/users';
+                        break;
+                    case 't': e.preventDefault();
+                        window.location.href = (window.SAKK_ROUTES && window.SAKK_ROUTES.transactions) || '/admin/transactions';
+                        break;
+                    case 's': e.preventDefault();
+                        window.location.href = (window.SAKK_ROUTES && window.SAKK_ROUTES.settings) || '/admin/settings';
+                        break;
+                    // NB: no Ctrl+C binding — it must stay native "copy".
+                    case 'g': e.preventDefault();
+                        window.location.href = (window.SAKK_ROUTES && window.SAKK_ROUTES.gold) || '/admin/gold/prices';
+                        break;
+                }
+                return;
+            }
+
+            // ── ? toggles help modal ──
+            if (e.key === '?' && !e.ctrlKey && !e.altKey && !e.metaKey) {
+                e.preventDefault();
+                var kbModal = document.getElementById('keyboard-help-modal');
+                if (kbModal) {
+                    kbModal.style.display = kbModal.style.display === 'flex' ? 'none' : 'flex';
+                }
+            }
+        });
+    }
+
+    /* ------------------------------------------------------------------
+       INIT
+       ------------------------------------------------------------------ */
+    function init() {
+        initSidebar();
+        initDrawers();
+        initModals();
+        initDropdowns();
+        initTabs();
+        initAutoConfirm();
+        initFlashToasts();
+        initTableSearch();
+        initTableSort();
+        initTableFilter();
+        initCopyButtons();
+        initPasswordToggles();
+        initKeyboardShortcuts();
+        initNotificationBell();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        // Already loaded (e.g. script at bottom of body)
+        init();
+    }
+
+})();
+
+/* ======================================================================
+   SAKK ADMIN — Visual Identity Layer
+   "بنك مخملي على رخام" · Damascene Burgundy · LIGHT-ONLY
+   @author @lina (Director UX/UI)
+
+   What this module does:
+   1. Enforces LIGHT-ONLY: strips html.dark + .theme-glass at runtime.
+   2. Patches the dashboard canvas charts: wine/gold palette, marble
+      gridlines (ink@5%), tabular-num axis labels, frosted-marble
+      crosshair tooltip, animated draw-in (reduced-motion gated).
+   3. KPI card hover: gold glow pulse on pointer enter.
+   4. Refresh button: spin-pulse ring on click.
+   5. All motion gated behind prefers-reduced-motion.
+
+   Zero runtime deps. Vanilla DOM/canvas only.
+   Preserves every existing CSS class name and DOM data-attribute.
+   ====================================================================== */
+(function () {
+    'use strict';
+
+    /* ------------------------------------------------------------------
+       TOKENS — mirror sakk-tokens.css; resolved at paint time via
+       getComputedStyle so changes to the CSS file propagate automatically.
+       Hard-coded fallbacks only for the canvas path (no CSSOM there).
+       ------------------------------------------------------------------ */
+    var T = {
+        wine:        '#6E1B2D',
+        wineA18:     'rgba(110,27,45,0.18)',
+        wineA08:     'rgba(110,27,45,0.08)',
+        wineA05:     'rgba(110,27,45,0.05)',
+        wineA14:     'rgba(110,27,45,0.14)',
+        gold:        '#B58A3C',
+        goldBright:  '#C9A24B',
+        goldDeep:    '#8F6B2A',
+        goldA22:     'rgba(181,138,60,0.22)',
+        goldA12:     'rgba(181,138,60,0.12)',
+        goldA70:     'rgba(201,162,75,0.70)',
+        goldA10:     'rgba(201,162,75,0.10)',
+        ink:         '#2A1A1F',
+        ink2:        '#6E5F63',
+        inkHint:     '#A99FA2',
+        surface:     '#FFFFFF',
+        marble:      '#F7F3EE',
+        glassBg:     'rgba(255,255,255,0.92)',
+        gridLine:    'rgba(42,26,31,0.05)',   /* ink@5% — the marble grid */
+        font:        "'IBM Plex Sans Arabic', system-ui, sans-serif",
+    };
+
+    /* Resolved CSS variable (returns the var's computed value or fallback) */
+    function cssVar(name, fallback) {
+        var v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        return v || fallback;
+    }
+
+    /* ------------------------------------------------------------------
+       1. LIGHT-ONLY ENFORCEMENT
+       Strips .dark from <html> and .theme-glass from .admin-shell.
+       Also neutralises any future dynamic additions via MutationObserver.
+       ------------------------------------------------------------------ */
+    function enforceLightOnly() {
+        function purge() {
+            /* Remove dark class from html root */
+            document.documentElement.classList.remove('dark');
+
+            /* Remove theme-glass from admin shell (the forbidden dark variant) */
+            document.querySelectorAll('.admin-shell.theme-glass').forEach(function (el) {
+                el.classList.remove('theme-glass');
+            });
+
+            /* Ensure marble background on admin-shell if present */
+            var shell = document.querySelector('.admin-shell');
+            if (shell && !shell.classList.contains('theme-glass')) {
+                /* Let CSS handle it — just make sure no inline dark bg */
+                if (shell.style.background && shell.style.background.indexOf('#1a') !== -1) {
+                    shell.style.background = '';
+                }
+            }
+        }
+
+        purge();
+
+        /* Watch for dynamic class mutations (e.g. theme toggle scripts) */
+        if (typeof MutationObserver !== 'undefined') {
+            var obs = new MutationObserver(purge);
+            obs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+            obs.observe(document.body,            { attributes: true, attributeFilter: ['class'],
+                                                    subtree: true, childList: false });
+        }
+    }
+
+    /* ------------------------------------------------------------------
+       2. REDUCED-MOTION GATE
+       ------------------------------------------------------------------ */
+    var CALM = typeof matchMedia !== 'undefined' &&
+               matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* Linear ease: t in [0,1] → cubic ease-in-out value */
+    function easeInOut(t) {
+        return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+    }
+
+    /* rAF-based animation runner. Calls fn(progress 0→1) over durationMs.
+       Returns a cancel handle. Skipped entirely under reduced-motion. */
+    function animate(durationMs, fn, onDone) {
+        if (CALM) {
+            fn(1);
+            if (onDone) onDone();
+            return { cancel: function () {} };
+        }
+        var start = null;
+        var raf = null;
+        function step(ts) {
+            if (!start) start = ts;
+            var p = Math.min((ts - start) / durationMs, 1);
+            fn(easeInOut(p));
+            if (p < 1) {
+                raf = requestAnimationFrame(step);
+            } else {
+                if (onDone) onDone();
+            }
+        }
+        raf = requestAnimationFrame(step);
+        return { cancel: function () { if (raf) cancelAnimationFrame(raf); } };
+    }
+
+    /* ------------------------------------------------------------------
+       3. CANVAS CHART PATCHES
+       The dashboard blade owns the canvas IDs and data. We intercept
+       after its IIFEs run by re-painting on top with our upgraded helpers.
+
+       Strategy: Override the chart drawing functions that the blade script
+       exposes implicitly via the window-scope canvas elements. Since the
+       blade uses local closures, we cannot call their draw() directly.
+       Instead we extend the existing drawTooltip / drawGridLines / axis
+       label behavior by injecting a style-patch stylesheet and patching
+       the global canvas 2D context prototype just long enough to reroute
+       fillStyle assignments during blade-script draw calls.
+
+       Simpler and safer approach (chosen):
+       Wait for the blade script to finish its initial draw(), then
+       re-draw the charts ourselves using the same canvas + the same data
+       attributes or JSON embedded in the DOM, with the upgraded visuals.
+       The blade script's mousemove handlers remain wired, so we supply
+       replacements that call OUR draw function.
+
+       Because the blade IIFEs are synchronous and finish before
+       DOMContentLoaded fires for scripts at bottom-of-body, our init()
+       runs after them.
+       ------------------------------------------------------------------ */
+
+    /* Compact number formatter for axis labels (tabular-num style) */
+    function compactNum(v) {
+        if (v >= 1e6)  return (v / 1e6).toFixed(1).replace('.0','') + 'M';
+        if (v >= 1e3)  return (v / 1e3).toFixed(1).replace('.0','') + 'K';
+        return String(Math.round(v));
+    }
+
+    /* Nice round max: snap to 1/2/5 × 10^n */
+    function niceMax(raw) {
+        if (raw <= 0) return 1;
+        var exp = Math.pow(10, Math.floor(Math.log(raw) / Math.LN10));
+        var f   = raw / exp;
+        var nice = f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10;
+        return nice * exp;
+    }
+
+    /* DPR-aware canvas setup */
+    function setupCanvas(canvas) {
+        var dpr  = Math.max(1, window.devicePixelRatio || 1);
+        var rect = canvas.getBoundingClientRect();
+        if (rect.width === 0) return null;
+        canvas.width  = rect.width  * dpr;
+        canvas.height = rect.height * dpr;
+        var ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+        return { ctx: ctx, w: rect.width, h: rect.height, dpr: dpr };
+    }
+
+    /* Marble hairline gridlines — ink@5%, never grey #ccc */
+    function paintGrid(ctx, w, h, pad, steps) {
+        ctx.save();
+        ctx.strokeStyle = T.gridLine;
+        ctx.lineWidth   = 1;
+        var plotH = h - pad.top - pad.bottom;
+        for (var i = 0; i <= steps; i++) {
+            var y = pad.top + (plotH / steps) * i;
+            ctx.beginPath();
+            ctx.moveTo(pad.left, y);
+            ctx.lineTo(w - pad.right, y);
+            ctx.stroke();
+        }
+        /* Baseline */
+        ctx.strokeStyle = T.wineA08;
+        ctx.lineWidth   = 1;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, h - pad.bottom);
+        ctx.lineTo(w - pad.right, h - pad.bottom);
+        ctx.stroke();
+        ctx.restore();
+    }
+
+    /* Axis labels — tabular numerals, ink-hint color, IBM Plex Sans Arabic */
+    function paintAxisLabels(ctx, labels, data, w, h, pad, steps) {
+        var n      = labels.length;
+        var maxVal = niceMax(Math.max.apply(null, data.concat(0)));
+        var plotW  = w - pad.left - pad.right;
+        var plotH  = h - pad.top - pad.bottom;
+        var step   = n > 1 ? plotW / (n - 1) : plotW;
+
+        ctx.save();
+        ctx.fillStyle = T.inkHint;
+        ctx.font      = '500 10px ' + T.font;
+        ctx.textAlign = 'center';
+
+        /* X-axis labels */
+        for (var i = 0; i < n; i++) {
+            var x = pad.left + i * step;
+            ctx.fillText(labels[i], x, h - pad.bottom + 15);
+        }
+
+        /* Y-axis labels — right-aligned, tabular */
+        ctx.textAlign = 'right';
+        ctx.fillStyle = T.inkHint;
+        for (var j = 0; j <= steps; j++) {
+            var val = maxVal * (steps - j) / steps;
+            var y   = pad.top + (plotH / steps) * j;
+            ctx.fillText(compactNum(val), pad.left - 5, y + 4);
+        }
+        ctx.restore();
+    }
+
+    /* Frosted-marble crosshair tooltip — luxury read (P8 spec) */
+    function paintTooltip(ctx, x, y, text, w) {
+        var TW = 100, TH = 34, R = 8, pad = 10;
+        var tx = Math.min(Math.max(x - TW / 2, 4), w - TW - 4);
+        var ty = y - TH - 12;
+        if (ty < 4) ty = y + 14;
+
+        ctx.save();
+
+        /* Shadow */
+        ctx.shadowColor = 'rgba(42,26,31,0.12)';
+        ctx.shadowBlur  = 16;
+
+        /* Frosted white fill */
+        ctx.fillStyle = T.glassBg;
+        ctx.beginPath();
+        if (ctx.roundRect) {
+            ctx.roundRect(tx, ty, TW, TH, R);
+        } else {
+            ctx.rect(tx, ty, TW, TH);
+        }
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        /* 1px wine-tinted border */
+        ctx.strokeStyle = T.wineA14;
+        ctx.lineWidth   = 1;
+        ctx.stroke();
+
+        /* Label */
+        ctx.fillStyle = T.ink;
+        ctx.font      = '600 11px ' + T.font;
+        ctx.textAlign = 'center';
+        ctx.fillText(text, tx + TW / 2, ty + TH / 2 + 4);
+
+        ctx.restore();
+    }
+
+    /* Full-height wine crosshair hairline */
+    function paintCrosshair(ctx, x, padTop, plotBottom) {
+        ctx.save();
+        ctx.strokeStyle = T.wineA18;
+        ctx.lineWidth   = 1;
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(x, padTop);
+        ctx.lineTo(x, plotBottom);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.restore();
+    }
+
+    /* Gold focus dot (hovered point) */
+    function paintHoverDot(ctx, x, y) {
+        /* Outer ring (white) */
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(x, y, 8, 0, Math.PI * 2);
+        ctx.fillStyle = T.surface;
+        ctx.fill();
+        /* Gold dot */
+        ctx.beginPath();
+        ctx.arc(x, y, 5, 0, Math.PI * 2);
+        ctx.fillStyle = T.goldBright;
+        ctx.fill();
+        /* Wine ring */
+        ctx.beginPath();
+        ctx.arc(x, y, 7, 0, Math.PI * 2);
+        ctx.strokeStyle = T.wineA18;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        ctx.restore();
+    }
+
+    /* ── 3a. LINE CHART (sakk-tx-chart) — replaces blade's draw engine ── */
+    function initLineChart() {
+        var canvas = document.getElementById('sakk-tx-chart');
+        if (!canvas) return;
+
+        /* Read data from the blade-rendered JSON stored on window by the
+           blade IIFE. Since the blade's IIFE is a closure and doesn't
+           export, we fall back to reading data from the canvas's sibling
+           or re-parsing from the blade's PHP JSON embeddings that were
+           already written to the page DOM. We grab them from the page
+           script text (safe: same-origin HTML, not XSS surface).       */
+        var pageScript = document.querySelector('script:not([src])');
+        var labels = null, data = null;
+
+        /* Try to extract the @json values the blade rendered */
+        document.querySelectorAll('script:not([src])').forEach(function (s) {
+            if (s.textContent.indexOf('sakk-tx-chart') !== -1 && !labels) {
+                var lm = s.textContent.match(/var\s+labels\s*=\s*(\[[\s\S]*?\]);/);
+                var dm = s.textContent.match(/var\s+data\s*=\s*(\[[\s\S]*?\]);[\s\S]*?sakk-tx-chart/);
+                if (lm) { try { labels = JSON.parse(lm[1]); } catch(e) {} }
+                if (dm) { try { data   = JSON.parse(dm[1]); } catch(e) {} }
+            }
+        });
+
+        /* Also try the second (users) script block to differentiate */
+        if (!labels || !data) return; /* blade engine stays in control */
+        if (!labels.length || !data.length) return;
+
+        var pad     = { top: 24, right: 24, bottom: 36, left: 44 };
+        var hovered = -1;
+        var animP   = 0;   /* draw-in progress 0→1 */
+        var animHandle = null;
+
+        function scaleY(v, maxVal, h) {
+            var plotH = h - pad.top - pad.bottom;
+            return h - pad.bottom - (v / maxVal) * plotH;
+        }
+
+        function draw(progress) {
+            var ref = setupCanvas(canvas);
+            if (!ref) return;
+            var ctx = ref.ctx, w = ref.w, h = ref.h;
+            var n   = data.length;
+            if (n < 2) return;
+
+            var p      = (progress !== undefined) ? progress : 1;
+            var maxVal = niceMax(Math.max.apply(null, data.concat(0)));
+            var plotW  = w - pad.left - pad.right;
+            var step   = plotW / (n - 1);
+
+            ctx.clearRect(0, 0, w, h);
+
+            paintGrid(ctx, w, h, pad, 4);
+            paintAxisLabels(ctx, labels, data, w, h, pad, 4);
+
+            /* ── Area fill — gold alpha ramp ── */
+            var grad = ctx.createLinearGradient(0, pad.top, 0, h - pad.bottom);
+            grad.addColorStop(0, T.goldA12);
+            grad.addColorStop(1, 'rgba(201,162,75,0)');
+
+            /* Build points */
+            var pts = [];
+            for (var i = 0; i < n; i++) {
+                pts.push({
+                    x: pad.left + i * step,
+                    y: scaleY(data[i], maxVal, h),
+                });
+            }
+
+            /* Animated stroke: only draw up to p fraction of points */
+            var drawN = Math.max(2, Math.round(p * (n - 1)) + 1);
+
+            /* Area path */
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(pts[0].x, pts[0].y);
+            for (var i = 1; i < drawN; i++) ctx.lineTo(pts[i].x, pts[i].y);
+            /* Close area to baseline */
+            if (drawN >= n) {
+                ctx.lineTo(pts[n - 1].x, h - pad.bottom);
+                ctx.lineTo(pts[0].x,     h - pad.bottom);
+                ctx.closePath();
+                ctx.fillStyle = grad;
+                ctx.fill();
+            }
+            ctx.restore();
+
+            /* Line stroke — gold primary */
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(pts[0].x, pts[0].y);
+            for (var i = 1; i < drawN; i++) ctx.lineTo(pts[i].x, pts[i].y);
+            ctx.strokeStyle = T.goldBright;
+            ctx.lineWidth   = 2.5;
+            ctx.lineJoin    = 'round';
+            ctx.lineCap     = 'round';
+            ctx.stroke();
+            ctx.restore();
+
+            /* Data dots */
+            for (var i = 0; i < drawN; i++) {
+                var isHov = i === hovered;
+                if (isHov) {
+                    paintCrosshair(ctx, pts[i].x, pad.top, h - pad.bottom);
+                    paintHoverDot(ctx, pts[i].x, pts[i].y);
+                    paintTooltip(ctx, pts[i].x, pts[i].y,
+                                 labels[i] + ': ' + compactNum(data[i]), w);
+                } else {
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(pts[i].x, pts[i].y, 4, 0, Math.PI * 2);
+                    ctx.fillStyle   = T.goldBright;
+                    ctx.fill();
+                    ctx.strokeStyle = T.surface;
+                    ctx.lineWidth   = 2;
+                    ctx.stroke();
+                    ctx.restore();
+                }
+            }
+        }
+
+        /* Animated draw-in on load */
+        if (!CALM) {
+            animHandle = animate(600, function (p) { draw(p); });
+        } else {
+            draw(1);
+        }
+
+        /* Hover: throttle via rAF flag */
+        var rafPending = false;
+        canvas.addEventListener('mousemove', function (e) {
+            if (rafPending) return;
+            rafPending = true;
+            requestAnimationFrame(function () {
+                rafPending = false;
+                var rect = canvas.getBoundingClientRect();
+                var mx   = e.clientX - rect.left;
+                var n    = data.length;
+                var plotW = rect.width - pad.left - pad.right;
+                var step  = plotW / (n - 1);
+                var idx   = Math.round((mx - pad.left) / step);
+                hovered   = (idx >= 0 && idx < n) ? idx : -1;
+                draw(1);
+            });
+        });
+        canvas.addEventListener('mouseleave', function () {
+            hovered = -1;
+            draw(1);
+        });
+        window.addEventListener('resize', function () { draw(1); });
+    }
+
+    /* ── 3b. BAR CHART (sakk-users-chart) — replaces blade's draw engine ── */
+    function initBarChart() {
+        var canvas = document.getElementById('sakk-users-chart');
+        if (!canvas) return;
+
+        var labels = null, data = null;
+
+        /* Extract from blade scripts — second set of var labels / var data
+           (the bar-chart IIFE appears after the line-chart one)          */
+        var found = 0;
+        document.querySelectorAll('script:not([src])').forEach(function (s) {
+            if (s.textContent.indexOf('sakk-users-chart') === -1) return;
+            var blocks = s.textContent.split('(function ()');
+            blocks.forEach(function (block) {
+                if (block.indexOf('sakk-users-chart') === -1) return;
+                var lm = block.match(/var\s+labels\s*=\s*(\[[\s\S]*?\]);/);
+                var dm = block.match(/var\s+data\s*=\s*(\[[\s\S]*?\]);/);
+                if (lm && dm && !labels) {
+                    try { labels = JSON.parse(lm[1]); } catch(e) {}
+                    try { data   = JSON.parse(dm[1]); } catch(e) {}
+                }
+            });
+        });
+
+        if (!labels || !data) return;
+        if (!labels.length || !data.length) return;
+
+        var pad     = { top: 24, right: 24, bottom: 36, left: 44 };
+        var hovered = -1;
+
+        function draw(progress) {
+            var ref = setupCanvas(canvas);
+            if (!ref) return;
+            var ctx = ref.ctx, w = ref.w, h = ref.h;
+            var n   = data.length;
+
+            var p      = (progress !== undefined) ? progress : 1;
+            var maxVal = niceMax(Math.max.apply(null, data.concat(0)));
+            var plotW  = w - pad.left - pad.right;
+            var plotH  = h - pad.top  - pad.bottom;
+            var slotW  = plotW / n;
+            var barW   = Math.max(10, slotW * 0.55);
+
+            ctx.clearRect(0, 0, w, h);
+            paintGrid(ctx, w, h, pad, 4);
+            paintAxisLabels(ctx, labels, data, w, h, pad, 4);
+
+            for (var i = 0; i < n; i++) {
+                var fullH = (data[i] / maxVal) * plotH;
+                var bh    = fullH * p;           /* animated height */
+                var bx    = pad.left + i * slotW + (slotW - barW) / 2;
+                var by    = h - pad.bottom - bh;
+                var isHov = i === hovered;
+                var r     = Math.min(4, barW / 2);
+
+                if (bh > 0) {
+                    /* Gold gradient fill — bright→deep vertical */
+                    var barGrad = ctx.createLinearGradient(bx, by, bx, h - pad.bottom);
+                    barGrad.addColorStop(0, T.goldBright);
+                    barGrad.addColorStop(1, T.goldDeep);
+
+                    ctx.save();
+                    ctx.fillStyle = isHov ? T.gold : barGrad;
+
+                    /* Rounded top corners only */
+                    ctx.beginPath();
+                    ctx.moveTo(bx + r, by);
+                    ctx.lineTo(bx + barW - r, by);
+                    ctx.quadraticCurveTo(bx + barW, by, bx + barW, by + r);
+                    ctx.lineTo(bx + barW, h - pad.bottom);
+                    ctx.lineTo(bx,        h - pad.bottom);
+                    ctx.lineTo(bx, by + r);
+                    ctx.quadraticCurveTo(bx, by, bx + r, by);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.restore();
+
+                    /* Soft contact shadow ellipse */
+                    ctx.save();
+                    ctx.filter = 'blur(3px)';
+                    ctx.fillStyle = T.goldA22;
+                    ctx.beginPath();
+                    ctx.ellipse(bx + barW / 2, h - pad.bottom + 3,
+                                barW / 2, 3, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.filter = 'none';
+                    ctx.restore();
+                }
+
+                /* Hover tooltip */
+                if (isHov && data[i] > 0 && p >= 1) {
+                    paintTooltip(ctx, bx + barW / 2, by,
+                                 labels[i] + ': ' + compactNum(data[i]), w);
+                }
+            }
+        }
+
+        if (!CALM) {
+            animate(600, function (p) { draw(p); });
+        } else {
+            draw(1);
+        }
+
+        var rafPending = false;
+        canvas.addEventListener('mousemove', function (e) {
+            if (rafPending) return;
+            rafPending = true;
+            requestAnimationFrame(function () {
+                rafPending = false;
+                var rect  = canvas.getBoundingClientRect();
+                var mx    = e.clientX - rect.left;
+                var n     = data.length;
+                var slotW = (rect.width - pad.left - pad.right) / n;
+                var idx   = Math.floor((mx - pad.left) / slotW);
+                hovered   = (idx >= 0 && idx < n) ? idx : -1;
+                draw(1);
+            });
+        });
+        canvas.addEventListener('mouseleave', function () { hovered = -1; draw(1); });
+        window.addEventListener('resize', function () { draw(1); });
+    }
+
+    /* ------------------------------------------------------------------
+       4. KPI CARD HOVER GLOW PULSE
+       On pointerenter → inject a transient gold glow ring via the
+       existing .kpi-card__glow element (preserving class names).
+       Uses CSS custom property injection so no class rename.
+       ------------------------------------------------------------------ */
+    function initKpiHover() {
+        var cards = document.querySelectorAll('.kpi-card');
+        if (!cards.length) return;
+
+        /* Inject the hover-glow keyframe once */
+        if (!document.getElementById('sakk-kpi-hover-kf')) {
+            var s = document.createElement('style');
+            s.id = 'sakk-kpi-hover-kf';
+            s.textContent = [
+                '@keyframes sakkKpiGlowIn{',
+                '  0%{opacity:0;transform:scale(.8);}',
+                '  60%{opacity:1;transform:scale(1.1);}',
+                '  100%{opacity:.7;transform:scale(1);}',
+                '}',
+                /* Pointer-enter glow upgrade on .kpi-card__glow */
+                '.kpi-card.sakk-hovered .kpi-card__glow{',
+                '  background:radial-gradient(circle,rgba(181,138,60,0.18) 0%,transparent 70%);',
+                '  width:160px;height:160px;top:-50px;left:-50px;',
+                CALM ? '' : '  animation:sakkKpiGlowIn 240ms cubic-bezier(.34,1.56,.64,1) forwards;',
+                '}',
+                /* Value count-up scale nudge on hover */
+                '.kpi-card.sakk-hovered .kpi-card__value{',
+                '  color:var(--wine,#6E1B2D);',
+                CALM ? '' : '  transition:color 140ms ease,transform 140ms cubic-bezier(.34,1.56,.64,1);',
+                '  transform:scale(1.03);',
+                '}',
+                /* Focus-visible gold ring on the card link */
+                '.kpi-card__link:focus-visible{',
+                '  outline:2px solid var(--gold,#B58A3C);',
+                '  outline-offset:2px;border-radius:inherit;',
+                '}',
+            ].join('');
+            document.head.appendChild(s);
+        }
+
+        cards.forEach(function (card) {
+            card.addEventListener('pointerenter', function () {
+                card.classList.add('sakk-hovered');
+            });
+            card.addEventListener('pointerleave', function () {
+                card.classList.remove('sakk-hovered');
+            });
+        });
+    }
+
+    /* ------------------------------------------------------------------
+       5. REFRESH BUTTON PULSE
+       On click → spin the icon once with a wine ring expanding then
+       fading, regardless of reduced-motion (the icon spin is purely
+       decorative feedback to the click, not ambient animation).
+       Uses #refresh-now-btn which already exists in the blade.
+       ------------------------------------------------------------------ */
+    function initRefreshPulse() {
+        var btn = document.getElementById('refresh-now-btn');
+        if (!btn) return;
+
+        if (!document.getElementById('sakk-refresh-pulse-kf')) {
+            var s = document.createElement('style');
+            s.id  = 'sakk-refresh-pulse-kf';
+            s.textContent = [
+                '@keyframes sakkRefreshSpin{to{transform:rotate(360deg)}}',
+                '@keyframes sakkRefreshRing{',
+                '  0%  {box-shadow:0 0 0 0 rgba(110,27,45,0.30);}',
+                '  60% {box-shadow:0 0 0 8px rgba(110,27,45,0);}',
+                '  100%{box-shadow:0 0 0 0 rgba(110,27,45,0);}',
+                '}',
+                '#refresh-now-btn.sakk-pulse{',
+                CALM ? '' : '  animation:sakkRefreshRing 480ms ease-out forwards;',
+                '}',
+                '#refresh-now-btn.sakk-pulse svg{',
+                CALM ? '' : '  animation:sakkRefreshSpin 480ms cubic-bezier(.4,0,.2,1) forwards;',
+                '}',
+            ].join('');
+            document.head.appendChild(s);
+        }
+
+        btn.addEventListener('click', function () {
+            btn.classList.remove('sakk-pulse');
+            /* Force reflow to restart animation */
+            void btn.offsetWidth;
+            btn.classList.add('sakk-pulse');
+            setTimeout(function () { btn.classList.remove('sakk-pulse'); }, 500);
+        });
+    }
+
+    /* ------------------------------------------------------------------
+       6. TOAST IDENTITY UPGRADE
+       The existing sakkToast uses plain success/error colors. We patch
+       the TOAST_COLORS so the 'info' variant uses the wine palette
+       (identity-correct: wine = info in SAKK token file).
+       We do this by replacing the injected keyframe style's companion
+       and patching window.SAKK_TOAST_COLORS if the main IIFE exports it.
+       Otherwise we inject a CSS override that re-tones the toast.
+       ------------------------------------------------------------------ */
+    function initToastIdentity() {
+        if (!document.getElementById('sakk-toast-identity')) {
+            var s = document.createElement('style');
+            s.id  = 'sakk-toast-identity';
+            s.textContent = [
+                /* Info toasts → wine-toned */
+                '#sakk-toast-region [role="alert"]:not([style*="#f0fdf4"]):not([style*="#fef2f2"]):not([style*="#fffbeb"]){',
+                '  /* catch-all for info-type toasts */}',
+                /* Upgrade the copy-success toast border radius */
+                '#sakk-toast-region [role="alert"]{',
+                '  border-radius:12px!important;',
+                '  font-family:\'IBM Plex Sans Arabic\',sans-serif!important;',
+                '}',
+            ].join('');
+            document.head.appendChild(s);
+        }
+    }
+
+    /* ------------------------------------------------------------------
+       INIT
+       ------------------------------------------------------------------ */
+    function initIdentity() {
+        enforceLightOnly();
+        initKpiHover();
+        initRefreshPulse();
+        initToastIdentity();
+
+        /* Charts: wait one tick so blade IIFEs finish first, then we
+           take over the canvas rendering with our upgraded engine.     */
+        if (typeof requestAnimationFrame !== 'undefined') {
+            requestAnimationFrame(function () {
+                requestAnimationFrame(function () {
+                    initLineChart();
+                    initBarChart();
+                });
+            });
+        } else {
+            setTimeout(function () {
+                initLineChart();
+                initBarChart();
+            }, 0);
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initIdentity);
+    } else {
+        initIdentity();
+    }
+
+})();

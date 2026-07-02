@@ -1,0 +1,453 @@
+/* ============================================================
+   SAKK ADMIN — SIDEBAR (v3 · Borderless · Fixed)
+   Mobile: overlay drawer from right (280px)
+   Desktop: fixed right rail (250px / 72px collapsible)
+   RTL: logical properties (inset-inline-*) throughout
+   No shadows, no borders — clean separation via bg + spacing
+   ============================================================ */
+
+/* ── App shell ──
+   Contained shell: ONE parent (.admin-shell) pins to viewport height and
+   hides overflow. Sidebar is an IN-FLOW flex column (position:static on
+   desktop) with its own internal nav scroll. Main content is its own
+   flex column whose <main id="mainContent"> is the ONLY page-level scroll
+   container. The body itself never scrolls. */
+.admin-shell {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* ── Sidebar shell ──
+   Mobile (<1024px): fixed slide-in overlay drawer (closed by default) —
+   unchanged, still overlays on top of the shell.
+   Desktop (>=1024px): in-flow flex column, height:100% of the shell
+   (which is 100vh) — NOT position:fixed. Its own inner nav scrolls
+   (.sd-nav); brand + footer stay pinned via flex-shrink:0. */
+.sd-aside {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 50;
+    width: 280px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--sidebar-bg, #fff);
+    border: none;
+    transform: translateX(100%);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.sd-aside.sd-open {
+    transform: translateX(0);
+}
+
+@media (min-width: 1024px) {
+    .sd-aside {
+        position: static;
+        width: 250px;
+        height: 100%;
+        transform: none;
+        z-index: auto;
+        flex-shrink: 0;
+    }
+    .sd-aside.sd-rail {
+        width: 72px;
+    }
+}
+.sd-main {
+    /* In-flow flex sibling of .sd-aside now — no offset margin needed. */
+    min-width: 0;
+}
+
+.sd-shell {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* ── Brand ── */
+.sd-brand {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    padding: 0 var(--space-md);
+    border: none;
+    flex-shrink: 0;
+}
+.sd-brand--center {
+    justify-content: center;
+    padding-inline: var(--space-sm);
+}
+.sd-brand-link {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    text-decoration: none;
+    min-width: 0;
+    overflow: hidden;
+}
+.sd-brand-mark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-sm);
+    background: linear-gradient(135deg, var(--sukk-primary), var(--sukk-primary-dark));
+    flex-shrink: 0;
+}
+.sd-brand-logo {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+}
+.sd-brand-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+}
+.sd-brand-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--sidebar-text-strong, #2A1A1F);
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.sd-brand-sub {
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--sidebar-text, #7E7175);
+    line-height: 1.2;
+    margin-top: 1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ── Nav container ──
+   The ONLY internal scroll region inside the fixed sidebar: brand (top)
+   and footer/user-card (bottom) stay pinned via flex-shrink:0 on the
+   shell's other children while nav flexes to fill and scrolls itself. */
+.sd-nav {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    direction: ltr;
+    padding: 0.35rem 0.65rem 0.75rem;
+}
+.sd-nav > * {
+    direction: rtl;
+}
+.sd-rail .sd-nav {
+    padding-inline: 0.3rem;
+}
+
+/* ── Section label ── */
+.sd-section-label {
+    margin: 1.15rem 0.65rem 0.35rem;
+    padding: 0 0.55rem;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--text-muted, #86787B);
+    opacity: 0.7;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    user-select: none;
+    line-height: 1.4;
+}
+.sd-nav > .sd-section-label:first-child {
+    margin-top: 0.1rem;
+    border: none;
+}
+.sd-section-label:not(:first-child) {
+    border-top: none;
+    padding-top: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+/* ── Nav item link ── */
+.sd-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: var(--space-sm) 0.85rem;
+    margin: 0.06rem 0;
+    border-radius: var(--radius-sm);
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--sidebar-text, #7E7175);
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    width: 100%;
+    text-align: right;
+    line-height: 1.3;
+    overflow: hidden;
+}
+.sd-link:hover {
+    background: var(--sidebar-hover, #F5F0EB);
+    color: var(--sidebar-text-strong, #2A1A1F);
+}
+.sd-link:hover .sd-link-icon svg[data-slot="icon"] {
+    color: var(--sidebar-text-strong, #2A1A1F);
+}
+.sd-link-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+}
+.sd-link-icon svg[data-slot="icon"] {
+    width: 22px;
+    height: 22px;
+    color: var(--sidebar-text, #7E7175);
+}
+.sd-link-text {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.3;
+}
+.sd-link-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    border-radius: var(--radius-full);
+    font-size: 0.6rem;
+    font-weight: 700;
+    line-height: 1;
+    flex-shrink: 0;
+    border: none;
+}
+
+/* ── Active state ── */
+.sd-link--active {
+    position: relative;
+    background: var(--sukk-primary-soft) !important;
+    color: var(--sukk-primary) !important;
+    font-weight: 700;
+}
+.sd-link--active::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block: 0;
+    width: 3px;
+    background: var(--sukk-primary);
+    border-radius: 0 var(--radius-xs, 2px) var(--radius-xs, 2px) 0;
+}
+.sd-link--active .sd-link-icon svg[data-slot="icon"] {
+    color: var(--sukk-primary) !important;
+}
+
+/* ── Rail (collapsed) ── */
+.sd-aside.sd-rail .sd-link {
+    justify-content: center;
+    padding-inline: 0;
+    margin: 0.1rem 0;
+}
+
+.sd-aside.sd-rail .sd-link-icon {
+    width: auto;
+    height: auto;
+}
+.sd-aside.sd-rail .sd-link-icon svg[data-slot="icon"] {
+    width: 22px;
+    height: 22px;
+}
+
+/* ── Nav group ── */
+.sd-group {
+    position: relative;
+}
+.sd-group-trigger {
+    gap: 0.75rem;
+}
+.sd-group-trigger:hover {
+    background: var(--sidebar-hover, #F5F0EB);
+    color: var(--sidebar-text-strong, #2A1A1F);
+}
+.sd-group--open > .sd-group-trigger {
+    color: var(--sidebar-text-strong, #2A1A1F);
+    font-weight: 600;
+}
+.sd-group-chevron {
+    margin-inline-start: auto;
+    font-size: 1rem;
+    opacity: 0.4;
+    flex-shrink: 0;
+    color: var(--sidebar-text, #7E7175);
+    line-height: 1;
+}
+.sd-chevron--open {
+    transform: rotate(180deg);
+}
+
+/* ── Sub-tree indent ── */
+.sd-subtree {
+    position: relative;
+    margin-inline-start: 1.6rem;
+    padding-inline-start: 0.8rem;
+    margin-bottom: 0.1rem;
+    overflow: visible;
+}
+.sd-subtree::before {
+    content: '';
+    position: absolute;
+    inset-block: 0.1rem;
+    inset-inline-start: 0;
+    width: 1.5px;
+    background: var(--border-light, #F2F1EF);
+    border-radius: 2px;
+}
+.sd-subtree .sd-link {
+    font-size: 0.84rem;
+    padding: 0.38rem 0.7rem;
+    margin: 0.02rem 0;
+}
+.sd-subtree .sd-link .sd-link-icon svg[data-slot="icon"] {
+    width: 20px;
+    height: 20px;
+}
+.sd-subtree .sd-link--active {
+    background: var(--sukk-primary-soft) !important;
+}
+
+
+/* ── Footer profile card (borderless, clickable, hover overlay) ── */
+.sd-footer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0;
+    margin: 0.2rem 0.75rem 0.55rem;
+    border-radius: var(--radius-main);
+    background: var(--sidebar-bg-soft, #FAF8F6);
+    border: none;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+.sd-footer-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.65rem 0.85rem;
+    flex: 1;
+    min-width: 0;
+    text-decoration: none;
+    border-radius: var(--radius-main);
+    overflow: hidden;
+    z-index: 1;
+}
+.sd-footer-overlay {
+    display: none;
+}
+.sd-footer-avatar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: var(--radius-sm);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, var(--sukk-primary), var(--sukk-primary-dark));
+    z-index: 1;
+}
+.sd-footer-info {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    z-index: 1;
+}
+.sd-footer-name {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-primary, #2A1A1F);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 0;
+    line-height: 1.2;
+}
+.sd-footer-role {
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: var(--text-muted, #86787B);
+    margin: 0;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.sd-footer-logout {
+    position: relative;
+    flex-shrink: 0;
+    padding: 0.65rem 0;
+    padding-inline-end: 0.85rem;
+    z-index: 2;
+}
+.sd-footer-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-sm);
+    border: none;
+    background: transparent;
+    color: var(--text-muted, #86787B);
+    cursor: pointer;
+    transition: background 0.12s ease, color 0.12s ease;
+}
+.sd-footer-btn:hover {
+    background: var(--danger-soft, #FEF2F2);
+    color: var(--danger, #EF4444);
+}
+.sd-footer-btn svg[data-slot="icon"] {
+    width: 20px;
+    height: 20px;
+}
+.sd-rail .sd-footer {
+    display: none;
+}
+
+/* ── Mobile backdrop overlay ── */
+.sd-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+}

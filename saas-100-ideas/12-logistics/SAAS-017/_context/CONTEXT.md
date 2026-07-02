@@ -1,0 +1,14 @@
+# CONTEXT — SAAS-017 (durable facts; append-only)
+- title: CargoNet
+- sector: 12-logistics
+- description: إدارة شركات الشحن: تتبع الشحنات، إدارة السائقين، مسارات ذكية
+- target_customers: شركات شحن، مكاتب توصيل
+- stack: Laravel API + React Dashboard + Flutter Mobile App
+- target_market_detail: 10,000+ شركة شحن ومكتب توصيل في الشرق الأوسط
+- product_description: منصة متكاملة لإدارة شركات الشحن والتوصيل تشمل تتبع الشحنات بالباركود، إدارة السائقين وأسطول المركبات، تحسين المسارات الذكي، تتبع المواقع الحي عبر WebSocket، إثبات التوصيل (صورة + توقيع).
+- competitive_landscape: Shipa (لتجارة إلكترونية)، Logisti (محلي محدود)، Wheelys (توصيل طلبات)
+- differentiation: إدارة أسطول كاملة، مسارات ذكية، تتبع حي، إثبات التوصيل
+- target_mrr_per_client: $39-$159/شهر
+- pricing_tiers: Basic ($39), Professional ($79), Enterprise ($159)
+- personas: مدير شحن (سامي)، سائق (حسن)، عميل (علي)
+- gate_status: Gate 0 (Inception) completed. docs/PRD.md written.

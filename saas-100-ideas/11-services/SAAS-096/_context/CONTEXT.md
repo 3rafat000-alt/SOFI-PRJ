@@ -1,0 +1,14 @@
+# CONTEXT — SAAS-096 (durable facts; append-only)
+- title: NGOmgt
+- sector: 11-services
+- description: إدارة الجمعيات الخيرية: متبرعين، مشاريع، تقارير
+- target_customers: جمعيات، منظمات غير حكومية
+- stack: Laravel API + React Dashboard + Flutter Mobile App
+- target_market_detail: 10,000+ جمعية خيرية ومنظمة غير حكومية في الشرق الأوسط وشمال أفريقيا
+- product_description: منصة شاملة لإدارة الجمعيات الخيرية والمنظمات غير الحكومية تشمل إدارة المتبرعين، حملات التبرع، المشاريع الميدانية، إدارة المتطوعين، تتبع المصروفات، وتقارير الشفافية المالية والأثر.
+- competitive_landscape: DonorPerfect (أجنبي، مكلف)، إحسان (حكومي سعودي)، Blackbaud (مكلف جداً)
+- differentiation: نظام متكامل للعالم العربي، أسعار مخفضة للقطاع غير الربحي، حاسبة زكاة، متعدد اللغات (عربي+إنجليزي)
+- target_mrr_per_client: $19-$99/شهر
+- pricing_tiers: Starter ($19), Growth ($49), Enterprise ($99)
+- personas: مدير جمعية خيرية (عبدالله)، مسئول علاقات متبرعين (هدى)
+- gate_status: Gate 0 (Inception) completed. docs/PRD.md written.

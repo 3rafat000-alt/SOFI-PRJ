@@ -1,0 +1,13 @@
+# CONTEXT — SAAS-061 (durable facts; append-only)
+- title: LabMgt
+- sector: 02-health
+- description: إدارة المختبرات الطبية: تحاليل، نتائج، تذكير المرضى
+- target_customers: مختبرات طبية
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: نظام إدارة المختبرات الطبية السحابي — تحاليل، نتائج، تذكير آلي، وتقارير. يدير دورة حياة العينة بالكامل (استلام → تحليل → نتيجة → تقرير) مع باركود وربط بأجهزة التحليل.
+- target_market: سوق إدارة المختبرات الطبية ~$5B عالمياً، الشرق الأوسط ~$350M. نمو 12% CAGR.
+- competitive_landscape: LIS تقليدي (Orchard — باهظ $10K+، بدون دعم عربي)، OpenELIS (مفتوح المصدر بدون تطبيق جوال)، مختبر بلس (محلي محدود)، CGM LABDAQ (أمريكي معقد).
+- differentiation: سحابي بالكامل، عربي، تطبيق مريض لمشاهدة النتائج، تذكير عبر واتساب، باركود للعينات، تقارير تحليلية.
+- pricing_tiers: Starter ($49/mo — 500 samples, 2 techs), Pro ($99/mo — 2000 samples, 10 techs), Enterprise (custom)
+- prd_completed_at: gate-0-inception
+- next_gate: 1-discovery → sofi-journey-architect

@@ -1,0 +1,13 @@
+# CONTEXT — SAAS-062 (durable facts; append-only)
+- title: DentistPro
+- sector: 02-health
+- description: إدارة عيادات الأسنان: حجوزات، ملفات مرضى، تذكير مواعيد
+- target_customers: أطباء أسنان، عيادات
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: نظام إدارة عيادات الأسنان السحابي — حجوزات، ملفات مرضى رقمية، خريطة أسنان تفاعلية، صور أشعة، تذكير مواعيد، وفواتير تأمين. يدعم تخصص الأسنان بالكامل.
+- target_market: سوق إدارة عيادات الأسنان ~$4B عالمياً، الشرق الأوسط ~$250M. نمو 14% CAGR.
+- competitive_landscape: Dentrix (معيار صناعة، $300/شهر، سطح مكتب)، Open Dental (مفتوح المصدر، بدون عربي)، Eaglesoft (أمريكي باهظ)، Tabib/Vezeeta (حجوزات فقط)، ClinicSource (عام بدون تخصص).
+- differentiation: عربي كامل، خريطة أسنان رقمية، تكامل مع صور البانوراما، تذكير واتساب، فواتير تأمين مدمجة.
+- pricing_tiers: Starter ($39/mo — 2 chairs, 300 patients), Pro ($79/mo — 5 chairs, unlimited, X-rays), Enterprise (custom)
+- prd_completed_at: gate-0-inception
+- next_gate: 1-discovery → sofi-journey-architect

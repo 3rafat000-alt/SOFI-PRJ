@@ -1,0 +1,570 @@
+{
+  "version": "1.0",
+  "title": "TaskSync Pro (SAAS-001) — System Architecture",
+  "icons": [
+    {
+      "id": "block",
+      "name": "block",
+      "collection": "isoflow"
+    },
+    {
+      "id": "browser",
+      "name": "browser",
+      "collection": "isoflow"
+    },
+    {
+      "id": "cloud",
+      "name": "cloud",
+      "collection": "isoflow"
+    },
+    {
+      "id": "server",
+      "name": "server",
+      "collection": "isoflow"
+    },
+    {
+      "id": "storage",
+      "name": "storage",
+      "collection": "isoflow"
+    },
+    {
+      "id": "user",
+      "name": "user",
+      "collection": "isoflow"
+    }
+  ],
+  "colors": [
+    {
+      "id": "blue",
+      "value": "#4285f4"
+    },
+    {
+      "id": "red",
+      "value": "#ea4335"
+    },
+    {
+      "id": "green",
+      "value": "#34a853"
+    },
+    {
+      "id": "yellow",
+      "value": "#fbbc05"
+    }
+  ],
+  "items": [
+    {
+      "id": "user",
+      "name": "User (Browser/App)",
+      "icon": "user",
+      "description": "Admin, Team lead, Member — persona سارة, أحمد, ليلى"
+    },
+    {
+      "id": "cloudflare",
+      "name": "Cloudflare CDN",
+      "icon": "server",
+      "description": "DNS, DDoS protection, SSL, static asset cache"
+    },
+    {
+      "id": "vue-dash",
+      "name": "Vue 3 Dashboard",
+      "icon": "browser",
+      "description": "SPA — Kanban, Reports, Settings, Timer UI"
+    },
+    {
+      "id": "flutter-app",
+      "name": "Flutter Mobile App",
+      "icon": "browser",
+      "description": "Task list, Timer, Push notifications, Offline queue"
+    },
+    {
+      "id": "laravel-api",
+      "name": "Laravel 11 API",
+      "icon": "server",
+      "description": "RESTful JSON API — Sanctum auth, Services, Events"
+    },
+    {
+      "id": "reverb",
+      "name": "Laravel Reverb WS",
+      "icon": "server",
+      "description": "WebSocket server — real-time board updates, notifications"
+    },
+    {
+      "id": "redis",
+      "name": "Redis",
+      "icon": "block",
+      "description": "Cache, session, queue driver, Reverb pub/sub"
+    },
+    {
+      "id": "postgres",
+      "name": "PostgreSQL",
+      "icon": "storage",
+      "description": "Primary data store — Users, Teams, Projects, Tasks, TimeEntries"
+    },
+    {
+      "id": "horizon",
+      "name": "Laravel Horizon",
+      "icon": "block",
+      "description": "Queue worker — email, push, report generation"
+    },
+    {
+      "id": "s3-storage",
+      "name": "S3-Compatible Storage",
+      "icon": "cloud",
+      "description": "Avatars, attachments, exported reports (DigitalOcean Spaces)"
+    },
+    {
+      "id": "mail",
+      "name": "Email (SMTP/Mailgun)",
+      "icon": "cloud",
+      "description": "Transactional email — invites, notifications, reports"
+    },
+    {
+      "id": "push-notif",
+      "name": "Push Notifications",
+      "icon": "cloud",
+      "description": "FCM (Firebase) — mobile push via Laravel notifications"
+    },
+    {
+      "id": "whatsapp",
+      "name": "WhatsApp Cloud API",
+      "icon": "cloud",
+      "description": "Invite & notification channel for Arabic users"
+    },
+    {
+      "id": "slack",
+      "name": "Slack Webhook",
+      "icon": "cloud",
+      "description": "Optional integration — task updates to Slack channel"
+    }
+  ],
+  "views": [
+    {
+      "id": "view-main",
+      "name": "Main",
+      "items": [
+        {
+          "id": "user",
+          "tile": {
+            "x": -2,
+            "y": 0
+          }
+        },
+        {
+          "id": "cloudflare",
+          "tile": {
+            "x": -1,
+            "y": 0
+          }
+        },
+        {
+          "id": "vue-dash",
+          "tile": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        {
+          "id": "flutter-app",
+          "tile": {
+            "x": 1,
+            "y": 0
+          }
+        },
+        {
+          "id": "laravel-api",
+          "tile": {
+            "x": -2,
+            "y": 1
+          }
+        },
+        {
+          "id": "reverb",
+          "tile": {
+            "x": -1,
+            "y": 1
+          }
+        },
+        {
+          "id": "redis",
+          "tile": {
+            "x": 0,
+            "y": 1
+          }
+        },
+        {
+          "id": "postgres",
+          "tile": {
+            "x": 1,
+            "y": 1
+          }
+        },
+        {
+          "id": "horizon",
+          "tile": {
+            "x": -2,
+            "y": 2
+          }
+        },
+        {
+          "id": "s3-storage",
+          "tile": {
+            "x": -1,
+            "y": 2
+          }
+        },
+        {
+          "id": "mail",
+          "tile": {
+            "x": 0,
+            "y": 2
+          }
+        },
+        {
+          "id": "push-notif",
+          "tile": {
+            "x": 1,
+            "y": 2
+          }
+        },
+        {
+          "id": "whatsapp",
+          "tile": {
+            "x": -2,
+            "y": 3
+          }
+        },
+        {
+          "id": "slack",
+          "tile": {
+            "x": -1,
+            "y": 3
+          }
+        }
+      ],
+      "connectors": [
+        {
+          "id": "c1",
+          "color": "blue",
+          "width": 10,
+          "description": "HTTPS",
+          "anchors": [
+            {
+              "id": "c1a1",
+              "ref": {
+                "item": "user"
+              }
+            },
+            {
+              "id": "c1a2",
+              "ref": {
+                "item": "cloudflare"
+              }
+            }
+          ]
+        },
+        {
+          "id": "c2",
+          "color": "blue",
+          "width": 10,
+          "description": "Static assets (JS/CSS)",
+          "anchors": [
+            {
+              "id": "c2a1",
+              "ref": {
+                "item": "cloudflare"
+              }
+            },
+            {
+              "id": "c2a2",
+              "ref": {
+                "item": "vue-dash"
+              }
+            }
+          ]
+        },
+        {
+          "id": "c3",
+          "color": "blue",
+          "width": 10,
+          "description": "API proxy /api/*",
+          "anchors": [
+            {
+              "id": "c3a1",
+              "ref": {
+                "item": "cloudflare"
+              }
+            },
+            {
+              "id": "c3a2",
+              "ref": {
+                "item": "laravel-api"
+              }
+            }
+          ]
+        },
+        {
+          "id": "c4",
+          "color": "blue",
+          "width": 10,
+          "description": "REST + JSON (Axios)",
+          "anchors": [
+            {
+              "id": "c4a1",
+              "ref": {
+                "item": "vue-dash"
+              }
+            },
+            {
+              "id": "c4a2",
+              "ref": {
+                "item": "laravel-api"
+              }
+            }
+          ]
+        },
+        {
+          "id": "c5",
+          "color": "blue",
+          "width": 10,
+          "description": "WSS (Laravel Echo)",
+          "anchors": [
+            {
+              "id": "c5a1",
+              "ref": {
+                "item": "vue-dash"
+              }
+            },
+            {
+              "id": "c5a2",
+              "ref": {
+                "item": "reverb"
+              }
+            }
+          ]
+        },
+        {
+          "id": "c6",
+          "color": "blue",
+          "width": 10,
+          "description": "REST + JSON (Dio)",
+          "anchors": [
+            {
+              "id": "c6a1",
+              "ref": {
+                "item": "flutter-app"
+              }
+            },
+            {
+              "id": "c6a2",
+              "ref": {
+                "item": "laravel-api"
+              }
+            }
+          ]
+        },
+        {
+          "id": "c7",
+          "color": "blue",
+          "width": 10,
+          "description": "WSS (Laravel Echo)",
+          "anchors": [
+            {
+              "id": "c7a1",
+              "ref": {
+                "item": "flutter-app"
+              }
+            },
+            {
+              "id": "c7a2",
+              "ref": {
+                "item": "reverb"
+              }
+            }
+          ]
+        },
+        {
+          "id": "c8",
+          "color": "blue",
+          "width": 10,
+          "description": "Eloquent ORM",
+          "anchors": [
+            {
+              "id": "c8a1",
+              "ref": {
+                "item": "laravel-api"
+              }
+            },
+            {
+              "id": "c8a2",
+              "ref": {
+                "item": "postgres"
+              }
+            }
+          ]
+        },
+        {
+          "id": "c9",
+          "color": "blue",
+          "width": 10,
+          "description": "Cache + session",
+          "anchors": [
+            {
+              "id": "c9a1",
+              "ref": {
+                "item": "laravel-api"
+              }
+            },
+            {
+              "id": "c9a2",
+              "ref": {
+                "item": "redis"
+              }
+            }
+          ]
+        },
+        {
+          "id": "c10",
+          "color": "blue",
+          "width": 10,
+          "description": "Dispatch jobs",
+          "anchors": [
+            {
+              "id": "c10a1",
+              "ref": {
+                "item": "laravel-api"
+              }
+            },
+            {
+              "id": "c10a2",
+              "ref": {
+                "item": "horizon"
+              }
+            }
+          ]
+        },
+        {
+          "id": "c11",
+          "color": "blue",
+          "width": 10,
+          "description": "Pub/sub channel",
+          "anchors": [
+            {
+              "id": "c11a1",
+              "ref": {
+                "item": "reverb"
+              }
+            },
+            {
+              "id": "c11a2",
+              "ref": {
+                "item": "redis"
+              }
+            }
+          ]
+        },
+        {
+          "id": "c12",
+          "color": "blue",
+          "width": 10,
+          "description": "File uploads (League Flysystem)",
+          "anchors": [
+            {
+              "id": "c12a1",
+              "ref": {
+                "item": "laravel-api"
+              }
+            },
+            {
+              "id": "c12a2",
+              "ref": {
+                "item": "s3-storage"
+              }
+            }
+          ]
+        },
+        {
+          "id": "c13",
+          "color": "blue",
+          "width": 10,
+          "description": "Mail queue",
+          "anchors": [
+            {
+              "id": "c13a1",
+              "ref": {
+                "item": "horizon"
+              }
+            },
+            {
+              "id": "c13a2",
+              "ref": {
+                "item": "mail"
+              }
+            }
+          ]
+        },
+        {
+          "id": "c14",
+          "color": "blue",
+          "width": 10,
+          "description": "FCM queue",
+          "anchors": [
+            {
+              "id": "c14a1",
+              "ref": {
+                "item": "horizon"
+              }
+            },
+            {
+              "id": "c14a2",
+              "ref": {
+                "item": "push-notif"
+              }
+            }
+          ]
+        },
+        {
+          "id": "c15",
+          "color": "blue",
+          "width": 10,
+          "description": "WhatsApp queue",
+          "anchors": [
+            {
+              "id": "c15a1",
+              "ref": {
+                "item": "horizon"
+              }
+            },
+            {
+              "id": "c15a2",
+              "ref": {
+                "item": "whatsapp"
+              }
+            }
+          ]
+        },
+        {
+          "id": "c16",
+          "color": "blue",
+          "width": 10,
+          "description": "Webhook queue",
+          "anchors": [
+            {
+              "id": "c16a1",
+              "ref": {
+                "item": "horizon"
+              }
+            },
+            {
+              "id": "c16a2",
+              "ref": {
+                "item": "slack"
+              }
+            }
+          ]
+        }
+      ],
+      "rectangles": [],
+      "textBoxes": []
+    }
+  ]
+}

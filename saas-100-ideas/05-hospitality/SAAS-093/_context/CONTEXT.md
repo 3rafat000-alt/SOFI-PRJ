@@ -1,0 +1,14 @@
+# CONTEXT — SAAS-093 (durable facts; append-only)
+- title: HallBooking
+- sector: 05-hospitality
+- description: إدارة قاعات المناسبات: حجوزات، تجهيزات، عقود
+- target_customers: قاعات أفراح، مناسبات
+- stack: Laravel API + React Dashboard + Flutter Mobile App
+- target_market_detail: 10,000+ قاعة مناسبات في الشرق الأوسط، 50,000+ مورد
+- product_description: منصة متكاملة لإدارة حجوزات قاعات المناسبات من البداية للنهاية. تشمل تقويم حجوزات ذكي، عقود رقمية، إدارة موردين ومعدات، مدفوعات آمنة، وتطبيق عملاء لتصفح القاعات والحجز.
+- competitive_landscape: Eventtus (أحداث عامة)، Peerspace (عالمي)، مكتبة.كوم (محدود)
+- differentiation: نظام إدارة شامل لقاعات المناسبات، تطبيق موبايل للعملاء، إدارة الموردين والتجهيزات، عقود رقمية مع توقيع إلكتروني
+- target_mrr_per_client: $29-$99/شهر
+- pricing_tiers: Basic ($29), Professional ($59), Enterprise ($99)
+- personas: مالك قاعة (فهد)، عميلة تبحث عن قاعة (منال)
+- gate_status: Gate 0 (Inception) completed. docs/PRD.md written.

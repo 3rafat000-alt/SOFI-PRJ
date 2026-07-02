@@ -1,0 +1,373 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# TaskSync Pro — CI/CD Pipeline
+# ═══════════════════════════════════════════════════════════════════════════════
+# Branches:
+#   - develop: lint + tests only (feature branches)
+#   - staging: lint + tests + docker build + trivy + deploy to staging
+#   - main:    lint + tests + docker + trivy → manual gate → deploy to production
+# ═══════════════════════════════════════════════════════════════════════════════
+
+name: TaskSync Pro CI/CD
+
+on:
+  push:
+    branches: [main, staging, develop]
+  pull_request:
+    branches: [main, staging]
+
+env:
+  PHP_VERSION: "8.3"
+  NODE_VERSION: "20"
+  FLUTTER_VERSION: "3.24"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ── Job 1: PHP Lint (Pint + PHPStan) ──────────────────────────────────────
+  lint-php:
+    name: PHP Lint (Pint + PHPStan)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          tools: composer, pint, phpstan
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: src/backend/vendor
+          key: composer-${{ hashFiles('src/backend/composer.lock') }}
+          restore-keys: composer-
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist
+
+      - name: Run Pint
+        run: pint --test
+
+      - name: Run PHPStan
+        run: phpstan analyse --level=6 --no-progress
+
+  # ── Job 2: PHP Tests (PHPUnit) ─────────────────────────────────────────────
+  phpunit:
+    name: PHPUnit Tests
+    needs: lint-php
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/backend
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: tasksync_test
+          POSTGRES_USER: tasksync
+          POSTGRES_PASSWORD: testpass
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: pdo, pdo_pgsql, curl, mbstring
+          coverage: xdebug
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: src/backend/vendor
+          key: composer-${{ hashFiles('src/backend/composer.lock') }}
+          restore-keys: composer-
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist
+
+      - name: Copy .env
+        run: cp .env.ci .env
+
+      - name: Generate APP_KEY
+        run: php artisan key:generate
+
+      - name: Run migrations
+        run: php artisan migrate --force
+        env:
+          DB_PASSWORD: testpass
+
+      - name: Run PHPUnit
+        run: php artisan test --coverage --min=90
+        env:
+          DB_PASSWORD: testpass
+
+  # ── Job 3: Frontend Tests (Vitest) ─────────────────────────────────────────
+  vitest:
+    name: Frontend Tests (Vitest)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Cache npm
+        uses: actions/cache@v4
+        with:
+          path: src/frontend/node_modules
+          key: npm-${{ hashFiles('src/frontend/package-lock.json') }}
+          restore-keys: npm-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Vitest
+        run: npm run test -- --coverage
+
+      - name: Build for production
+        run: npm run build
+
+  # ── Job 4: Flutter Analyze + Test ──────────────────────────────────────────
+  flutter:
+    name: Flutter Analyze + Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/mobile
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Cache pub
+        uses: actions/cache@v4
+        with:
+          path: src/mobile/.pub-cache
+          key: flutter-${{ hashFiles('src/mobile/pubspec.lock') }}
+          restore-keys: flutter-
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Run analyze
+        run: flutter analyze
+
+      - name: Run tests
+        run: flutter test --coverage
+
+  # ── Job 5: Docker Build + Trivy Scan ──────────────────────────────────────
+  docker:
+    name: Docker Build + Trivy Scan
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging'
+    needs: [phpunit, vitest, flutter]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Cache Docker layers
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: buildx-${{ hashFiles('src/backend/Dockerfile', 'src/frontend/Dockerfile') }}
+          restore-keys: buildx-
+
+      - name: Build backend image
+        uses: docker/build-push-action@v5
+        with:
+          context: src/backend
+          file: src/backend/Dockerfile
+          load: true
+          tags: tasksync-backend:ci-${{ github.sha }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+
+      - name: Build frontend image
+        uses: docker/build-push-action@v5
+        with:
+          context: src/frontend
+          file: src/frontend/Dockerfile
+          load: true
+          tags: tasksync-frontend:ci-${{ github.sha }}
+
+      - name: Run Trivy vulnerability scan (backend)
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: tasksync-backend:ci-${{ github.sha }}
+          format: sarif
+          output: trivy-backend.sarif
+          severity: CRITICAL,HIGH
+          exit-code: 1
+
+      - name: Run Trivy vulnerability scan (frontend)
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: tasksync-frontend:ci-${{ github.sha }}
+          format: sarif
+          output: trivy-frontend.sarif
+          severity: CRITICAL,HIGH
+          exit-code: 1
+
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: trivy-backend.sarif
+
+      # Move cache
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+  # ── Job 6: Deploy to Staging ──────────────────────────────────────────────
+  deploy-staging:
+    name: Deploy to Staging
+    if: github.ref == 'refs/heads/staging'
+    needs: [docker]
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.STAGING_SSH_KEY }}
+          known_hosts: ${{ secrets.STAGING_KNOWN_HOSTS }}
+
+      - name: Deploy via SSH
+        run: |
+          ssh -o StrictHostKeyChecking=no \
+            ${{ secrets.STAGING_USER }}@${{ secrets.STAGING_HOST }} \
+            "cd /opt/tasksync && \
+             git fetch origin staging && \
+             git reset --hard origin/staging && \
+             bash deploy/staging/deploy.sh staging"
+
+  # ── Job 7: Deploy to Production (Manual Gate) ─────────────────────────────
+  deploy-production:
+    name: Deploy to Production
+    if: github.ref == 'refs/heads/main'
+    needs: [docker]
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://tasksyncpro.com
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.PRODUCTION_SSH_KEY }}
+          known_hosts: ${{ secrets.PRODUCTION_KNOWN_HOSTS }}
+
+      - name: Deploy via SSH — Blue/Green
+        id: deploy
+        continue-on-error: false
+        run: |
+          ssh -o StrictHostKeyChecking=no \
+            ${{ secrets.PRODUCTION_USER }}@${{ secrets.PRODUCTION_HOST }} \
+            "cd /opt/tasksync && \
+             git fetch origin main && \
+             git reset --hard origin/main && \
+             bash deploy/production/deploy-bluegreen.sh" 2>&1 | tee deploy.log
+
+      - name: Health Check Verification
+        id: health
+        run: |
+          for i in $(seq 1 12); do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+              https://tasksyncpro.com/api/v1/health 2>/dev/null || echo "000")
+            if [ "$STATUS" = "200" ]; then
+              echo "HEALTH=OK" >> $GITHUB_OUTPUT
+              echo "✅ Health check passed"
+              exit 0
+            fi
+            echo "Waiting for health... ($i/12)"
+            sleep 5
+          done
+          echo "HEALTH=FAIL" >> $GITHUB_OUTPUT
+          exit 1
+
+      - name: Smoke Tests
+        if: steps.health.outputs.HEALTH == 'OK'
+        run: |
+          # API smoke test
+          echo "=== API Smoke Test ==="
+          curl -s https://tasksyncpro.com/api/v1/health | jq .
+          echo "✅ API responding"
+
+      - name: Notify Slack — Success
+        if: success()
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "text": "🚀 TaskSync Pro deployed to production!\nCommit: ${{ github.sha }}\nEnvironment: https://tasksyncpro.com\nHealth: ✅ OK",
+              "channel": "#tasksync-prod-alerts",
+              "username": "CI/CD Bot"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Notify Slack — Failure
+        if: failure()
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "text": "🔴 Production deploy FAILED!\nCommit: ${{ github.sha }}\nAuto-rollback triggered.\nCheck: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+              "channel": "#tasksync-prod-alerts",
+              "username": "CI/CD Bot"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Auto-Rollback on Failure
+        if: failure()
+        run: |
+          ssh -o StrictHostKeyChecking=no \
+            ${{ secrets.PRODUCTION_USER }}@${{ secrets.PRODUCTION_HOST }} \
+            "cd /opt/tasksync && \
+             bash deploy/production/rollback.sh" 2>&1 | tee rollback.log
+
+      - name: Verify Rollback
+        if: failure()
+        run: |
+          for i in $(seq 1 12); do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+              https://tasksyncpro.com/api/v1/health 2>/dev/null || echo "000")
+            if [ "$STATUS" = "200" ]; then
+              echo "🟡 Rollback verified — previous version serving traffic"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "🔴 Rollback verification FAILED — manual intervention required!"
+          exit 1

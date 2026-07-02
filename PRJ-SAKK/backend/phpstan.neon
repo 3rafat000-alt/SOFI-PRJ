@@ -1,0 +1,12 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    # Legacy debt frozen 2026-06-25. Most entries are larastan-config false positives
+    # (Eloquent dynamic properties without @property hints; enum casts declared via the
+    # casts() method form; Stripe SDK excluded on import). New violations still fail CI.
+    - phpstan-baseline.neon
+
+parameters:
+    level: 4
+    paths:
+        - app
+    tmpDir: storage/phpstan

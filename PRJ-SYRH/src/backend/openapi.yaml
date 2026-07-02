@@ -1,0 +1,1234 @@
+openapi: "3.0.3"
+
+info:
+  title: Syria Homes API
+  description: |
+    Public read API and inquiry surface for the Syria Homes real-estate marketplace.
+    All list endpoints return paginated JSON with `data`, `meta`, and `links` keys.
+
+    **Localization**
+    Arabic is the primary locale. Clients may request English via:
+    - Query parameter: `?lang=en`
+    - HTTP header: `Accept-Language: en`
+
+    When both are present the query parameter wins.
+    Every resource returns raw `_ar` and `_en` fields alongside the computed
+    `name`/`title`/`description` field (active locale) so clients can switch
+    language without a refetch.
+  version: "1"
+  contact:
+    name: SOFI AI — Syria Homes Squad
+
+servers:
+  - url: http://syriahomes.local/api/v1
+    description: Local development server
+
+# --------------------------------------------------------------------------
+# Reusable parameters
+# --------------------------------------------------------------------------
+components:
+  parameters:
+    LangParam:
+      name: lang
+      in: query
+      required: false
+      description: Explicit locale override. Whitelist ar | en. Overrides Accept-Language.
+      schema:
+        type: string
+        enum: [ar, en]
+        default: ar
+
+    AcceptLanguageHeader:
+      name: Accept-Language
+      in: header
+      required: false
+      description: RFC 7231 language preference. Primary subtag matched against ar | en.
+      schema:
+        type: string
+        example: "ar,en;q=0.9"
+
+    PageParam:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+
+    PerPageParam:
+      name: per_page
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 48
+        default: 12
+
+    GovernorateSlugPath:
+      name: governorate
+      in: path
+      required: true
+      description: Governorate slug.
+      schema:
+        type: string
+        example: damascus
+
+    PropertySlugPath:
+      name: property
+      in: path
+      required: true
+      description: Property slug.
+      schema:
+        type: string
+        example: modern-apartment-mazzeh-ref-1234
+
+    AgentIdPath:
+      name: agent
+      in: path
+      required: true
+      description: Agent primary key (integer id).
+      schema:
+        type: integer
+        example: 7
+
+  # --------------------------------------------------------------------------
+  # Reusable schemas
+  # --------------------------------------------------------------------------
+  schemas:
+
+    PaginationMeta:
+      type: object
+      required: [total, per_page, current_page, last_page]
+      properties:
+        total:
+          type: integer
+          example: 248
+        per_page:
+          type: integer
+          example: 12
+        current_page:
+          type: integer
+          example: 1
+        last_page:
+          type: integer
+          example: 21
+
+    PaginationLinks:
+      type: object
+      required: [first, last]
+      properties:
+        first:
+          type: string
+          nullable: true
+          example: "http://syriahomes.local/api/v1/properties?page=1"
+        last:
+          type: string
+          nullable: true
+          example: "http://syriahomes.local/api/v1/properties?page=21"
+        prev:
+          type: string
+          nullable: true
+          example: null
+        next:
+          type: string
+          nullable: true
+          example: "http://syriahomes.local/api/v1/properties?page=2"
+
+    Error:
+      type: object
+      required: [message]
+      properties:
+        message:
+          type: string
+          example: "The given data was invalid."
+        errors:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          example:
+            phone: ["رقم الهاتف يجب أن يكون رقماً سورياً صالحاً."]
+
+    PropertyType:
+      type: object
+      required: [id, slug, name, name_ar, name_en, icon, sort, listings_count]
+      properties:
+        id:
+          type: integer
+          example: 1
+        slug:
+          type: string
+          example: apartment
+        name:
+          type: string
+          description: Localized name (active locale).
+          example: شقة
+        name_ar:
+          type: string
+          example: شقة
+        name_en:
+          type: string
+          example: Apartment
+        icon:
+          type: string
+          description: Icon identifier or SVG path.
+          example: home
+        sort:
+          type: integer
+          example: 1
+        listings_count:
+          type: integer
+          example: 142
+
+    Governorate:
+      type: object
+      required: [id, slug, name, name_ar, name_en, lat, lng, properties_count]
+      properties:
+        id:
+          type: integer
+          example: 1
+        slug:
+          type: string
+          example: damascus
+        name:
+          type: string
+          description: Localized name (active locale).
+          example: دمشق
+        name_ar:
+          type: string
+          example: دمشق
+        name_en:
+          type: string
+          example: Damascus
+        lat:
+          type: number
+          format: float
+          nullable: true
+          example: 33.5102
+        lng:
+          type: number
+          format: float
+          nullable: true
+          example: 36.2913
+        properties_count:
+          type: integer
+          example: 340
+
+    Area:
+      type: object
+      required: [id, governorate_id, slug, name, name_ar, name_en, lat, lng, properties_count]
+      properties:
+        id:
+          type: integer
+          example: 12
+        governorate_id:
+          type: integer
+          example: 1
+        slug:
+          type: string
+          example: mazzeh
+        name:
+          type: string
+          description: Localized name (active locale).
+          example: المزة
+        name_ar:
+          type: string
+          example: المزة
+        name_en:
+          type: string
+          example: Mazzeh
+        lat:
+          type: number
+          format: float
+          nullable: true
+          example: 33.5016
+        lng:
+          type: number
+          format: float
+          nullable: true
+          example: 36.2558
+        properties_count:
+          type: integer
+          example: 58
+
+    Amenity:
+      type: object
+      required: [id, name, name_ar, name_en, icon]
+      properties:
+        id:
+          type: integer
+          example: 3
+        name:
+          type: string
+          description: Localized name (active locale).
+          example: مسبح
+        name_ar:
+          type: string
+          example: مسبح
+        name_en:
+          type: string
+          example: Swimming Pool
+        icon:
+          type: string
+          example: pool
+        group:
+          type: string
+          nullable: true
+          example: outdoor
+
+    Agent:
+      type: object
+      required: [id, display_name, phone, rating, reviews_count, verified]
+      properties:
+        id:
+          type: integer
+          example: 7
+        display_name:
+          type: string
+          example: أحمد المصري
+        phone:
+          type: string
+          example: "+963912345678"
+        whatsapp:
+          type: string
+          nullable: true
+          example: "+963912345678"
+        photo_path:
+          type: string
+          nullable: true
+          example: agents/ahmed.jpg
+        rating:
+          type: number
+          format: float
+          example: 4.8
+        reviews_count:
+          type: integer
+          example: 36
+        verified:
+          type: boolean
+          description: True when the agent has a non-null verified_at timestamp.
+          example: true
+
+    CoverImage:
+      type: object
+      nullable: true
+      properties:
+        path:
+          type: string
+          example: properties/covers/apt-1234.jpg
+        alt_ar:
+          type: string
+          nullable: true
+          example: شقة حديثة في المزة
+        alt_en:
+          type: string
+          nullable: true
+          example: Modern apartment in Mazzeh
+
+    PropertyCard:
+      type: object
+      required:
+        - id
+        - ref_code
+        - slug
+        - title
+        - title_ar
+        - title_en
+        - purpose
+        - status
+        - price
+        - currency
+        - area_sqm
+        - bedrooms
+        - bathrooms
+        - is_featured
+        - is_hot_deal
+      properties:
+        id:
+          type: integer
+          example: 55
+        ref_code:
+          type: string
+          example: SH-1234
+        slug:
+          type: string
+          example: modern-apartment-mazzeh-sh-1234
+        title:
+          type: string
+          description: Localized title (active locale).
+          example: شقة حديثة في المزة
+        title_ar:
+          type: string
+          example: شقة حديثة في المزة
+        title_en:
+          type: string
+          example: Modern Apartment in Mazzeh
+        purpose:
+          type: string
+          enum: [sale, rent]
+          example: sale
+        status:
+          type: string
+          enum: [available, reserved, sold, rented, draft]
+          example: available
+        price:
+          type: number
+          example: 85000
+        currency:
+          type: string
+          enum: [USD, SYP]
+          example: USD
+        rent_period:
+          type: string
+          enum: [month, year]
+          nullable: true
+          description: Only set when purpose = rent.
+          example: null
+        area_sqm:
+          type: number
+          example: 145
+        bedrooms:
+          type: integer
+          example: 3
+        bathrooms:
+          type: integer
+          example: 2
+        is_featured:
+          type: boolean
+          example: true
+        is_hot_deal:
+          type: boolean
+          example: false
+        cover_image:
+          $ref: '#/components/schemas/CoverImage'
+        governorate:
+          type: object
+          nullable: true
+          properties:
+            id:
+              type: integer
+              example: 1
+            name:
+              type: string
+              description: Localized name (active locale).
+              example: دمشق
+            slug:
+              type: string
+              example: damascus
+        area:
+          type: object
+          nullable: true
+          properties:
+            id:
+              type: integer
+              example: 12
+            name:
+              type: string
+              description: Localized name (active locale).
+              example: المزة
+            slug:
+              type: string
+              example: mazzeh
+
+    PropertyImage:
+      type: object
+      required: [id, path, sort, is_cover]
+      properties:
+        id:
+          type: integer
+          example: 101
+        path:
+          type: string
+          example: properties/images/apt-55-01.jpg
+        alt_ar:
+          type: string
+          nullable: true
+          example: غرفة المعيشة
+        alt_en:
+          type: string
+          nullable: true
+          example: Living Room
+        sort:
+          type: integer
+          example: 1
+        is_cover:
+          type: boolean
+          example: true
+
+    Property:
+      allOf:
+        - $ref: '#/components/schemas/PropertyCard'
+        - type: object
+          required:
+            - description
+            - description_ar
+            - description_en
+            - address
+            - address_ar
+            - address_en
+            - lat
+            - lng
+            - views_count
+          properties:
+            description:
+              type: string
+              description: Localized description (active locale).
+              example: شقة راقية بإطلالة على الجبل...
+            description_ar:
+              type: string
+              example: شقة راقية بإطلالة على الجبل...
+            description_en:
+              type: string
+              example: Elegant apartment with mountain views...
+            parking:
+              type: integer
+              nullable: true
+              example: 1
+            floor:
+              type: integer
+              nullable: true
+              example: 4
+            year_built:
+              type: integer
+              nullable: true
+              example: 2019
+            furnished:
+              type: boolean
+              example: false
+            address:
+              type: string
+              description: Localized address (active locale).
+              example: المزة، دمشق
+            address_ar:
+              type: string
+              example: المزة، دمشق
+            address_en:
+              type: string
+              example: Mazzeh, Damascus
+            lat:
+              type: number
+              format: float
+              nullable: true
+              example: 33.5022
+            lng:
+              type: number
+              format: float
+              nullable: true
+              example: 36.2561
+            views_count:
+              type: integer
+              example: 412
+            published_at:
+              type: string
+              format: date-time
+              nullable: true
+              example: "2026-03-15T10:00:00+03:00"
+            governorate:
+              $ref: '#/components/schemas/Governorate'
+            area:
+              $ref: '#/components/schemas/Area'
+            images:
+              type: array
+              items:
+                $ref: '#/components/schemas/PropertyImage'
+            amenities:
+              type: array
+              items:
+                $ref: '#/components/schemas/Amenity'
+            agent:
+              $ref: '#/components/schemas/Agent'
+
+    Inquiry:
+      type: object
+      required: [name, phone, message, type]
+      properties:
+        name:
+          type: string
+          maxLength: 120
+          example: محمد العلي
+        phone:
+          type: string
+          description: Syrian phone number. Formats accepted +963XXXXXXXXX or 09XXXXXXXX.
+          example: "+963912345678"
+        email:
+          type: string
+          format: email
+          nullable: true
+          example: user@example.com
+        message:
+          type: string
+          maxLength: 2000
+          example: أرغب في جدولة زيارة لمشاهدة العقار.
+        type:
+          type: string
+          enum: [visit, callback, offer]
+          example: visit
+        preferred_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: Must be in the future.
+          example: "2026-07-10T10:00:00+03:00"
+        offer_amount:
+          type: number
+          minimum: 0
+          nullable: true
+          description: Required when type = offer.
+          example: 80000
+
+    Testimonial:
+      type: object
+      required: [id, name, rating, quote, quote_ar, quote_en, is_featured, sort]
+      properties:
+        id:
+          type: integer
+          example: 2
+        name:
+          type: string
+          example: سارة الأحمد
+        role:
+          type: string
+          description: Localized role/title (active locale).
+          example: مشتري عقار
+        role_ar:
+          type: string
+          example: مشتري عقار
+        role_en:
+          type: string
+          example: Property Buyer
+        avatar_path:
+          type: string
+          nullable: true
+          example: testimonials/sara.jpg
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+          example: 5
+        quote:
+          type: string
+          description: Localized quote (active locale).
+          example: تجربة رائعة مع فريق صكّ...
+        quote_ar:
+          type: string
+          example: تجربة رائعة مع فريق صكّ...
+        quote_en:
+          type: string
+          example: An excellent experience with the Sakk team...
+        is_featured:
+          type: boolean
+          example: true
+        sort:
+          type: integer
+          example: 1
+
+    Stats:
+      type: object
+      required: [happy_clients, properties_listed, agents_count, satisfaction_pct]
+      properties:
+        happy_clients:
+          type: integer
+          example: 1200
+        properties_listed:
+          type: integer
+          example: 450
+        agents_count:
+          type: integer
+          example: 38
+        satisfaction_pct:
+          type: integer
+          minimum: 0
+          maximum: 100
+          example: 97
+
+    LocationIndex:
+      type: object
+      required: [governorates, popular_areas]
+      properties:
+        governorates:
+          type: array
+          items:
+            $ref: '#/components/schemas/Governorate'
+        popular_areas:
+          type: array
+          items:
+            $ref: '#/components/schemas/Area'
+
+    SearchSuggestions:
+      type: object
+      required: [properties, governorates, areas]
+      properties:
+        properties:
+          type: array
+          items:
+            type: object
+            required: [type, id, slug, label, ref_code]
+            properties:
+              type:
+                type: string
+                enum: [property]
+              id:
+                type: integer
+              slug:
+                type: string
+              label:
+                type: string
+                description: Localized title.
+              ref_code:
+                type: string
+        governorates:
+          type: array
+          items:
+            type: object
+            required: [type, id, slug, label]
+            properties:
+              type:
+                type: string
+                enum: [governorate]
+              id:
+                type: integer
+              slug:
+                type: string
+              label:
+                type: string
+                description: Localized name.
+        areas:
+          type: array
+          items:
+            type: object
+            required: [type, id, slug, label]
+            properties:
+              type:
+                type: string
+                enum: [area]
+              id:
+                type: integer
+              slug:
+                type: string
+              label:
+                type: string
+                description: Localized name.
+
+# --------------------------------------------------------------------------
+# Paths
+# --------------------------------------------------------------------------
+paths:
+
+  # -------------------------------------------------------------------------
+  # Property Types
+  # -------------------------------------------------------------------------
+  /property-types:
+    get:
+      operationId: listPropertyTypes
+      summary: List all property types
+      tags: [Reference]
+      parameters:
+        - $ref: '#/components/parameters/LangParam'
+        - $ref: '#/components/parameters/AcceptLanguageHeader'
+      responses:
+        '200':
+          description: Array of property types ordered by sort.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PropertyType'
+
+  # -------------------------------------------------------------------------
+  # Locations
+  # -------------------------------------------------------------------------
+  /locations:
+    get:
+      operationId: listLocations
+      summary: List governorates and popular areas
+      tags: [Locations]
+      parameters:
+        - $ref: '#/components/parameters/LangParam'
+        - $ref: '#/components/parameters/AcceptLanguageHeader'
+      responses:
+        '200':
+          description: All governorates and top-10 popular areas by properties_count.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    $ref: '#/components/schemas/LocationIndex'
+
+  /locations/{governorate}/areas:
+    get:
+      operationId: listAreasByGovernorate
+      summary: List areas within a governorate
+      tags: [Locations]
+      parameters:
+        - $ref: '#/components/parameters/GovernorateSlugPath'
+        - $ref: '#/components/parameters/LangParam'
+        - $ref: '#/components/parameters/AcceptLanguageHeader'
+      responses:
+        '200':
+          description: All areas belonging to the governorate, ordered by name_ar.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Area'
+        '404':
+          description: Governorate slug not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # -------------------------------------------------------------------------
+  # Properties
+  # -------------------------------------------------------------------------
+  /properties/featured:
+    get:
+      operationId: listFeaturedProperties
+      summary: List featured properties (homepage hero carousel)
+      tags: [Properties]
+      parameters:
+        - $ref: '#/components/parameters/LangParam'
+        - $ref: '#/components/parameters/AcceptLanguageHeader'
+      responses:
+        '200':
+          description: Up to 8 featured published properties ordered by published_at desc.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    maxItems: 8
+                    items:
+                      $ref: '#/components/schemas/PropertyCard'
+
+  /properties/hot-deals:
+    get:
+      operationId: listHotDeals
+      summary: List hot-deal properties
+      tags: [Properties]
+      parameters:
+        - $ref: '#/components/parameters/LangParam'
+        - $ref: '#/components/parameters/AcceptLanguageHeader'
+      responses:
+        '200':
+          description: Up to 8 hot-deal published properties ordered by published_at desc.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    maxItems: 8
+                    items:
+                      $ref: '#/components/schemas/PropertyCard'
+
+  /properties:
+    get:
+      operationId: listProperties
+      summary: Paginated, filtered property listing
+      tags: [Properties]
+      parameters:
+        - $ref: '#/components/parameters/LangParam'
+        - $ref: '#/components/parameters/AcceptLanguageHeader'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+        - name: purpose
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [sale, rent]
+        - name: type
+          in: query
+          required: false
+          description: Property type slug (e.g. apartment).
+          schema:
+            type: string
+        - name: governorate
+          in: query
+          required: false
+          description: Governorate slug.
+          schema:
+            type: string
+        - name: area
+          in: query
+          required: false
+          description: Area slug.
+          schema:
+            type: string
+        - name: min_price
+          in: query
+          required: false
+          schema:
+            type: number
+            minimum: 0
+        - name: max_price
+          in: query
+          required: false
+          schema:
+            type: number
+            minimum: 0
+        - name: currency
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [USD, SYP]
+        - name: bedrooms
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+        - name: bathrooms
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+        - name: min_area
+          in: query
+          required: false
+          schema:
+            type: number
+            minimum: 0
+        - name: furnished
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [price_asc, price_desc, newest, area_desc]
+            default: newest
+      responses:
+        '200':
+          description: Paginated list of property cards matching the filters.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, meta, links]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PropertyCard'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+                  links:
+                    $ref: '#/components/schemas/PaginationLinks'
+        '422':
+          description: Invalid filter parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /properties/{property}:
+    get:
+      operationId: showProperty
+      summary: Full property detail by slug
+      tags: [Properties]
+      parameters:
+        - $ref: '#/components/parameters/PropertySlugPath'
+        - $ref: '#/components/parameters/LangParam'
+        - $ref: '#/components/parameters/AcceptLanguageHeader'
+      responses:
+        '200':
+          description: Full property detail including images, amenities, and agent.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Property'
+        '404':
+          description: Property not found or is in draft status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # -------------------------------------------------------------------------
+  # Inquiries
+  # -------------------------------------------------------------------------
+  /properties/{property}/inquiries:
+    post:
+      operationId: storeInquiry
+      summary: Submit an inquiry for a property
+      description: |
+        Rate-limited to 10 requests per minute per IP address.
+        Inquiries are created with status = new and routed to the property's agent.
+      tags: [Inquiries]
+      parameters:
+        - $ref: '#/components/parameters/PropertySlugPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Inquiry'
+      responses:
+        '201':
+          description: Inquiry created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, message]
+                properties:
+                  data:
+                    type: object
+                    required: [id]
+                    properties:
+                      id:
+                        type: integer
+                        example: 88
+                  message:
+                    type: string
+                    example: تم إرسال طلبك بنجاح. سيتواصل معك الوكيل قريباً.
+        '404':
+          description: Property not found or is a draft.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Validation error (invalid phone, missing offer_amount for offer type, etc.).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Rate limit exceeded (10 requests/minute per IP).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # -------------------------------------------------------------------------
+  # Agents
+  # -------------------------------------------------------------------------
+  /agents/{agent}:
+    get:
+      operationId: showAgent
+      summary: Agent public profile
+      tags: [Agents]
+      parameters:
+        - $ref: '#/components/parameters/AgentIdPath'
+        - $ref: '#/components/parameters/LangParam'
+        - $ref: '#/components/parameters/AcceptLanguageHeader'
+      responses:
+        '200':
+          description: Agent public profile.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Agent'
+        '404':
+          description: Agent not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # -------------------------------------------------------------------------
+  # Testimonials
+  # -------------------------------------------------------------------------
+  /testimonials:
+    get:
+      operationId: listTestimonials
+      summary: List featured testimonials
+      tags: [Social Proof]
+      parameters:
+        - $ref: '#/components/parameters/LangParam'
+        - $ref: '#/components/parameters/AcceptLanguageHeader'
+      responses:
+        '200':
+          description: All featured testimonials ordered by sort.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Testimonial'
+
+  # -------------------------------------------------------------------------
+  # Stats
+  # -------------------------------------------------------------------------
+  /stats:
+    get:
+      operationId: showStats
+      summary: Site statistics for landing page counters
+      tags: [Social Proof]
+      parameters:
+        - $ref: '#/components/parameters/LangParam'
+        - $ref: '#/components/parameters/AcceptLanguageHeader'
+      responses:
+        '200':
+          description: Current site statistics row.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Stats'
+        '404':
+          description: No stats row seeded yet.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # -------------------------------------------------------------------------
+  # Newsletter
+  # -------------------------------------------------------------------------
+  /newsletter:
+    post:
+      operationId: subscribeNewsletter
+      summary: Subscribe to the newsletter
+      description: Rate-limited to 5 requests per minute per IP address.
+      tags: [Newsletter]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email:
+                  type: string
+                  format: email
+                  maxLength: 254
+                  example: user@example.com
+      responses:
+        '201':
+          description: Subscription recorded (idempotent — re-subscribing same email is silent success).
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [message]
+                properties:
+                  message:
+                    type: string
+                    example: شكراً! تم اشتراكك في النشرة البريدية بنجاح.
+        '422':
+          description: Invalid or missing email.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Rate limit exceeded (5 requests/minute per IP).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # -------------------------------------------------------------------------
+  # Search
+  # -------------------------------------------------------------------------
+  /search/suggest:
+    get:
+      operationId: searchSuggest
+      summary: Typeahead suggestions for the search bar
+      description: |
+        Returns up to 5 matches per category (properties, governorates, areas)
+        for the given query string.
+        Rate-limited to 30 requests per minute per IP address.
+      tags: [Search]
+      parameters:
+        - name: q
+          in: query
+          required: true
+          description: Search query (1–100 characters).
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 100
+            example: مزة
+        - $ref: '#/components/parameters/LangParam'
+        - $ref: '#/components/parameters/AcceptLanguageHeader'
+      responses:
+        '200':
+          description: Typeahead suggestions grouped by category.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    $ref: '#/components/schemas/SearchSuggestions'
+        '422':
+          description: q is missing or too long.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Rate limit exceeded (30 requests/minute per IP).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+# --------------------------------------------------------------------------
+# Tags (display grouping for docs)
+# --------------------------------------------------------------------------
+tags:
+  - name: Reference
+    description: Static reference data (property types).
+  - name: Locations
+    description: Governorates and areas.
+  - name: Properties
+    description: Property listing, search, and detail.
+  - name: Inquiries
+    description: Property inquiry submission.
+  - name: Agents
+    description: Agent public profiles.
+  - name: Social Proof
+    description: Testimonials and site statistics.
+  - name: Newsletter
+    description: Email subscription.
+  - name: Search
+    description: Typeahead search suggestions.

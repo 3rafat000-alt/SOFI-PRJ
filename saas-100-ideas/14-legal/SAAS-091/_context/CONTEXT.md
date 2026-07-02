@@ -1,0 +1,14 @@
+# CONTEXT — SAAS-091 (durable facts; append-only)
+- title: LawyerRef
+- sector: 14-legal
+- description: شبكة إحالة المحامين: تخصصات، تقييمات، استشارات
+- target_customers: محامون، طالبو استشارات
+- stack: Laravel API + React Dashboard + Flutter Mobile App
+- target_market_detail: 20,000+ محامٍ في العالم العربي، 5M+ طالب استشارات سنوياً
+- product_description: منصة وسيطة تربط الأفراد والشركات بمحامين متخصصين بناءً على نوع القضية والموقع والتقييمات. تشمل محرك بحث متخصص، حجوزات استشارات بالفيديو، نظام تقييمات موثقة، ودفع آمن.
+- competitive_landscape: LegalMatch (أمريكي، لا يدعم العربية)، Avvo (توقف)، JustAnswer (عام)، محامي نت (محدود)
+- differentiation: تركيز على السوق العربي، تصنيف دقيق بالتخصصات القانونية، تقييمات موثقة، دفع آمن، تكامل مع أنظمة محاكم محلية
+- target_mrr_per_client: $19-$99/شهر (محامٍ)
+- pricing_tiers: Basic ($19/شهر), Professional ($49), Premium ($99)
+- personas: طالب استشارة (سارة)، محامٍ متخصص (خالد)
+- gate_status: Gate 0 (Inception) completed. docs/PRD.md written.

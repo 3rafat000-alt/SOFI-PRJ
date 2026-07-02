@@ -1,0 +1,13 @@
+# CONTEXT — SAAS-007 (durable facts; append-only)
+- title: FitZone Pro
+- sector: 02-health
+- description: إدارة الصالات الرياضية: اشتراكات، جدولة حصص، تتبع اللياقة عبر الجوال
+- target_customers: نوادي رياضية، جيمات
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: نظام إدارة الصالات الرياضية — اشتراكات الأعضاء، جدولة الحصص الجماعية، تتبع الحضور عبر QR، وتطبيق جوال للأعضاء لتتبع اللياقة. يشمل تطبيق مدرب وتطبيق عضو.
+- target_market: سوق إدارة النوادي الرياضية ~$8B عالمياً، ~$400M في الشرق الأوسط. نمو 17% CAGR.
+- competitive_landscape: Mindbody ($150+ أمريكي)، ClubExpress (واجهة قديمة)، Perfect Gym (للأندية الكبيرة)، PushPress (Shopify فقط)، Wodify (CrossFit فقط).
+- differentiation: ثلاثي (إدارة + مدرب + عضو)، تسعير عربي ($29-$79)، QR دخول، برنامج ولاء، مدفوعات محلية.
+- pricing_tiers: Starter ($29/mo — 200 members, 5 trainers), Pro ($59/mo — 500 members), Enterprise ($99/mo — unlimited)
+- prd_completed_at: gate-0-inception
+- next_gate: 1-discovery → sofi-journey-architect

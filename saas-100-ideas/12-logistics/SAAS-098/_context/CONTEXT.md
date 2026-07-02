@@ -1,0 +1,14 @@
+# CONTEXT — SAAS-098 (durable facts; append-only)
+- title: CourierMgt
+- sector: 12-logistics
+- description: إدارة شركات الطرود البريدية: تتبع، توصيل، دفع
+- target_customers: شركات توصيل، متاجر
+- stack: Laravel API + React Dashboard + Flutter Mobile App
+- target_market_detail: 2,000+ شركة توصيل صغيرة ومتوسطة في الشرق الأوسط، 100,000+ مندوب
+- product_description: منصة متكاملة لإدارة شركات التوصيل والبريد السريع تشمل استلام الطرود، توزيعها على المندوبين، تحسين المسارات، تتبع GPS المباشر، إثبات التسليم بالصور والتوقيع، وإدارة المدفوعات النقدية (COD).
+- competitive_landscape: Winged (سعودي ناشئ)، Onfleet (عالمي، إنجليزي)، Bringg (مؤسسي، مكلف)
+- differentiation: حل متكامل بسعر مناسب، دعم عربي كامل، تتبع مباشر للعملاء، جدولة ذكية للمسارات، إدارة COD
+- target_mrr_per_client: $49-$199/شهر
+- pricing_tiers: Starter ($49), Growth ($99), Professional ($199)
+- personas: مدير شركة توصيل (خليل)، مندوب توصيل (رامي)، صاحب متجر (لينا)
+- gate_status: Gate 0 (Inception) completed. docs/PRD.md written.

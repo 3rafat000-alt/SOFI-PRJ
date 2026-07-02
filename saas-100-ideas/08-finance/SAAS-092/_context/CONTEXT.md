@@ -1,0 +1,14 @@
+# CONTEXT — SAAS-092 (durable facts; append-only)
+- title: EduFinance
+- sector: 08-finance
+- description: تمويل التعليم الجامعي: أقساط، منح، قروض طلابية
+- target_customers: طلاب، جامعات، بنوك
+- stack: Laravel API + React Dashboard + Flutter Mobile App
+- target_market_detail: 3M+ طالب في الشرق الأوسط، 500+ جامعة، 200+ مؤسسة مالية
+- product_description: منصة تربط الطلاب بالجامعات والمؤسسات المالية لتسهيل التمويل الجامعي. تشمل مقارنة القروض والمنح، نظام تقديم إلكتروني، تتبع الطلبات، وإدارة جداول السداد.
+- competitive_landscape: قرضك (تمويل شخصي، ليس تعليمياً)، StudyPay (تغطية محدودة)، Prodigy Finance (دولي، لا يدعم العربية)
+- differentiation: تركيز على السوق العربي، ربط مباشر مع جامعات محلية، خوارزمية مطابقة ذكية، تمويل إسلامي متوافق مع الشريعة
+- target_mrr_per_client: $299-$499/شهر (مؤسسات)
+- pricing_tiers: Universities ($299/شهر), Banks ($499/شهر), Students (مجاني)
+- personas: طالب جامعي (عمر)، مسؤول قروض تعليمية (نورة)
+- gate_status: Gate 0 (Inception) completed. docs/PRD.md written.

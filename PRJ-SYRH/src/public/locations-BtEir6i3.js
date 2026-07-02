@@ -1,0 +1,1 @@
+import{n as e}from"./jsx-runtime-Csv52NRi.js";async function t(){let{data:t}=await e.get(`/locations`);return t.data}async function n(t){let{data:n}=await e.get(`/locations/${t}/areas`);return n.data??[]}export{t as n,n as t};

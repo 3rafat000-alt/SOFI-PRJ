@@ -1,0 +1,11 @@
+# CONTEXT — SAAS-055 (durable facts; append-only)
+- title: GasStation
+- sector: 10-energy
+- description: إدارة محطات الوقود: تتبع المخزون، المبيعات، سلسلة التوريد
+- target_customers: محطات وقود، موزعون
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: GasStation نظام متكامل لإدارة محطات الوقود — يتتبع المخزون (بنزين، ديزل، غاز)، المبيعات، سلسلة التوريد، والموظفين. يدعم المحطة الواحدة وسلاسل المحطات. يشمل إدارة الخزانات، قراءات المستوى، تتبع المشتريات والتوصيلات، تقارير حكومية جاهزة.
+- target_market_detail: أكثر من 50,000 محطة وقود في العالم العربي. الفئة المستهدفة: محطات الوقود المستقلة، سلاسل المحطات الصغيرة والمتوسطة، موزعو الوقود. معظم المحطات تدير عملياتها يدوياً أو عبر أنظمة قديمة محدودة.
+- competitive_landscape: المنافسون حلول Oracle وSAP (مكلفة جداً للقطاع)، حلول محلية محدودة (PTMS ونظائرها)، إكسل (الأكثر شيوعاً). التمايز في السعر المناسب للسوق العربي، دعم المحطات المتعددة، تقارير حكومية جاهزة، واجهة جوال للعاملين.
+- stack: Laravel API + React Dashboard + Flutter App (confirmed at PRD)
+- prd_completed: 2026-06-25 — Full PRD written with market analysis, personas, data model, API endpoints, UI screens, business model, implementation plan, risk matrix.

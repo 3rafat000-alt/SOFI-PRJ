@@ -1,0 +1,245 @@
+# =============================================================================
+# TaskSync Pro — Docker Compose (Production — Blue/Green)
+# Services: nginx (with blue/green upstream), php-fpm-blue, php-fpm-green,
+#           postgres, redis, reverb, horizon
+# Storage: Cloudflare R2 (S3-compatible) — no MinIO
+# =============================================================================
+
+version: "3.9"
+
+x-common-env: &common-env
+  APP_NAME: TaskSyncPro
+  APP_ENV: production
+  APP_DEBUG: "false"
+  APP_KEY: ${APP_KEY}
+  APP_URL: https://tasksyncpro.com
+  DB_CONNECTION: pgsql
+  DB_HOST: postgres
+  DB_PORT: 5432
+  DB_DATABASE: tasksync
+  DB_USERNAME: tasksync
+  DB_PASSWORD: ${PRODUCTION_DB_PASSWORD}
+  REDIS_HOST: redis
+  REDIS_PASSWORD: ${PRODUCTION_REDIS_PASSWORD}
+  REDIS_PORT: 6379
+  REVERB_APP_ID: ${REVERB_APP_ID}
+  REVERB_APP_KEY: ${REVERB_APP_KEY}
+  REVERB_APP_SECRET: ${REVERB_APP_SECRET}
+  REVERB_HOST: 0.0.0.0
+  REVERB_PORT: 6001
+  REVERB_SCHEME: https
+  FILESYSTEM_DISK: s3
+  AWS_ACCESS_KEY_ID: ${R2_ACCESS_KEY_ID}
+  AWS_SECRET_ACCESS_KEY: ${R2_SECRET_ACCESS_KEY}
+  AWS_DEFAULT_REGION: auto
+  AWS_BUCKET: tasksync-prod
+  AWS_ENDPOINT: ${R2_ENDPOINT}
+  AWS_USE_PATH_STYLE_ENDPOINT: "false"
+  MAIL_MAILER: smtp
+  MAIL_HOST: ${MAIL_HOST}
+  MAIL_PORT: 587
+  MAIL_USERNAME: ${MAIL_USERNAME}
+  MAIL_PASSWORD: ${MAIL_PASSWORD}
+  MAIL_ENCRYPTION: tls
+  MAIL_FROM_ADDRESS: noreply@tasksyncpro.com
+  MAIL_FROM_NAME: "${APP_NAME}"
+  SESSION_DRIVER: redis
+  QUEUE_CONNECTION: redis
+  CACHE_STORE: redis
+  FCM_SERVER_KEY: ${FCM_SERVER_KEY}
+  WHATSAPP_TOKEN: ${WHATSAPP_TOKEN}
+  SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL}
+  SENTRY_LARAVEL_DSN: ${SENTRY_LARAVEL_DSN}
+  SENTRY_TRACES_SAMPLE_RATE: "0.25"
+
+x-php-deploy: &php-deploy
+  restart: unless-stopped
+  environment: *common-env
+  volumes:
+    - ./src/backend:/var/www
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://localhost:9000/ping"]
+    interval: 15s
+    timeout: 5s
+    retries: 3
+    start_period: 30s
+  deploy:
+    resources:
+      limits:
+        cpus: "1.0"
+        memory: 512M
+      reservations:
+        cpus: "0.5"
+        memory: 256M
+
+services:
+  # ── Database ──────────────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: tasksync-postgres
+    restart: unless-stopped
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./deploy/production/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh:ro
+    environment:
+      POSTGRES_DB: tasksync
+      POSTGRES_USER: tasksync
+      POSTGRES_PASSWORD: ${PRODUCTION_DB_PASSWORD}
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tasksync"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 1G
+        reservations:
+          cpus: "1.0"
+          memory: 512M
+
+  # ── Cache / Queue / PubSub ─────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: tasksync-redis
+    restart: unless-stopped
+    command: redis-server --requirepass ${PRODUCTION_REDIS_PASSWORD}
+    volumes:
+      - redis:/data
+    ports:
+      - "127.0.0.1:6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${PRODUCTION_REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 128M
+
+  # ── PHP-FPM Blue (active) ──────────────────────────────────────────
+  php-fpm-blue:
+    build:
+      context: ./src/backend
+      dockerfile: Dockerfile
+    container_name: tasksync-php-fpm-blue
+    <<: *php-deploy
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # ── PHP-FPM Green (standby) ────────────────────────────────────────
+  php-fpm-green:
+    build:
+      context: ./src/backend
+      dockerfile: Dockerfile
+    container_name: tasksync-php-fpm-green
+    <<: *php-deploy
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # ── WebSocket (Laravel Reverb) ─────────────────────────────────────
+  reverb:
+    build:
+      context: ./src/backend
+      dockerfile: Dockerfile
+    container_name: tasksync-reverb
+    restart: unless-stopped
+    environment: *common-env
+    volumes:
+      - ./src/backend:/var/www
+    command: >
+      sh -c "php artisan reverb:start --host=0.0.0.0 --port=6001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:6001:6001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6001/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+
+  # ── Queue Worker (Laravel Horizon) ──────────────────────────────────
+  horizon:
+    build:
+      context: ./src/backend
+      dockerfile: Dockerfile
+    container_name: tasksync-horizon
+    restart: unless-stopped
+    environment: *common-env
+    volumes:
+      - ./src/backend:/var/www
+    command: >
+      sh -c "php artisan horizon"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+        reservations:
+          cpus: "0.5"
+          memory: 256M
+
+  # ── Reverse Proxy (Blue/Green aware) ────────────────────────────────
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: tasksync-nginx
+    restart: unless-stopped
+    volumes:
+      - ./deploy/production/nginx-bluegreen.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./src/frontend/dist:/var/www/html:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      php-fpm-blue:
+        condition: service_started
+      php-fpm-green:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/nginx-health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 128M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+
+volumes:
+  pgdata:
+  redis:

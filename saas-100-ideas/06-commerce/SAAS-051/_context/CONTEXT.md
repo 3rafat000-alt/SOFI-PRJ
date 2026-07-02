@@ -1,0 +1,11 @@
+# CONTEXT — SAAS-051 (durable facts; append-only)
+- title: SouqSync
+- sector: 06-commerce
+- description: ربط التجار المحليين بأسواق الجملة: إدارة طلبات، مخزون، توصيل
+- target_customers: تجار جملة، محال تجارية
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: SouqSync منصة B2B SaaS تربط محال التجزئة الصغيرة بتجار الجملة عبر واجهة رقمية موحدة. تتيح إدارة طلبات، مخزون، توصيل، ومدفوعات. السوق المستهدف: التجار المحليون وموردو الجملة في العالم العربي الذين لا يزالون يعتمدون على الهاتف والإكسل. الميزة التنافسية: تركيز حصري على علاقة التجزئة-الجملة (wholesale-retail bridge)، دعم عربي كامل، تكامل توصيل محلي، واجهة بسيطة مصممة لمستخدمين غير تقنيين.
+- target_market_detail: السوق العربي يحتوي على مئات الآلاف من المحال التجارية الصغيرة التي تشتري بضاعتها من أسواق الجملة. الفئة المستهدفة: محال بقالة، مواد غذائية، مستلزمات منزلية، وموردي هذه المنتجات.
+- competitive_landscape: المنافسون يشملون سلة (Salla) وزيد (Zid) اللتين تركزان على B2C في المتاجر الإلكترونية، TradeGecko (منصة مخزون عالمية)، والحلول المفتوحة المصدر مثل WooCommerce. التمايز في التركيز على سير عمل الطلب بين التاجر والمورد مع دعم عربي محلي.
+- stack: Laravel API + React Dashboard + Flutter App (confirmed at PRD)
+- prd_completed: 2026-06-25 — Full PRD written with market analysis, personas, data model, API endpoints, UI screens, business model, implementation plan, risk matrix.

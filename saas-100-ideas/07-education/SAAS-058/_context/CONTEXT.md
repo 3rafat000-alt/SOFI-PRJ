@@ -1,0 +1,11 @@
+# CONTEXT — SAAS-058 (durable facts; append-only)
+- title: TutorMatch
+- sector: 07-education
+- description: ربط طلاب الجامعات بمدرسين خصوصيين مع تقييم ومتابعة
+- target_customers: طلاب جامعات، مدرسون
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: TutorMatch منصة تربط طلاب الجامعات بمدرسين خصوصيين موثوقين — مع نظام تقييم متكامل، جدولة، متابعة الأداء الأكاديمي، ومدفوعات آمنة. تركيز حصري على طلاب الجامعات (وليس المدارس) وفي المواد العلمية والهندسية.
+- target_market_detail: أكثر من 15 مليون طالب جامعي في العالم العربي. نسبة كبيرة تحتاج دروساً خصوصية خاصة في الرياضيات، الفيزياء، الكيمياء، البرمجة، واللغات. الفئة المستهدفة: طلاب الجامعات وأولياء أمورهم، مدرسون خصوصيون متخصصون.
+- competitive_landscape: المنافسون بريڤات (منصة عربية عامة)، أكاديمية خان (محتوى مجاني بدون مدرسين مباشرين)، OnSign، مجموعات فيسبوك وواتساب (السوق غير المنظم الأكبر). التمايز في التركيز على الجامعات، دفع آمن (escrow)، تقييم مزدوج، تتبع الأداء الأكاديمي.
+- stack: Laravel API + React Dashboard + Flutter App (confirmed at PRD)
+- prd_completed: 2026-06-25 — Full PRD written with market analysis, personas, data model, API endpoints, UI screens, business model, implementation plan, risk matrix.

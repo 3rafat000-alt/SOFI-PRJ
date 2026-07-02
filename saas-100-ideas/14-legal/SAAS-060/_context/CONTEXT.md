@@ -1,0 +1,11 @@
+# CONTEXT — SAAS-060 (durable facts; append-only)
+- title: WorkPermit
+- sector: 14-legal
+- description: إدارة المعاملات القانونية: تراخيص، أوراق رسمية، تذكير بالتجديد
+- target_customers: أفراد، شركات
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: WorkPermit منصة لإدارة المعاملات القانونية والإدارية — تراخيص، أوراق رسمية، تذكير ذكي بالتجديد. للأفراد والشركات والمكاتب القانونية. توفر مركزاً موحداً لتتبع التراخيص والتجديدات مع تخزين آمن للوثائق وإرشادات خطوة بخطوة لإجراءات التجديد.
+- target_market_detail: الأفراد الذين يحتاجون إدارة إقامات، تأشيرات، رخص قيادة، جوازات سفر. الشركات التي تدير تراخيص بلدية، تجارية، مهنية. مكاتب قانونية تدير معاملات لصالح عملائها. السوق يضم ملايين المعاملات سنوياً.
+- competitive_landscape: المنافسون منصات حكومية (أبشر ونظائرها — محدودة بإجراءات حكومية معينة)، LegalZoom (أمريكي)، Google Calendar (تذكير فقط)، إكسل. التمايز في منصة شاملة تغطي جميع أنواع التراخيص من جهة واحدة مع تذكير ذكي ومساعدة في إجراءات التجديد.
+- stack: Laravel API + React Dashboard + Flutter App (confirmed at PRD)
+- prd_completed: 2026-06-25 — Full PRD written with market analysis, personas, data model, API endpoints, UI screens, business model, implementation plan, risk matrix.

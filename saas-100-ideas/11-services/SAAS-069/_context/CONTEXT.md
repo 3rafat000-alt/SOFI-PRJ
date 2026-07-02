@@ -1,0 +1,13 @@
+# CONTEXT — SAAS-069 (durable facts; append-only)
+- title: WeddingOrg
+- sector: 11-services
+- description: تنظيم حفلات الزفاف: قوائم ضيوف، ميزانية، موردون
+- target_customers: منظمو حفلات، عرائس
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: منصة تنظيم حفلات الزفاف — قوائم ضيوف ذكية، ميزانية، موردون، جدول زمني، مهام للعروسين ومنظمي الحفلات. مصممة خصيصاً للمجتمعات العربية.
+- target_market: سوق حفلات الزفاف ~$300B عالمياً، الشرق الأوسط ~$20B (متوسط تكلفة زفاف في الخليج $50K+).
+- competitive_landscape: Zola (أمريكي، هدايا فقط)، The Knot (أكبر منصة عالمية، إنجليزية)، Weddings.com (بدون أدوات)، فرحة/زفاف.نت (محتوى فقط).
+- differentiation: عربي كامل مع خصوصية، قوائم ضيوف ذكية مع إدارة مقاعد، حاسبة ميزانية بعملات محلية، تطبيق ضيوف منفصل لإدارة RSVP.
+- pricing_tiers: Free ($0 — 50 guests, basic checklist), Couple Pro ($9/mo — unlimited), Planner Pro ($19/mo — 10+ weddings)
+- prd_completed_at: gate-0-inception
+- next_gate: 1-discovery → sofi-journey-architect

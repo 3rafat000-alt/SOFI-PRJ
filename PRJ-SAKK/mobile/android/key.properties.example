@@ -1,0 +1,16 @@
+# SEC H7 — Release signing credentials (TEMPLATE).
+# Copy to android/key.properties (gitignored) and fill in. NEVER commit the real
+# file or the keystore. After first signing, update the App Links digest:
+#   https://sakk.zanjour.com/.well-known/assetlinks.json  must list the RELEASE
+#   cert SHA-256 (get it: keytool -list -v -keystore sakk-release.jks -alias sakk).
+#
+# Generate a release keystore (once, keep it safe & backed up — losing it means
+# you can never update the installed app):
+#   keytool -genkeypair -v -keystore sakk-release.jks -alias sakk \
+#     -keyalg RSA -keysize 2048 -validity 10000
+#
+# storeFile may be absolute or relative to android/app/.
+storeFile=/absolute/path/to/sakk-release.jks
+storePassword=CHANGE_ME
+keyAlias=sakk
+keyPassword=CHANGE_ME

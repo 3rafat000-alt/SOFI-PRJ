@@ -1,0 +1,11 @@
+# CONTEXT — SAAS-052 (durable facts; append-only)
+- title: OlivePress
+- sector: 09-agriculture
+- description: إدارة معاصر الزيتون: مواسم العصر، مخزون الزيت، مبيعات
+- target_customers: معاصر زيتون، منتجون
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: OlivePress نظام متكامل لإدارة معاصر الزيتون — يتتبع مواسم العصر، المزارعين، كميات الزيت المستخرجة، الحصص، والمبيعات. حل متخصص 100% في قطاع إنتاج زيت الزيتون الموسمي. السوق المستهدف: معاصر الزيتون في تونس، المغرب، الجزائر، سوريا، لبنان، الأردن، فلسطين، السعودية. يقدر عدد المعاصر بأكثر من 10,000 في المنطقة.
+- target_market_detail: معاصر الزيتون الموسمية التي تعمل 3-6 أشهر في السنة وتحتاج إدارة دقيقة لوزن الزيتون، كميات الزيت، وحصص المزارعين. فئة العملاء تميل لتبني التقنية البسيطة التي تحل مشاكل الحسابات والنزاعات مع المزارعين.
+- competitive_landscape: المنافسون يشملون حلا SYSTEMS وأكسيرا (حلول محاسبة عامة)، ERPNext (مفتوح المصدر عام)، إكسل (الحل الأكثر شيوعاً). لا يوجد حل متخصص في معاصر الزيتون بالعربية مما يجعل السوق مفتوحاً.
+- stack: Laravel API + React Dashboard + Flutter App (confirmed at PRD)
+- prd_completed: 2026-06-25 — Full PRD written with market analysis, personas, data model, API endpoints, UI screens, business model, implementation plan, risk matrix.

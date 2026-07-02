@@ -1,0 +1,14 @@
+# CONTEXT — SAAS-016 (durable facts; append-only)
+- title: BuildTrack
+- sector: 04-operations
+- description: إدارة مشاريع البناء: تتبع التقدم، إدارة عمال، مواد، وميزانية
+- target_customers: مقاولون، شركات إنشاءات
+- stack: Laravel API + React Dashboard + Flutter Mobile App
+- target_market_detail: 25,000+ شركة مقاولات ومكتب هندسي في الشرق الأوسط
+- product_description: منصة لإدارة مشاريع البناء تشمل تتبع المشاريع بمراحلها، إدارة المهام على نمط Kanban، تتبع العمال والحضور بالـQR، إدارة المواد والمشتريات، مراقبة الميزانية، تقارير يومية من الموقع بالصور.
+- competitive_landscape: Procore (مكلف جداً $400+)، PlanGrid (Autodesk)، بناء (سعودي محدود)
+- differentiation: تسعير للشركات الصغيرة، دعم عربي، واجهة مبسطة، تصوير موقعي
+- target_mrr_per_client: $49-$199/شهر
+- pricing_tiers: Basic ($49), Professional ($99), Enterprise ($199)
+- personas: مقاول (فهد)، مهندس موقع (يوسف)
+- gate_status: Gate 0 (Inception) completed. docs/PRD.md written.

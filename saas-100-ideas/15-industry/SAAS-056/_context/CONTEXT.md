@@ -1,0 +1,11 @@
+# CONTEXT — SAAS-056 (durable facts; append-only)
+- title: BreadChain
+- sector: 15-industry
+- description: إدارة المخابز والأفران: تتبع الإنتاج، المخزون، طلبات الزبائن
+- target_customers: أفران، مخابز
+- stack: (set at gate 3 by principal-system-architect)
+- enriched_description: BreadChain نظام متكامل لإدارة المخابز والأفران — يتتبع الإنتاج اليومي، المخزون من المواد الأولية، طلبات الزبائن بالجملة، والمبيعات المباشرة. مصمم خصيصاً لقطاع المخابز البلدية والآلية ومحال الحلويات مع دعم وصفات الإنتاج وحساب التكلفة.
+- target_market_detail: أكثر من 100,000 مخبز وفرن في العالم العربي. الفئة المستهدفة: أفران بلدية، مخابز آلية، سلاسل مخابز، محال حلويات ومخبوزات. المخابز تعاني من هدر كبير في المواد وتحتاج تحسين كفاءة الإنتاج.
+- competitive_landscape: المنافسون أنظمة نقاط البيع العامة (كاشير)، برامج محاسبة (FOX، أونيكس)، إكسل (الأكثر انتشاراً)، Bakery Management Systems عالمية مكلفة. التمايز في التخصص الكامل في المخابز، دعم وصفات الإنتاج، تسعير ميسور، واجهة عربية بسيطة.
+- stack: Laravel API + React Dashboard + Flutter App (confirmed at PRD)
+- prd_completed: 2026-06-25 — Full PRD written with market analysis, personas, data model, API endpoints, UI screens, business model, implementation plan, risk matrix.

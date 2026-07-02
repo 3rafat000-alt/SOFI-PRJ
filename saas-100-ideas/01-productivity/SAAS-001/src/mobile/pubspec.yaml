@@ -1,0 +1,63 @@
+name: tasksync_pro
+description: TaskSync Pro - Task Management Micro-SaaS Mobile App
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # State Management
+  flutter_bloc: ^9.0.0
+  equatable: ^2.0.7
+
+  # Networking
+  dio: ^5.7.0
+  retrofit: ^4.4.0
+
+  # DI
+  get_it: ^8.0.0
+
+  # Routing
+  go_router: ^14.0.0
+
+  # Storage
+  flutter_secure_storage: ^9.2.0
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+  # Localization
+  intl: ^0.20.2
+
+  # UI
+  cached_network_image: ^3.4.0
+  google_fonts: ^6.2.0
+  flutter_local_notifications: ^18.0.0
+
+  # File/Image picker
+  file_picker: ^8.0.0
+  image_picker: ^1.1.0
+
+  # Utilities
+  connectivity_plus: ^6.0.0
+  dartz: ^0.10.1
+  uuid: ^4.5.0
+  path_provider: ^2.1.5
+  shimmer: ^3.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  build_runner: ^2.4.0
+  mocktail: ^1.0.4
+  bloc_test: ^10.0.0
+
+flutter:
+  uses-material-design: true
+  generate: true
